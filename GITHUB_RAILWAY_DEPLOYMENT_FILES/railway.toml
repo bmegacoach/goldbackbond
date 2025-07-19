@@ -1,0 +1,12 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "npx serve dist -s -l $PORT"
+restartPolicyType = "never"
+
+[nixpacks]
+aptPkgs = ["curl"]
+
+[environments.production]
+variables = { NODE_ENV = "production" }
