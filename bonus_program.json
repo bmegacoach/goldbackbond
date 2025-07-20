@@ -1,0 +1,203 @@
+{
+  "program_name": "DEX Launch Bonus Program",
+  "status": "active",
+  "launch_date": "2024-12-01",
+  "description": "The most rewarding DeFi launch in history with time-decay APY structure and dynamic gold bonuses",
+  
+  "apy_structure": {
+    "time_decay": {
+      "month_1": {
+        "apy": 50,
+        "duration": "30 days",
+        "status": "active",
+        "description": "Maximum launch rewards for early adopters"
+      },
+      "month_2": {
+        "apy": 30,
+        "duration": "days 31-60",
+        "status": "upcoming",
+        "description": "Second tier rewards"
+      },
+      "month_3": {
+        "apy": 20,
+        "duration": "days 61-90",
+        "status": "upcoming", 
+        "description": "Third tier rewards"
+      },
+      "month_4_plus": {
+        "apy": 9,
+        "duration": "day 91+",
+        "status": "upcoming",
+        "description": "Sustained long-term rewards"
+      }
+    },
+    "gold_bonus": {
+      "increment": 3,
+      "per_gold_increase": 5,
+      "maximum_bonus": 15,
+      "duration": "6 months",
+      "description": "3% additional APY per 5% gold price increase, capped at 15%, limited to first 6 months",
+      "current_bonus": 9
+    }
+  },
+
+  "staking_incentives": {
+    "long_term_staking": {
+      "duration_range": "12-120 months",
+      "multiplier": 3,
+      "gold_certificate_value": "3:1",
+      "ltv_available": 70,
+      "benefits": [
+        "3x gold certificate value",
+        "70% LTV leveraging", 
+        "Premium lender access",
+        "Maximum rewards",
+        "Institutional-grade lending",
+        "Extended terms for larger loans"
+      ],
+      "note": "Terms subject to lender requirements"
+    }
+  },
+
+  "technical_features": {
+    "token": "USDGB",
+    "token_type": "ERC-20 compatible",
+    "peg": "1:1 to USD",
+    "liquidity_pool": {
+      "pair": "USDGB/USDC or USDGB/USDT",
+      "dex": "Uniswap",
+      "blockchain": "Ethereum",
+      "seed_liquidity": "$500,000"
+    },
+    "reward_pool": {
+      "total": "$2,000,000 USDGB",
+      "allocation": {
+        "first_3_months": "$200,000",
+        "remaining": "$1,800,000"
+      }
+    },
+    "layerzero": {
+      "enabled": true,
+      "supported_chains": "100+",
+      "bridging_required": false
+    },
+    "lender_integration": {
+      "built_in": true,
+      "third_party_support": true,
+      "institutional_grade": true
+    }
+  },
+
+  "smart_contract_logic": {
+    "components": [
+      "Core Token Contract (USDGB)",
+      "Liquidity Pool Rewards Contract", 
+      "Gold Price Bonus Module",
+      "Long-Term Staking Contract (12-Month)",
+      "Lender Integration Module",
+      "LayerZero Cross-Chain Module",
+      "Peg Stability Module"
+    ],
+    "security": {
+      "audited": true,
+      "automated_peg_stability": true,
+      "reward_distribution": "automated",
+      "multi_sig": true
+    }
+  },
+
+  "program_phases": [
+    {
+      "phase": 1,
+      "name": "DEX Launch",
+      "timeline": "Month 1-3",
+      "apy_range": "50% → 30% → 20%",
+      "status": "active",
+      "features": [
+        "Uniswap USDGB/USDC or USDGB/USDT pool launch on Ethereum",
+        "Time-decay APY structure for early adopters",
+        "Gold price bonus activation",
+        "$2M USDGB reward pool allocation"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "CEX Expansion", 
+      "timeline": "Month 4+",
+      "apy_range": "9% + Gold Bonus",
+      "status": "upcoming",
+      "features": [
+        "Major centralized exchange listings",
+        "Expanded trading pairs and liquidity", 
+        "Sustained 9% base APY",
+        "Enhanced gold bonus mechanics"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "Institutional Integration",
+      "timeline": "Month 6+",
+      "apy_range": "9% + Premium Features",
+      "status": "planned",
+      "features": [
+        "Third-party lender integration",
+        "70% LTV leveraging activation",
+        "Enterprise-grade staking rewards",
+        "Premium institutional features"
+      ]
+    }
+  ],
+
+  "backing": {
+    "gold_certificates": {
+      "face_value": "$250,560,000,000",
+      "certificate_type": "US Federal Gold Certificates",
+      "verification": "independently audited",
+      "storage": "institutional-grade vaults"
+    },
+    "peg_stability": {
+      "mechanism": "1:1 USD peg",
+      "stabilization_fund": "$500,000",
+      "oracle_integration": true,
+      "arbitrage_protection": true
+    }
+  },
+
+  "target_audience": {
+    "primary": [
+      "Content creators",
+      "Podcasters", 
+      "DeFi enthusiasts",
+      "Early adopters",
+      "Crypto influencers"
+    ],
+    "secondary": [
+      "Institutional investors",
+      "Hedge funds",
+      "Crypto funds",
+      "High net worth individuals"
+    ]
+  },
+
+  "content_creator_benefits": {
+    "high_apy": "Up to 65% total APY for maximum content appeal",
+    "time_sensitive": "Time-decay structure creates urgency",
+    "dynamic_rewards": "Gold price bonus adds excitement",
+    "leverage_story": "3:1 leverage unlock creates compelling narrative",
+    "cross_chain": "100+ blockchain story for tech content",
+    "institutional_backing": "$250B+ backing adds credibility"
+  },
+
+  "key_metrics": {
+    "current_gold_price": "$2,650",
+    "gold_price_change": "+8.2%",
+    "reward_pool": "$2,000,000"
+  },
+
+  "call_to_action": {
+    "primary": "Join Bonus Program",
+    "secondary": "Start Staking Now",
+    "urgency": "Limited $2M USDGB reward pool",
+    "benefit": "Early adopters earn maximum rewards"
+  }
+}
