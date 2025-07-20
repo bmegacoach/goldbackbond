@@ -1,10 +1,10 @@
 # GoldBackBond - Digital Gold-Backed Stablecoin Platform
 
 ## Overview
-GoldBackBond is a revolutionary digital stablecoin platform backed by US federal Gold Certificates with a face value of 250 billion, pegged 1:1 to USD.
+GoldBackBond is a revolutionary digital stablecoin platform backed by US federal reserve Gold Certificates with a face value of 250 billion, pegged 1:1 to USD.
 
 ## Key Features
-- **Gold Certificate Backing**: Backed by US federal Gold Certificates with face value of 250 billion
+- **Gold Certificate Backing**: Backed by US federal reserve Gold Certificates with face value of 250 billion
 - **1:1 USD Peg**: Stable value backed by real gold assets
 - **Staking Incentives**: 12-month staking provides 3:1 gold certificate value leverage
 - **Multi-Chain Support**: LayerZero integration for seamless access to 100+ blockchains
