@@ -2,11 +2,15 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "npx serve dist -s -l $PORT"
-restartPolicyType = "never"
+numReplicas = 1
+sleepApplication = false
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
 
-[nixpacks]
-aptPkgs = ["curl"]
+[env]
+NODE_ENV = "production"
 
-[environments.production]
-variables = { NODE_ENV = "production" }
+[[services]]
+[services.web]
+healthcheckPath = "/"
+healthcheckTimeout = 300
