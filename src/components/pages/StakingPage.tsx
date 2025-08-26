@@ -37,13 +37,13 @@ const StakingPage = () => {
   const { metrics, formatCurrency } = useSmartContractData()
   const { formattedStakedAmount, formattedBalance, isConnected: walletConnected } = useWalletBalance()
   const [stakingData, setStakingData] = useState({
-    currentAPY: 50, // Updated for DEX launch bonus program
+    currentAPR: 50, // Updated for DEX launch bonus program
     goldPriceChange: 8.2, // Current gold price increase percentage
     rewardPool: 2000000, // $2M USDGB reward pool
     nextRewardDate: new Date(Date.now() + 24 * 60 * 60 * 1000) // Tomorrow
   })
 
-  // Gold Bonus calculation: 3% APY per 5% gold price increase, max 15%, ends after 6 months
+  // Gold Bonus calculation: 3% APR per 5% gold price increase, max 15%, ends after 6 months
   const calculateGoldBonus = () => {
     const increments = Math.floor(stakingData.goldPriceChange / 5) // Number of 5% increments
     const bonus = Math.min(increments * 3, 15) // 3% per increment, max 15%
@@ -59,7 +59,7 @@ const StakingPage = () => {
       amount: 0,
       startDate: new Date('2024-01-15'),
       endDate: new Date('2025-01-15'),
-      apy: 12.5,
+      apr: 12.5,
       rewards: 0,
       status: 'connect_wallet'
     },
@@ -68,7 +68,7 @@ const StakingPage = () => {
       amount: 0,
       startDate: new Date('2024-03-01'),
       endDate: new Date('2025-03-01'),
-      apy: 11.8,
+      apr: 11.8,
       rewards: 0,
       status: 'connect_wallet'
     }
@@ -95,26 +95,26 @@ const StakingPage = () => {
   }
 
   const calculateRewards = (amount: number) => {
-    const baseAPY = stakingData.currentAPY / 100  // 50% for Month 1
-    const goldBonusAPY = goldBonus / 100  // Dynamic gold bonus
-    const totalAPY = baseAPY + goldBonusAPY
+    const baseAPR = stakingData.currentAPR / 100  // 50% for Month 1
+    const goldBonusAPR = goldBonus / 100  // Dynamic gold bonus
+    const totalAPR = baseAPR + goldBonusAPR
     const goldMultiplier = 3 // 3:1 gold certificate value
     
     // Time-decay structure calculations for first year
-    const month1Rewards = amount * 0.50 * (1/12)  // 50% APY for Month 1
-    const month2Rewards = amount * 0.30 * (1/12)  // 30% APY for Month 2  
-    const month3Rewards = amount * 0.20 * (1/12)  // 20% APY for Month 3
-    const remaining9MonthsRewards = amount * 0.09 * (9/12)  // 9% APY for Months 4-12
+    const month1Rewards = amount * 0.50 * (1/12)  // 50% APR for Month 1
+    const month2Rewards = amount * 0.30 * (1/12)  // 30% APR for Month 2  
+    const month3Rewards = amount * 0.20 * (1/12)  // 20% APR for Month 3
+    const remaining9MonthsRewards = amount * 0.09 * (9/12)  // 9% APR for Months 4-12
     
-    const goldBonusYearly = amount * goldBonusAPY  // Gold bonus applies all year
+    const goldBonusYearly = amount * goldBonusAPR  // Gold bonus applies all year
     const totalYearlyRewards = month1Rewards + month2Rewards + month3Rewards + remaining9MonthsRewards + goldBonusYearly
     
     return {
       yearlyRewards: Math.round(totalYearlyRewards),
       goldValue: amount * goldMultiplier,
       monthlyRewards: totalYearlyRewards / 12,
-      currentMonthAPY: stakingData.currentAPY + goldBonus,
-      goldBonus: amount * goldBonusAPY,
+      currentMonthAPR: stakingData.currentAPR + goldBonus,
+      goldBonus: amount * goldBonusAPR,
       breakdownRewards: {
         month1: month1Rewards,
         month2: month2Rewards, 
@@ -186,14 +186,14 @@ const StakingPage = () => {
               </div>
               
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                Time-Decay APY Structure + Gold Bonus
+                Time-Decay APR Structure + Gold Bonus
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <div className="bg-slate-800/60 backdrop-blur-sm border border-red-500/30 rounded-xl p-4">
                   <div className="text-xl font-bold text-red-400 mb-1">50%</div>
                   <div className="text-white font-semibold text-sm">Month 1</div>
-                  <div className="text-gray-400 text-xs">Current APY</div>
+                  <div className="text-gray-400 text-xs">Current APR</div>
                 </div>
                 <div className="bg-slate-800/60 backdrop-blur-sm border border-orange-500/30 rounded-xl p-4">
                   <div className="text-xl font-bold text-orange-400 mb-1">30%</div>
@@ -213,7 +213,7 @@ const StakingPage = () => {
               </div>
               
               <p className="text-gray-300 mb-4">
-                <strong className="text-amber-400">Total Current APY: {stakingData.currentAPY + goldBonus}%</strong> 
+                <strong className="text-amber-400">Total Current APR: {stakingData.currentAPR + goldBonus}%</strong> 
                 {" "}(Base 50% + {goldBonus}% Gold Bonus)
               </p>
               
@@ -239,7 +239,7 @@ const StakingPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-amber-400 mb-2">+3%</div>
-                  <div className="text-white font-semibold mb-1">APY Per 5% Gold Rise</div>
+                  <div className="text-white font-semibold mb-1">APR Per 5% Gold Rise</div>
                   <div className="text-gray-300 text-sm">Automatic bonus activation</div>
                 </div>
                 <div className="text-center">
@@ -256,8 +256,8 @@ const StakingPage = () => {
               
               <div className="bg-slate-800/40 rounded-xl p-4 border border-amber-500/20">
                 <div className="text-sm text-gray-300 text-center">
-                  <strong className="text-amber-400">How it works:</strong> For every 5% increase in gold price, you earn an additional 3% APY for the first 6 months. 
-                  With gold currently up {stakingData.goldPriceChange.toFixed(1)}%, you're earning an extra {goldBonus}% APY on top of your base rate during this promotional period!
+                  <strong className="text-amber-400">How it works:</strong> For every 5% increase in gold price, you earn an additional 3% APR for the first 6 months. 
+                  With gold currently up {stakingData.goldPriceChange.toFixed(1)}%, you're earning an extra {goldBonus}% APR on top of your base rate during this promotional period!
                 </div>
               </div>
             </motion.div>
@@ -266,8 +266,8 @@ const StakingPage = () => {
           {/* Key Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
             {[
-              { label: 'Current Base APY', value: `${stakingData.currentAPY}%`, icon: TrendingUp },
-              { label: 'Gold Bonus APY', value: `+${goldBonus}%`, icon: Star },
+              { label: 'Current Base APR', value: `${stakingData.currentAPR}%`, icon: TrendingUp },
+              { label: 'Gold Bonus APR', value: `+${goldBonus}%`, icon: Star },
               { label: 'Reward Pool', value: `$${stakingData.rewardPool.toLocaleString()}`, icon: Gift }
             ].map((stat, index) => {
               const Icon = stat.icon
@@ -403,14 +403,14 @@ const StakingPage = () => {
 
               {/* Rewards Breakdown */}
               <div className="space-y-4 mb-8">
-                {/* Current APY Display */}
+                {/* Current APR Display */}
                 <div className="bg-gradient-to-r from-red-500/20 to-amber-500/20 border border-amber-500/30 rounded-lg p-4 mb-4">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-white font-semibold">Current Total APY</span>
-                    <span className="text-2xl font-bold text-amber-400">{rewards.currentMonthAPY}%</span>
+                    <span className="text-white font-semibold">Current Total APR</span>
+                    <span className="text-2xl font-bold text-amber-400">{rewards.currentMonthAPR}%</span>
                   </div>
                   <div className="text-sm text-gray-300">
-                    Base {stakingData.currentAPY}% + Gold Bonus {goldBonus}%
+                    Base {stakingData.currentAPR}% + Gold Bonus {goldBonus}%
                   </div>
                 </div>
 
@@ -421,7 +421,7 @@ const StakingPage = () => {
                 </div>
                 
                 <div className="flex justify-between items-center py-3 px-4 bg-slate-700/50 rounded-lg">
-                  <span className="text-gray-300">Month 1 Rewards (50% APY)</span>
+                  <span className="text-gray-300">Month 1 Rewards (50% APR)</span>
                   <span className="text-red-400 font-bold">${Math.round(rewards.breakdownRewards.month1).toLocaleString()}</span>
                 </div>
                 
@@ -443,23 +443,23 @@ const StakingPage = () => {
                 {/* Detailed Breakdown Collapsible */}
                 <details className="bg-slate-700/30 rounded-lg p-4">
                   <summary className="text-amber-400 cursor-pointer hover:text-amber-300 font-medium">
-                    📊 View Complete APY Breakdown
+                    📊 View Complete APR Breakdown
                   </summary>
                   <div className="mt-4 space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Month 1 (50% APY):</span>
+                      <span className="text-gray-400">Month 1 (50% APR):</span>
                       <span className="text-red-300">${Math.round(rewards.breakdownRewards.month1).toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Month 2 (30% APY):</span>
+                      <span className="text-gray-400">Month 2 (30% APR):</span>
                       <span className="text-orange-300">${Math.round(rewards.breakdownRewards.month2).toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Month 3 (20% APY):</span>
+                      <span className="text-gray-400">Month 3 (20% APR):</span>
                       <span className="text-yellow-300">${Math.round(rewards.breakdownRewards.month3).toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Months 4-12 (10% APY):</span>
+                      <span className="text-gray-400">Months 4-12 (10% APR):</span>
                       <span className="text-amber-300">${Math.round(rewards.breakdownRewards.remaining).toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between border-t border-gray-600 pt-2">
@@ -496,7 +496,7 @@ const StakingPage = () => {
                 isOpen={showWalletModal}
                 onClose={() => setShowWalletModal(false)}
                 title="Connect to Stake"
-                subtitle="Connect your wallet to start earning 50% APY"
+                subtitle="Connect your wallet to start earning 50% APR"
                 operation="staking"
               />
             </motion.div>
@@ -530,7 +530,7 @@ const StakingPage = () => {
                                 `${formattedStakedAmount}` : 
                                 '$0 (connect wallet)'} USDGB
                             </h3>
-                            <p className="text-amber-400 font-medium">{position.apy}% APY</p>
+                            <p className="text-amber-400 font-medium">{position.apr}% APR</p>
                           </div>
                           <div className="text-right">
                             <p className="text-green-400 font-bold">
@@ -607,7 +607,7 @@ const StakingPage = () => {
               {
                 icon: Award,
                 title: 'Premium Rewards',
-                description: 'Earn higher APY rates compared to traditional savings with our gold-backed rewards system'
+                description: 'Earn higher APR rates compared to traditional savings with our gold-backed rewards system'
               },
               {
                 icon: Lock,

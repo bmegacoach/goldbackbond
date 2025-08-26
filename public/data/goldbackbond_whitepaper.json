@@ -224,7 +224,7 @@
     },
     "smart_contract_features": {
       "staking_mechanism": "12-month staking periods",
-      "current_apy": "50%",
+      "current_apr": "50%",
       "leverage_ratio": "3:1 gold certificate value for stakers",
       "loan_to_value": "Up to 70% LTV with participating lenders",
       "third_party_integration": "Built-in lender participation protocols"

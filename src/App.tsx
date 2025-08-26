@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Toaster } from './components/ui/toaster'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { Web3Provider } from './components/Web3Provider'
+import { ToastProvider } from './components/ToastProvider'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AnimatedBackground from './components/AnimatedBackground'
@@ -49,7 +50,8 @@ function App() {
   return (
     <ErrorBoundary>
       <Web3Provider>
-        <Router>
+        <ToastProvider>
+          <Router>
           <Routes>
             {/* DeFi Application Routes - Separate Layout */}
             <Route 
@@ -100,8 +102,9 @@ function App() {
           </Routes>
           <Toaster />
         </Router>
-      </Web3Provider>
-    </ErrorBoundary>
+      </ToastProvider>
+    </Web3Provider>
+  </ErrorBoundary>
   )
 }
 

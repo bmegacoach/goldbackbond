@@ -101,7 +101,7 @@ const LiveStats = ({ data }: LiveStatsProps) => {
   ]
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto px-4">
       {stats.map((stat, index) => {
         const Icon = stat.icon
         return (
@@ -110,27 +110,27 @@ const LiveStats = ({ data }: LiveStatsProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.6 }}
-            className="bg-slate-800/60 backdrop-blur-sm border border-amber-500/20 rounded-2xl p-6 text-center hover:bg-slate-800/80 transition-all duration-300"
+            className="bg-slate-800/60 backdrop-blur-sm border border-amber-500/20 rounded-2xl p-4 sm:p-6 text-center hover:bg-slate-800/80 transition-all duration-300"
           >
-            <div className={`w-12 h-12 bg-gradient-to-r ${stat.color} rounded-xl flex items-center justify-center mx-auto mb-4`}>
-              <Icon className="h-6 w-6 text-white" />
+            <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r ${stat.color} rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4`}>
+              <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
-            <p className="text-gray-400 text-sm font-medium mb-2">{stat.label}</p>
+            <p className="text-gray-400 text-xs sm:text-sm font-medium mb-2">{stat.label}</p>
             <p className={`font-bold text-white text-center ${
               stat.label === 'USD Market Cap' 
-                ? 'text-lg md:text-xl lg:text-2xl' 
-                : 'text-2xl md:text-3xl'
+                ? 'text-base sm:text-lg md:text-xl lg:text-2xl' 
+                : 'text-lg sm:text-xl md:text-2xl lg:text-3xl'
             }`}>{stat.value}</p>
             
             {/* Live Price Feed under Gold Kilograms */}
             {stat.showPriceFeed && liveGoldData && (
               <div className="mt-4 space-y-2">
-                <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3">
-                  <div className="flex items-center justify-center space-x-2 mb-2">
+                <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-2 sm:p-3">
+                  <div className="flex items-center justify-center space-x-2 mb-1 sm:mb-2">
                     <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
                     <span className="text-xs text-amber-400 font-medium">Live Gold Price</span>
                     {showChangeIndicator && (
-                      <span className={`text-xs font-bold px-2 py-1 rounded ${
+                      <span className={`text-xs font-bold px-1 sm:px-2 py-1 rounded ${
                         priceChange.change >= 0 
                           ? 'text-green-400 bg-green-400/10' 
                           : 'text-red-400 bg-red-400/10'
@@ -139,7 +139,7 @@ const LiveStats = ({ data }: LiveStatsProps) => {
                       </span>
                     )}
                   </div>
-                  <div className="text-lg font-bold text-amber-300">
+                  <div className="text-base sm:text-lg font-bold text-amber-300">
                     ${liveGoldData.price.toFixed(2)}/oz
                   </div>
                   <div className="text-xs text-gray-400 mt-1">

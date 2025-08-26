@@ -294,7 +294,7 @@ const DashboardPage = () => {
                 <p className="text-2xl font-bold text-white mb-1">
                   ${portfolioData.stakingBalance.toLocaleString()}
                 </p>
-                <p className="text-gray-400 text-sm">12.5% APY</p>
+                <p className="text-gray-400 text-sm">12.5% APR</p>
               </div>
 
               <div className="bg-slate-800/60 backdrop-blur-sm border border-emerald-500/20 rounded-2xl p-6">

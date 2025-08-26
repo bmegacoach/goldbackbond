@@ -22,11 +22,13 @@ import {
 import LiveStats from '../sections/LiveStats'
 import BenefitsGrid from '../sections/BenefitsGrid'
 import PremiumFeatures from '../sections/PremiumFeatures'
-import AggressiveYieldOffer from '../sections/AggressiveYieldOffer'
+import AggressiveRewardsOffer from '../sections/AggressiveRewardsOffer'
 import BuyUSDGBModal from '../BuyUSDGBModal'
 import WalletConnectModal from '../WalletConnectModal'
 import { useAccount, useChainId, useSwitchChain } from 'wagmi'
 import { baseChain } from '../../lib/web3Config'
+import TransactionService, { TransactionState } from '../../services/transactionService'
+import { useToast } from '../ToastProvider'
 
 interface WebsiteData {
   specifications: {
@@ -44,11 +46,14 @@ const HomePage = () => {
   const [websiteData, setWebsiteData] = useState<WebsiteData | null>(null)
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false)
   const [showBonusProgramModal, setShowBonusProgramModal] = useState(false)
+  const [transactionState, setTransactionState] = useState<TransactionState>({ status: 'idle' })
   
   // Wallet connection hooks
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
   const { switchChain } = useSwitchChain()
+  const { showSuccess, showError, showInfo } = useToast()
+  const transactionService = TransactionService.getInstance()
 
   useEffect(() => {
     // Load website data
@@ -64,18 +69,60 @@ const HomePage = () => {
       return
     }
 
+    if (!address) {
+      showError('Wallet Error', 'Please connect your wallet first')
+      return
+    }
+
+    // Check and switch to Base chain if needed
     if (chainId !== baseChain.id) {
       try {
-        switchChain({ chainId: baseChain.id })
+        await switchChain({ chainId: baseChain.id })
+        showInfo('Network Switch', 'Switching to Base network...')
+        // Wait a moment for the switch to complete
+        await new Promise(resolve => setTimeout(resolve, 1000))
       } catch (error) {
-        console.error('Failed to switch to Base network:', error)
+        showError('Network Error', 'Failed to switch to Base network. Please switch manually.')
         return
       }
     }
 
-    // Here you would implement the actual bonus program join logic
-    console.log('Joining bonus program with address:', address)
-    alert('Joining Bonus Program - This would connect to your smart contract!')
+    // Execute the join bonus program transaction
+    const success = await transactionService.joinBonusProgram(
+      address,
+      (state: TransactionState) => {
+        setTransactionState(state)
+        
+        switch (state.status) {
+          case 'waiting_approval':
+            showInfo('Transaction Pending', 'Please approve the transaction in your wallet...')
+            break
+          case 'pending':
+            showInfo('Transaction Submitted', 'Your transaction has been submitted to the blockchain', {
+              label: 'View on Explorer',
+              onClick: () => window.open(transactionService.getTransactionUrl(state.hash!), '_blank')
+            })
+            break
+          case 'success':
+            showSuccess(
+              'Successfully Joined Bonus Program!', 
+              'Welcome to the DEX Launch Bonus Program. Start earning maximum rewards!',
+              {
+                label: 'View Transaction',
+                onClick: () => window.open(transactionService.getTransactionUrl(state.hash!), '_blank')
+              }
+            )
+            break
+          case 'error':
+            showError('Transaction Failed', state.error || 'Failed to join bonus program')
+            break
+        }
+      }
+    )
+
+    if (!success && transactionState.status === 'error') {
+      // Additional error handling if needed
+    }
   }
 
   const containerVariants = {
@@ -124,25 +171,25 @@ const HomePage = () => {
           className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
         >
           <motion.div variants={itemVariants} className="mb-8">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6">
               <span className="bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 bg-clip-text text-transparent">
                 World's Largest
               </span>
               <br />
               <span className="text-white">Reserve Stablecoin</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
               USDGB is a tokenized asset backed by physical gold certificates, 
               combining the stability of gold with the accessibility of crypto assets
             </p>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsBuyModalOpen(true)}
-              className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-4 rounded-xl font-bold text-base hover:from-emerald-400 hover:to-teal-500 transition-all duration-200 shadow-lg shadow-emerald-500/25 flex items-center justify-center"
+              className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 sm:px-6 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base hover:from-emerald-400 hover:to-teal-500 transition-all duration-200 shadow-lg shadow-emerald-500/25 flex items-center justify-center min-h-[48px] touch-manipulation"
             >
               <span className="whitespace-nowrap">🛒 Buy USDGB</span>
             </motion.button>
@@ -150,7 +197,7 @@ const HomePage = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-900 px-6 py-4 rounded-xl font-bold text-base hover:from-amber-400 hover:to-yellow-500 transition-all duration-200 shadow-lg shadow-amber-500/25 flex items-center justify-center"
+                className="bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-900 px-6 sm:px-6 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base hover:from-amber-400 hover:to-yellow-500 transition-all duration-200 shadow-lg shadow-amber-500/25 flex items-center justify-center min-h-[48px] w-full sm:w-auto touch-manipulation"
               >
                 <span className="whitespace-nowrap">Start Staking</span>
               </motion.button>
@@ -159,7 +206,7 @@ const HomePage = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="border-2 border-amber-500 text-amber-400 px-6 py-4 rounded-xl font-bold text-base hover:bg-amber-500/10 transition-all duration-200 flex items-center justify-center"
+                className="border-2 border-amber-500 text-amber-400 px-6 sm:px-6 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base hover:bg-amber-500/10 transition-all duration-200 flex items-center justify-center min-h-[48px] w-full sm:w-auto touch-manipulation"
               >
                 <span className="whitespace-nowrap">Explore Lending</span>
               </motion.button>
@@ -201,46 +248,46 @@ const HomePage = () => {
               </div>
             </div>
             
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-              Earn Up To <span className="bg-gradient-to-r from-red-400 via-orange-500 to-amber-600 bg-clip-text text-transparent">65% APY</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
+              Earn Up To <span className="bg-gradient-to-r from-red-400 via-orange-500 to-amber-600 bg-clip-text text-transparent">65% APR</span>
             </h2>
             
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8 leading-relaxed">
-              Join our historic DEX launch on Uniswap with time-decay rewards starting at <strong className="text-red-400">50% APY</strong> 
-              plus dynamic gold bonuses up to <strong className="text-amber-400">15% additional APY</strong>. Early adopters get maximum rewards!
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-4xl mx-auto mb-6 sm:mb-8 leading-relaxed px-4">
+              Join our historic DEX launch on Uniswap with time-decay rewards starting at <strong className="text-red-400">50% APR</strong> 
+              plus dynamic gold bonuses up to <strong className="text-amber-400">15% additional APR</strong>. Early adopters get maximum rewards!
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              <div className="bg-slate-800/60 backdrop-blur-sm border border-red-500/30 rounded-xl p-4">
-                <div className="text-2xl font-bold text-red-400 mb-1">50%</div>
-                <div className="text-white font-semibold text-sm">Month 1 APY</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8 px-4">
+              <div className="bg-slate-800/60 backdrop-blur-sm border border-red-500/30 rounded-xl p-3 sm:p-4">
+                <div className="text-xl sm:text-2xl font-bold text-red-400 mb-1">50%</div>
+                <div className="text-white font-semibold text-xs sm:text-sm">Month 1 APR</div>
                 <div className="text-gray-400 text-xs">Maximum launch rewards</div>
               </div>
-              <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-500/30 rounded-xl p-4">
-                <div className="text-2xl font-bold text-amber-400 mb-1">+15%</div>
-                <div className="text-white font-semibold text-sm">Gold Bonus</div>
+              <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-500/30 rounded-xl p-3 sm:p-4">
+                <div className="text-xl sm:text-2xl font-bold text-amber-400 mb-1">+15%</div>
+                <div className="text-white font-semibold text-xs sm:text-sm">Gold Bonus</div>
                 <div className="text-gray-400 text-xs">Dynamic price rewards</div>
               </div>
-              <div className="bg-slate-800/60 backdrop-blur-sm border border-emerald-500/30 rounded-xl p-4">
-                <div className="text-2xl font-bold text-emerald-400 mb-1">3:1</div>
-                <div className="text-white font-semibold text-sm">Leverage Unlock</div>
+              <div className="bg-slate-800/60 backdrop-blur-sm border border-emerald-500/30 rounded-xl p-3 sm:p-4">
+                <div className="text-xl sm:text-2xl font-bold text-emerald-400 mb-1">3:1</div>
+                <div className="text-white font-semibold text-xs sm:text-sm">Leverage Unlock</div>
                 <div className="text-gray-400 text-xs">12-month staking benefit</div>
               </div>
-              <div className="bg-slate-800/60 backdrop-blur-sm border border-blue-500/30 rounded-xl p-4">
-                <div className="text-2xl font-bold text-blue-400 mb-1">100+</div>
-                <div className="text-white font-semibold text-sm">Blockchains</div>
+              <div className="bg-slate-800/60 backdrop-blur-sm border border-blue-500/30 rounded-xl p-3 sm:p-4">
+                <div className="text-xl sm:text-2xl font-bold text-blue-400 mb-1">100+</div>
+                <div className="text-white font-semibold text-xs sm:text-sm">Blockchains</div>
                 <div className="text-gray-400 text-xs">LayerZero integration</div>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleJoinBonusProgram}
-                className="bg-gradient-to-r from-red-500 to-orange-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-red-400 hover:to-orange-500 transition-all duration-200 shadow-lg shadow-red-500/25 flex items-center justify-center"
+                className="bg-gradient-to-r from-red-500 to-orange-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:from-red-400 hover:to-orange-500 transition-all duration-200 shadow-lg shadow-red-500/25 flex items-center justify-center min-h-[48px] touch-manipulation"
               >
-                <Rocket className="h-5 w-5 mr-2" />
+                <Rocket className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                 {isConnected ? 'Join Bonus Program' : 'Connect Wallet to Join'}
               </motion.button>
               
@@ -248,17 +295,17 @@ const HomePage = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-slate-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-600 transition-all duration-200 flex items-center justify-center"
+                  className="bg-slate-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:bg-slate-600 transition-all duration-200 flex items-center justify-center min-h-[48px] w-full sm:w-auto touch-manipulation"
                 >
                   Start Staking Now
-                  <ArrowRight className="h-5 w-5 ml-2" />
+                  <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2" />
                 </motion.button>
               </Link>
             </div>
 
             <div className="mt-6 text-center">
               <div className="text-gray-400 text-sm mb-1">Limited Time: $2M USDGB Reward Pool</div>
-              <div className="text-amber-400 font-semibold">Perfect for Content Creators & Podcasters</div>
+              
             </div>
           </motion.div>
         </div>
@@ -274,10 +321,10 @@ const HomePage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
               Premium DeFi Features
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto px-4">
               Experience the next generation of gold-backed DeFi with advanced staking, 
               lending, and multi-chain capabilities
             </p>
@@ -287,8 +334,8 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Aggressive Yield Offer */}
-      <AggressiveYieldOffer onBuyClick={() => setIsBuyModalOpen(true)} />
+      {/* Aggressive Rewards Offer */}
+      <AggressiveRewardsOffer onBuyClick={() => setIsBuyModalOpen(true)} />
 
       {/* Core Benefits Section */}
       <section className="py-20 ">
@@ -300,10 +347,10 @@ const HomePage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
               Why Choose USDGB?
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto px-4">
               Discover the 12 core benefits that make USDGB the premier choice 
               for gold-backed digital assets
             </p>
@@ -323,10 +370,10 @@ const HomePage = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl font-bold text-white mb-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6">
                 Built on Trust & Security
               </h2>
-              <p className="text-xl text-gray-300 mb-8">
+              <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8">
                 Our gold certificates are stored in secure vaults with full transparency 
                 and regular audits to ensure your investments are protected.
               </p>
@@ -375,18 +422,18 @@ const HomePage = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
               Ready to Get Started?
             </h2>
-            <p className="text-xl text-gray-300 mb-12">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-12 px-4">
               Join thousands of investors who trust USDGB for their digital gold investments
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
               <Link to="/app">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-amber-400 hover:to-yellow-500 transition-all duration-200 shadow-lg shadow-amber-500/25"
+                  className="bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-900 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:from-amber-400 hover:to-yellow-500 transition-all duration-200 shadow-lg shadow-amber-500/25 w-full sm:w-auto touch-manipulation"
                 >
                   Launch App
                 </motion.button>
@@ -395,7 +442,7 @@ const HomePage = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="border-2 border-amber-500 text-amber-400 px-8 py-4 rounded-xl font-bold text-lg hover:bg-amber-500/10 transition-all duration-200"
+                  className="border-2 border-amber-500 text-amber-400 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:bg-amber-500/10 transition-all duration-200 w-full sm:w-auto touch-manipulation"
                 >
                   Read Whitepaper
                 </motion.button>

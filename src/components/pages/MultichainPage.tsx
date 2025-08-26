@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import { useAccount, useChainId, useSwitchChain } from 'wagmi'
 import { baseChain } from '../../lib/web3Config'
 import WalletConnectModal from '../WalletConnectModal'
+import TransactionService, { TransactionState } from '../../services/transactionService'
+import { useToast } from '../ToastProvider'
 import { 
   Globe, 
   ArrowRight, 
@@ -23,11 +25,14 @@ import {
 
 const MultichainPage = () => {
   const [showWalletModal, setShowWalletModal] = useState(false)
+  const [transactionState, setTransactionState] = useState<TransactionState>({ status: 'idle' })
   
   // Wallet connection hooks
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
   const { switchChain } = useSwitchChain()
+  const { showSuccess, showError, showInfo } = useToast()
+  const transactionService = TransactionService.getInstance()
 
   // Mock blockchain data
   const blockchains = [
@@ -57,18 +62,60 @@ const MultichainPage = () => {
       return
     }
 
+    if (!address) {
+      showError('Wallet Error', 'Please connect your wallet first')
+      return
+    }
+
+    // Check and switch to Base chain if needed
     if (chainId !== baseChain.id) {
       try {
-        switchChain({ chainId: baseChain.id })
+        await switchChain({ chainId: baseChain.id })
+        showInfo('Network Switch', 'Switching to Base network...')
+        // Wait a moment for the switch to complete
+        await new Promise(resolve => setTimeout(resolve, 1000))
       } catch (error) {
-        console.error('Failed to switch to Base network:', error)
+        showError('Network Error', 'Failed to switch to Base network. Please switch manually.')
         return
       }
     }
 
-    // Here you would implement the actual multi-chain program join logic
-    console.log('Joining multi-chain bonus program with address:', address)
-    alert('Joining Multi-Chain Bonus Program - This would connect to your smart contract!')
+    // Execute the join multi-chain bonus program transaction
+    const success = await transactionService.joinBonusProgram(
+      address,
+      (state: TransactionState) => {
+        setTransactionState(state)
+        
+        switch (state.status) {
+          case 'waiting_approval':
+            showInfo('Transaction Pending', 'Please approve the transaction in your wallet...')
+            break
+          case 'pending':
+            showInfo('Transaction Submitted', 'Your transaction has been submitted to the blockchain', {
+              label: 'View on Explorer',
+              onClick: () => window.open(transactionService.getTransactionUrl(state.hash!), '_blank')
+            })
+            break
+          case 'success':
+            showSuccess(
+              'Successfully Joined Multi-Chain Program!', 
+              'Welcome to the Multi-Chain Bonus Program. Access USDGB across 100+ blockchains!',
+              {
+                label: 'View Transaction',
+                onClick: () => window.open(transactionService.getTransactionUrl(state.hash!), '_blank')
+              }
+            )
+            break
+          case 'error':
+            showError('Transaction Failed', state.error || 'Failed to join multi-chain program')
+            break
+        }
+      }
+    )
+
+    if (!success && transactionState.status === 'error') {
+      // Additional error handling if needed
+    }
   }
 
   return (
@@ -111,7 +158,7 @@ const MultichainPage = () => {
             {[
               { label: 'Supported Chains', value: multichainStats.totalChains.toString(), icon: Globe },
               { label: 'Reward Pool', value: '$2M USDGB', icon: Gift },
-              { label: 'Max APY Available', value: '65%', icon: Star }
+              { label: 'Max APR Available', value: '65%', icon: Star }
             ].map((stat, index) => {
               const Icon = stat.icon
               return (
@@ -192,7 +239,7 @@ const MultichainPage = () => {
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-purple-400 mb-2">65%</div>
-                <div className="text-white font-semibold text-sm mb-1">Max APY Available</div>
+                <div className="text-white font-semibold text-sm mb-1">Max APR Available</div>
                 <div className="text-gray-400 text-xs">Across all supported chains</div>
               </div>
             </div>
@@ -207,7 +254,7 @@ const MultichainPage = () => {
                   </div>
                   <div className="flex items-start">
                     <CheckCircle className="h-5 w-5 text-indigo-400 mr-3 mt-0.5 flex-shrink-0" />
-                    <span><strong>Cross-Chain Rewards:</strong> Earn bonus APY regardless of your chain</span>
+                    <span><strong>Cross-Chain Rewards:</strong> Earn bonus APR regardless of your chain</span>
                   </div>
                   <div className="flex items-start">
                     <CheckCircle className="h-5 w-5 text-purple-400 mr-3 mt-0.5 flex-shrink-0" />
@@ -231,20 +278,7 @@ const MultichainPage = () => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl p-6 mb-8 border border-blue-500/30">
-              <h3 className="text-xl font-bold text-white mb-3">📱 Perfect for Content Creators</h3>
-              <p className="text-gray-300 text-sm mb-4">
-                The multi-chain story adds incredible depth to your content! Cover DeFi on Ethereum, 
-                gaming on Polygon, NFTs on Solana - all while earning maximum rewards from one program.
-              </p>
-              <div className="flex flex-wrap justify-center gap-2">
-                {['Ethereum', 'Polygon', 'BSC', 'Avalanche', 'Arbitrum', 'Solana', '+94 more'].map((chain, index) => (
-                  <span key={chain} className="bg-slate-700/50 px-3 py-1 rounded-full text-xs text-gray-300">
-                    {chain}
-                  </span>
-                ))}
-              </div>
-            </div>
+
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button

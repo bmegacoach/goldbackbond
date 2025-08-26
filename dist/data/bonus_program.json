@@ -2,30 +2,30 @@
   "program_name": "DEX Launch Bonus Program",
   "status": "active",
   "launch_date": "2024-12-01",
-  "description": "The most rewarding DeFi launch in history with time-decay APY structure and dynamic gold bonuses",
+  "description": "The most rewarding DeFi launch in history with time-decay APR structure and dynamic gold bonuses",
   
-  "apy_structure": {
+  "apr_structure": {
     "time_decay": {
       "month_1": {
-        "apy": 50,
+        "apr": 50,
         "duration": "30 days",
         "status": "active",
         "description": "Maximum launch rewards for early adopters"
       },
       "month_2": {
-        "apy": 30,
+        "apr": 30,
         "duration": "days 31-60",
         "status": "upcoming",
         "description": "Second tier rewards"
       },
       "month_3": {
-        "apy": 20,
+        "apr": 20,
         "duration": "days 61-90",
         "status": "upcoming", 
         "description": "Third tier rewards"
       },
       "month_4_plus": {
-        "apy": 9,
+        "apr": 9,
         "duration": "day 91+",
         "status": "upcoming",
         "description": "Sustained long-term rewards"
@@ -36,7 +36,7 @@
       "per_gold_increase": 5,
       "maximum_bonus": 15,
       "duration": "6 months",
-      "description": "3% additional APY per 5% gold price increase, capped at 15%, limited to first 6 months",
+      "description": "3% additional APR per 5% gold price increase, capped at 15%, limited to first 6 months",
       "current_bonus": 9
     }
   },
@@ -111,11 +111,11 @@
       "phase": 1,
       "name": "DEX Launch",
       "timeline": "Month 1-3",
-      "apy_range": "50% → 30% → 20%",
+      "apr_range": "50% → 30% → 20%",
       "status": "active",
       "features": [
         "Uniswap USDGB/USDC or USDGB/USDT pool launch on Ethereum",
-        "Time-decay APY structure for early adopters",
+        "Time-decay APR structure for early adopters",
         "Gold price bonus activation",
         "$2M USDGB reward pool allocation"
       ]
@@ -124,12 +124,12 @@
       "phase": 2,
       "name": "CEX Expansion", 
       "timeline": "Month 4+",
-      "apy_range": "9% + Gold Bonus",
+      "apr_range": "9% + Gold Bonus",
       "status": "upcoming",
       "features": [
         "Major centralized exchange listings",
         "Expanded trading pairs and liquidity", 
-        "Sustained 9% base APY",
+        "Sustained 9% base APR",
         "Enhanced gold bonus mechanics"
       ]
     },
@@ -137,7 +137,7 @@
       "phase": 3,
       "name": "Institutional Integration",
       "timeline": "Month 6+",
-      "apy_range": "9% + Premium Features",
+      "apr_range": "9% + Premium Features",
       "status": "planned",
       "features": [
         "Third-party lender integration",
@@ -165,8 +165,6 @@
 
   "target_audience": {
     "primary": [
-      "Content creators",
-      "Podcasters", 
       "DeFi enthusiasts",
       "Early adopters",
       "Crypto influencers"
@@ -179,16 +177,7 @@
     ]
   },
 
-  "content_creator_benefits": {
-    "high_apy": "Up to 65% total APY for maximum content appeal",
-    "time_sensitive": "Time-decay structure creates urgency",
-    "dynamic_rewards": "Gold price bonus adds excitement",
-    "leverage_story": "3:1 leverage unlock creates compelling narrative",
-    "cross_chain": "100+ blockchain story for tech content",
-    "institutional_backing": "$250B+ backing adds credibility"
-  },
-
-  "key_metrics": {
+"key_metrics": {
     "current_gold_price": "$2,650",
     "gold_price_change": "+8.2%",
     "reward_pool": "$2,000,000"

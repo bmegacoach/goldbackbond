@@ -350,7 +350,7 @@ const LendingPage = () => {
                 </div>
                 <div className="flex items-start">
                   <CheckCircle className="h-5 w-5 text-emerald-400 mr-3 mt-0.5 flex-shrink-0" />
-                  <span><strong>Bonus:</strong> Continue earning APY rewards while using your collateral!</span>
+                  <span><strong>Bonus:</strong> Continue earning APR rewards while using your collateral!</span>
                 </div>
               </div>
             </div>
@@ -381,7 +381,7 @@ const LendingPage = () => {
 
             <div className="mt-6 text-center">
               <div className="text-gray-400 text-sm mb-1">Example: $10,000 staked → $30,000 lending value → $21,000 max loan</div>
-              <div className="text-emerald-400 font-semibold">Perfect for Content Creators & Influencers</div>
+              
             </div>
           </motion.div>
         </div>

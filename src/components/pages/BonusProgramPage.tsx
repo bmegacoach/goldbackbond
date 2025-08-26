@@ -3,6 +3,8 @@ import { motion } from 'framer-motion'
 import { useAccount, useChainId, useSwitchChain } from 'wagmi'
 import { baseChain } from '../../lib/web3Config'
 import WalletConnectModal from '../WalletConnectModal'
+import TransactionService, { TransactionState } from '../../services/transactionService'
+import { useToast } from '../ToastProvider'
 import { 
   TrendingUp, 
   Coins, 
@@ -33,11 +35,14 @@ const BonusProgramPage = () => {
   const [goldPriceChange, setGoldPriceChange] = useState(8.2)
   const [currentMonth, setCurrentMonth] = useState(1)
   const [showWalletModal, setShowWalletModal] = useState(false)
+  const [transactionState, setTransactionState] = useState<TransactionState>({ status: 'idle' })
   
   // Wallet connection hooks
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
   const { switchChain } = useSwitchChain()
+  const { showSuccess, showError, showInfo } = useToast()
+  const transactionService = TransactionService.getInstance()
   
   // Simulate real-time updates
   useEffect(() => {
@@ -48,20 +53,20 @@ const BonusProgramPage = () => {
     return () => clearInterval(interval)
   }, [])
 
-  const apyStructure = [
-    { month: 1, apy: 50, duration: "Month 1", status: "active", color: "from-red-500 to-orange-600", textColor: "text-red-400" },
-    { month: 2, apy: 30, duration: "Month 2", status: "upcoming", color: "from-orange-500 to-yellow-600", textColor: "text-orange-400" },
-    { month: 3, apy: 20, duration: "Month 3", status: "upcoming", color: "from-yellow-500 to-amber-600", textColor: "text-yellow-400" },
-    { month: 4, apy: 9, duration: "Month 4+", status: "upcoming", color: "from-amber-500 to-yellow-600", textColor: "text-amber-400" }
+  const aprStructure = [
+    { month: 1, apr: 50, duration: "Month 1", status: "active", color: "from-red-500 to-orange-600", textColor: "text-red-400" },
+    { month: 2, apr: 30, duration: "Month 2", status: "upcoming", color: "from-orange-500 to-yellow-600", textColor: "text-orange-400" },
+    { month: 3, apr: 20, duration: "Month 3", status: "upcoming", color: "from-yellow-500 to-amber-600", textColor: "text-yellow-400" },
+    { month: 4, apr: 9, duration: "Month 4+", status: "upcoming", color: "from-amber-500 to-yellow-600", textColor: "text-amber-400" }
   ]
 
   const goldBonusCalculation = () => {
     const increments = Math.floor(goldPriceChange / 5)
-    const bonusAPY = Math.min(increments * 3, 15)
-    return bonusAPY
+    const bonusAPR = Math.min(increments * 3, 15)
+    return bonusAPR
   }
 
-  const totalAPY = apyStructure[currentMonth - 1]?.apy + goldBonusCalculation()
+  const totalAPR = aprStructure[currentMonth - 1]?.apr + goldBonusCalculation()
 
   const handleJoinProgram = async () => {
     if (!isConnected) {
@@ -69,24 +74,66 @@ const BonusProgramPage = () => {
       return
     }
 
+    if (!address) {
+      showError('Wallet Error', 'Please connect your wallet first')
+      return
+    }
+
+    // Check and switch to Base chain if needed
     if (chainId !== baseChain.id) {
       try {
-        switchChain({ chainId: baseChain.id })
+        await switchChain({ chainId: baseChain.id })
+        showInfo('Network Switch', 'Switching to Base network...')
+        // Wait a moment for the switch to complete
+        await new Promise(resolve => setTimeout(resolve, 1000))
       } catch (error) {
-        console.error('Failed to switch to Base network:', error)
+        showError('Network Error', 'Failed to switch to Base network. Please switch manually.')
         return
       }
     }
 
-    // Here you would implement the actual bonus program join logic
-    console.log('Joining bonus program with address:', address)
-    alert('Joining Bonus Program - This would connect to your smart contract!')
+    // Execute the join bonus program transaction
+    const success = await transactionService.joinBonusProgram(
+      address,
+      (state: TransactionState) => {
+        setTransactionState(state)
+        
+        switch (state.status) {
+          case 'waiting_approval':
+            showInfo('Transaction Pending', 'Please approve the transaction in your wallet...')
+            break
+          case 'pending':
+            showInfo('Transaction Submitted', 'Your transaction has been submitted to the blockchain', {
+              label: 'View on Explorer',
+              onClick: () => window.open(transactionService.getTransactionUrl(state.hash!), '_blank')
+            })
+            break
+          case 'success':
+            showSuccess(
+              'Successfully Joined Bonus Program!', 
+              'Welcome to the DEX Launch Bonus Program. Start earning rewards now!',
+              {
+                label: 'View Transaction',
+                onClick: () => window.open(transactionService.getTransactionUrl(state.hash!), '_blank')
+              }
+            )
+            break
+          case 'error':
+            showError('Transaction Failed', state.error || 'Failed to join bonus program')
+            break
+        }
+      }
+    )
+
+    if (!success && transactionState.status === 'error') {
+      // Additional error handling if needed
+    }
   }
 
   const programHighlights = [
     {
       icon: Flame,
-      title: "50% APY Launch Month",
+      title: "50% APR Launch Month",
       description: "Massive first-month rewards for early liquidity providers",
       value: "50%",
       gradient: "from-red-500 to-orange-600"
@@ -94,7 +141,7 @@ const BonusProgramPage = () => {
     {
       icon: TrendingUp,
       title: "Gold Price Bonus",
-      description: "3% additional APY per 5% gold price increase",
+      description: "3% additional APR per 5% gold price increase",
       value: `+${goldBonusCalculation()}%`,
       gradient: "from-amber-500 to-yellow-600"
     },
@@ -118,10 +165,10 @@ const BonusProgramPage = () => {
     {
       phase: "Phase 1: DEX Launch",
       timeline: "Month 1-3",
-      apy: "50% → 30% → 20%",
+      apr: "50% → 30% → 20%",
       features: [
         "Uniswap USDGB/USDC or USDGB/USDT pool launch on Ethereum",
-        "Time-decay APY structure for early adopters",
+        "Time-decay APR structure for early adopters",
         "Gold price bonus activation",
         "$2M USDGB reward pool allocation"
       ],
@@ -131,12 +178,12 @@ const BonusProgramPage = () => {
     {
       phase: "Phase 2: CEX Expansion",
       timeline: "Month 4+",
-      apy: "9% + Gold Bonus",
+      apr: "9% + Gold Bonus",
       features: [
         "Major centralized exchange listings",
         "Expanded trading pairs and liquidity",
-        "Sustained 9% base APY",
-        "Standard 9% APY (gold bonus concludes)"
+        "Sustained 9% base APR",
+        "Standard 9% APR (gold bonus concludes)"
       ],
       status: "upcoming",
       color: "border-blue-500/30 bg-blue-500/10"
@@ -144,7 +191,7 @@ const BonusProgramPage = () => {
     {
       phase: "Phase 3: Institutional Integration",
       timeline: "Month 6+",
-      apy: "9% + Premium Features",
+      apr: "9% + Premium Features",
       features: [
         "Third-party lender integration",
         "70% LTV leveraging activation",
@@ -236,7 +283,7 @@ const BonusProgramPage = () => {
           >
             <div className="flex items-center justify-center mb-6">
               <Sparkles className="h-12 w-12 text-amber-400 mr-4" />
-              <h1 className="text-4xl md:text-6xl font-bold">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold">
                 <span className="bg-gradient-to-r from-red-400 via-orange-500 to-amber-600 bg-clip-text text-transparent">
                   DEX Launch
                 </span>
@@ -245,7 +292,7 @@ const BonusProgramPage = () => {
               </h1>
             </div>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
-              Competitive yield opportunities with gold-backed security. Earn up to <span className="text-red-400 font-bold">65% APY</span> 
+              Competitive rewards opportunities with gold-backed security. Earn up to <span className="text-red-400 font-bold">65% APR</span> 
               with our time-decay structure plus dynamic gold bonuses on USDGB/USDC or USDGB/USDT pools.
             </p>
             
@@ -264,7 +311,7 @@ const BonusProgramPage = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Flame className="h-4 w-4 text-red-400" />
-                <span className="text-white">Current APY: {totalAPY}%</span>
+                <span className="text-white">Current APR: {totalAPR}%</span>
               </div>
             </div>
           </motion.div>
@@ -293,11 +340,11 @@ const BonusProgramPage = () => {
         </div>
       </div>
 
-      {/* APY Structure Section */}
+      {/* APR Structure Section */}
       <div className="py-20 bg-slate-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-white mb-4">Time-Decay APY Structure</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">Time-Decay APR Structure</h2>
             <p className="text-gray-300 max-w-2xl mx-auto">
               Massive rewards for early adopters with our innovative time-decay system. 
               The earlier you join, the higher your rewards!
@@ -305,7 +352,7 @@ const BonusProgramPage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {apyStructure.map((tier, index) => (
+            {aprStructure.map((tier, index) => (
               <motion.div
                 key={tier.month}
                 initial={{ opacity: 0, y: 20 }}
@@ -325,15 +372,15 @@ const BonusProgramPage = () => {
                 
                 <div className="text-center">
                   <div className={`text-4xl font-bold mb-2 bg-gradient-to-r ${tier.color} bg-clip-text text-transparent`}>
-                    {tier.apy}%
+                    {tier.apr}%
                   </div>
                   <div className="text-white font-semibold mb-2">{tier.duration}</div>
-                  <div className="text-gray-400 text-sm mb-4">Base APY</div>
+                  <div className="text-gray-400 text-sm mb-4">Base APR</div>
                   
                   {goldBonusCalculation() > 0 && (
                     <div className="bg-amber-500/20 rounded-lg p-3 border border-amber-500/30">
                       <div className="text-amber-400 font-bold">+{goldBonusCalculation()}% Gold Bonus</div>
-                      <div className="text-xs text-gray-300">Total: {tier.apy + goldBonusCalculation()}%</div>
+                      <div className="text-xs text-gray-300">Total: {tier.apr + goldBonusCalculation()}%</div>
                     </div>
                   )}
                 </div>
@@ -460,7 +507,7 @@ const BonusProgramPage = () => {
                   <div>
                     <h3 className="text-xl font-bold text-white mb-2">{phase.phase}</h3>
                     <div className="text-gray-300 mb-4">{phase.timeline}</div>
-                    <div className="text-2xl font-bold text-amber-400">{phase.apy}</div>
+                    <div className="text-2xl font-bold text-amber-400">{phase.apr}</div>
                   </div>
                   
                   <div className="lg:col-span-2">

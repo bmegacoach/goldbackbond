@@ -35,7 +35,7 @@ export interface SmartContractMetrics {
   totalStakers: number
   averageStakingPeriod: number
   totalRewardsDistributed: string
-  currentAPY: number
+  currentAPR: number
   
   // Lending Metrics
   totalBorrowed: string
@@ -145,7 +145,7 @@ class SmartContractDataService {
         totalStakers: stakingMetrics.totalStakers,
         averageStakingPeriod: stakingMetrics.averageStakingPeriod,
         totalRewardsDistributed: stakingMetrics.totalRewardsDistributed,
-        currentAPY: stakingMetrics.currentAPY,
+        currentAPR: stakingMetrics.currentAPR,
 
         // Lending metrics
         totalBorrowed: lendingMetrics.totalBorrowed,
@@ -244,7 +244,7 @@ class SmartContractDataService {
       totalStakers: 1247,
       averageStakingPeriod: 12,
       totalRewardsDistributed: '2250000000000000000000000',
-      currentAPY: 50 // Current DEX launch bonus
+      currentAPR: 50 // Current DEX launch bonus
     }
   }
 
@@ -375,7 +375,7 @@ class SmartContractDataService {
       totalStakers: 1247,
       averageStakingPeriod: 12,
       totalRewardsDistributed: '2250000000000000000000000',
-      currentAPY: 50,
+      currentAPR: 50,
       totalBorrowed: '89500000000000000000000000',
       activeLenders: 12,
       averageLTV: 65.8,

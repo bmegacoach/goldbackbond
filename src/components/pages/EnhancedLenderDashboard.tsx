@@ -587,7 +587,7 @@ const EnhancedLenderDashboard = () => {
                     <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">LTV</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Health</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Risk Status</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Yield</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Rewards</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Days Left</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Actions</th>
                   </tr>
@@ -628,7 +628,7 @@ const EnhancedLenderDashboard = () => {
                         </div>
                       </td>
                       <td className="py-3 px-4">
-                        <span className="text-emerald-400 font-medium">{loan.estimatedYield}</span>
+                        <span className="text-emerald-400 font-medium">{loan.estimatedRewards}</span>
                       </td>
                       <td className="py-3 px-4">
                         <span className="text-gray-300">{loan.daysRemaining}d</span>

@@ -26,7 +26,7 @@ const PremiumFeatures = () => {
       stats: [
         { label: 'Lock Period', value: '12 Months' },
         { label: 'Ratio', value: '3:1 Gold' },
-        { label: 'Rewards', value: 'Premium APY' }
+        { label: 'Rewards', value: 'Premium APR' }
       ]
     },
     {
@@ -60,7 +60,7 @@ const PremiumFeatures = () => {
   ]
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8 px-4">
       {features.map((feature, index) => {
         const Icon = feature.icon
         
@@ -74,7 +74,7 @@ const PremiumFeatures = () => {
             className="group"
           >
             <Link to={feature.href} className="block">
-              <div className="relative bg-slate-800/60 backdrop-blur-sm border border-amber-500/20 rounded-3xl p-8 hover:bg-slate-800/80 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/10 overflow-hidden">
+              <div className="relative bg-slate-800/60 backdrop-blur-sm border border-amber-500/20 rounded-3xl p-6 sm:p-8 hover:bg-slate-800/80 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/10 overflow-hidden touch-manipulation">
                 {/* Background Pattern */}
                 <div 
                   className="absolute inset-0 opacity-5 bg-cover bg-center rounded-3xl"
@@ -84,24 +84,24 @@ const PremiumFeatures = () => {
                 />
                 
                 {/* Icon */}
-                <div className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon className="h-8 w-8 text-white" />
+                <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                 </div>
 
                 {/* Content */}
-                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-amber-400 transition-colors duration-300">
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 group-hover:text-amber-400 transition-colors duration-300">
                   {feature.title}
                 </h3>
                 
-                <p className="text-gray-300 mb-6 leading-relaxed">
+                <p className="text-gray-300 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                   {feature.description}
                 </p>
 
                 {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
                   {feature.stats.map((stat, statIndex) => (
                     <div key={statIndex} className="text-center">
-                      <p className="text-amber-400 font-bold text-lg">{stat.value}</p>
+                      <p className="text-amber-400 font-bold text-base sm:text-lg">{stat.value}</p>
                       <p className="text-gray-500 text-xs">{stat.label}</p>
                     </div>
                   ))}
@@ -109,8 +109,8 @@ const PremiumFeatures = () => {
 
                 {/* CTA */}
                 <div className="flex items-center justify-between text-amber-400 group-hover:text-amber-300 transition-colors duration-300">
-                  <span className="font-semibold">Explore Feature</span>
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  <span className="font-semibold text-sm sm:text-base">Explore Feature</span>
+                  <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </div>
 
                 {/* Hover Overlay */}

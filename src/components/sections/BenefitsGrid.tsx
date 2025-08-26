@@ -117,7 +117,7 @@ const BenefitsGrid = ({ features }: BenefitsGridProps) => {
   const benefitsToShow = features || defaultBenefits
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4">
       {benefitsToShow.map((benefit, index) => {
         const Icon = getIcon(benefit.name)
         const gradient = getGradient(index)
@@ -130,17 +130,17 @@ const BenefitsGrid = ({ features }: BenefitsGridProps) => {
             transition={{ delay: index * 0.1, duration: 0.6 }}
             viewport={{ once: true }}
             whileHover={{ y: -5 }}
-            className="bg-slate-800/60 backdrop-blur-sm border border-amber-500/20 rounded-2xl p-6 hover:bg-slate-800/80 transition-all duration-300 group"
+            className="bg-slate-800/60 backdrop-blur-sm border border-amber-500/20 rounded-2xl p-4 sm:p-6 hover:bg-slate-800/80 transition-all duration-300 group"
           >
-            <div className={`w-12 h-12 bg-gradient-to-r ${gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-              <Icon className="h-6 w-6 text-white" />
+            <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r ${gradient} rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300`}>
+              <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
             
-            <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-amber-400 transition-colors duration-300">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3 group-hover:text-amber-400 transition-colors duration-300">
               {benefit.name}
             </h3>
             
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
               {benefit.description}
             </p>
           </motion.div>

@@ -27,7 +27,7 @@ const FloatingHeader = () => {
               <Zap className="h-5 w-5 text-black animate-pulse" />
               <span className="font-semibold text-sm md:text-base">
                 🎉 <span className="hidden sm:inline">DEX Launch Bonus Program:</span> 
-                <span className="sm:hidden">DEX Launch:</span> Earn up to 50% APY + Gold Bonus!
+                <span className="sm:hidden">DEX Launch:</span> Earn up to 50% APR + Gold Bonus!
               </span>
             </div>
             

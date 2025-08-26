@@ -98,7 +98,7 @@ const AssetManagementDashboard = () => {
       id: 1,
       amount: '0.00',
       duration: '12 months',
-      apy: '65%',
+      apr: '65%',
       startDate: '2025-01-01',
       endDate: '2026-01-01',
       rewards: '0.00',
@@ -244,7 +244,7 @@ const AssetManagementDashboard = () => {
             Earn up to 65% with our staking program, access to 3:1 asset value and loan offers
           </p>
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-400">APY</span>
+            <span className="text-gray-400">APR</span>
             <span className="text-amber-400 font-bold">Up to 65%</span>
           </div>
           <div className="flex items-center justify-between text-sm mt-2">
@@ -295,7 +295,7 @@ const AssetManagementDashboard = () => {
                 <tr className="border-b border-slate-700">
                   <th className="text-left text-gray-400 text-sm font-medium py-3">Amount</th>
                   <th className="text-left text-gray-400 text-sm font-medium py-3">Duration</th>
-                  <th className="text-left text-gray-400 text-sm font-medium py-3">APY</th>
+                  <th className="text-left text-gray-400 text-sm font-medium py-3">APR</th>
                   <th className="text-left text-gray-400 text-sm font-medium py-3">Rewards</th>
                   <th className="text-left text-gray-400 text-sm font-medium py-3">Leverage</th>
                   <th className="text-left text-gray-400 text-sm font-medium py-3">Status</th>
@@ -306,7 +306,7 @@ const AssetManagementDashboard = () => {
                   <tr key={position.id} className="border-b border-slate-700/50">
                     <td className="py-4 text-white">{position.amount} USDGB</td>
                     <td className="py-4 text-gray-300">{position.duration}</td>
-                    <td className="py-4 text-amber-400 font-medium">{position.apy}</td>
+                    <td className="py-4 text-amber-400 font-medium">{position.apr}</td>
                     <td className="py-4 text-green-400">{position.rewards} USDGB</td>
                     <td className="py-4 text-emerald-400 font-medium">{position.leverageRatio}</td>
                     <td className="py-4">
@@ -375,7 +375,7 @@ const AssetManagementDashboard = () => {
             Provide liquidity and earn competitive returns
           </p>
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-400">Average APY</span>
+            <span className="text-gray-400">Average APR</span>
             <span className="text-emerald-400 font-bold">12-15%</span>
           </div>
           <div className="flex items-center justify-between text-sm mt-2">

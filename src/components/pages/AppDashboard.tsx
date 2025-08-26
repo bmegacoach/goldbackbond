@@ -73,8 +73,8 @@ const AppDashboard = () => {
       color: 'from-green-400 to-green-600'
     },
     {
-      label: 'Current APY',
-      value: metrics ? formatPercentage(metrics.currentAPY) : '50%',
+      label: 'Current APR',
+      value: metrics ? formatPercentage(metrics.currentAPR) : '50%',
       icon: Zap,
       color: 'from-yellow-400 to-orange-600'
     },

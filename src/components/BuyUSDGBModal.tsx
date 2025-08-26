@@ -9,10 +9,13 @@ import {
   Info,
   ShoppingCart,
   ArrowRight,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Loader2
 } from 'lucide-react'
 import { useConnect, useAccount, useDisconnect, useChainId, useSwitchChain } from 'wagmi'
 import { baseChain, switchToBase, USDGB_CONTRACT } from '../lib/web3Config'
+import { useToast } from './ToastProvider'
+import TransactionService, { TransactionState } from '../services/transactionService'
 
 interface BuyUSDGBModalProps {
   isOpen: boolean
@@ -22,12 +25,15 @@ interface BuyUSDGBModalProps {
 const BuyUSDGBModal = ({ isOpen, onClose }: BuyUSDGBModalProps) => {
   const [amount, setAmount] = useState('1000')
   const [step, setStep] = useState<'connect' | 'amount' | 'purchase'>('connect')
+  const [transactionState, setTransactionState] = useState<TransactionState>({ status: 'idle' })
   
   const { connect, connectors, isPending } = useConnect()
   const { address, isConnected } = useAccount()
   const { disconnect } = useDisconnect()
   const chainId = useChainId()
   const { switchChain } = useSwitchChain()
+  const { showSuccess, showError, showInfo } = useToast()
+  const transactionService = TransactionService.getInstance()
 
   useEffect(() => {
     if (isConnected) {
@@ -45,18 +51,74 @@ const BuyUSDGBModal = ({ isOpen, onClose }: BuyUSDGBModalProps) => {
   }
 
   const handlePurchase = async () => {
+    if (!address) {
+      showError('Wallet Error', 'Please connect your wallet first')
+      return
+    }
+
+    // Check and switch to Base chain if needed
     if (chainId !== baseChain.id) {
       try {
-        switchChain({ chainId: baseChain.id })
+        await switchChain({ chainId: baseChain.id })
+        showInfo('Network Switch', 'Switching to Base network...')
+        // Wait a moment for the switch to complete
+        await new Promise(resolve => setTimeout(resolve, 1000))
       } catch (error) {
-        await switchToBase()
+        try {
+          await switchToBase()
+        } catch (switchError) {
+          showError('Network Error', 'Failed to switch to Base network. Please switch manually.')
+          return
+        }
       }
     }
+
     setStep('purchase')
-    // Here you would implement the actual purchase logic
-    setTimeout(() => {
-      alert('Purchase simulation complete! This would connect to your smart contract.')
-    }, 2000)
+    
+    // Execute the purchase transaction
+    const success = await transactionService.purchaseUSDGB(
+      amount,
+      address,
+      (state: TransactionState) => {
+        setTransactionState(state)
+        
+        switch (state.status) {
+          case 'waiting_approval':
+            showInfo('Transaction Pending', 'Please approve the transaction in your wallet...')
+            break
+          case 'pending':
+            showInfo('Transaction Submitted', 'Your transaction has been submitted to the blockchain', {
+              label: 'View on Explorer',
+              onClick: () => window.open(transactionService.getTransactionUrl(state.hash!), '_blank')
+            })
+            break
+          case 'success':
+            showSuccess(
+              'Purchase Successful!', 
+              `Successfully purchased ${Number(amount).toLocaleString()} USDGB tokens`,
+              {
+                label: 'View Transaction',
+                onClick: () => window.open(transactionService.getTransactionUrl(state.hash!), '_blank')
+              }
+            )
+            // Close modal after success
+            setTimeout(() => {
+              onClose()
+              setStep('connect')
+              setTransactionState({ status: 'idle' })
+            }, 2000)
+            break
+          case 'error':
+            showError('Transaction Failed', state.error || 'Unknown error occurred')
+            setStep('amount') // Go back to amount selection
+            break
+        }
+      }
+    )
+
+    if (!success && transactionState.status === 'error') {
+      // Additional error handling if needed
+    }
   }
 
   const formatAddress = (addr: string) => {
