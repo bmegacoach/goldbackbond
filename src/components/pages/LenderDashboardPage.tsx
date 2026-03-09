@@ -68,7 +68,7 @@ const LenderDashboardPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('overview')
 
-  // Mock lender ID for demo
+  // PRE-LAUNCH: Lender ID will come from authenticated session
   const lenderId = 1
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const LenderDashboardPage = () => {
 
   const fetchPortfolioData = async () => {
     try {
-      const response = await fetch(`http://localhost:8001/api/lenders/${lenderId}/portfolio`)
+      const response = await fetch(`https://goldbackbond-backend-production.up.railway.app/api/lenders/${lenderId}/portfolio`)
       const data = await response.json()
       setPortfolio(data.data)
     } catch (error) {
@@ -88,7 +88,7 @@ const LenderDashboardPage = () => {
 
   const fetchRiskAnalytics = async () => {
     try {
-      const response = await fetch(`http://localhost:8001/api/lenders/${lenderId}/risk-analytics`)
+      const response = await fetch(`https://goldbackbond-backend-production.up.railway.app/api/lenders/${lenderId}/risk-analytics`)
       const data = await response.json()
       setRiskAnalytics(data.data)
       setIsLoading(false)
@@ -253,8 +253,8 @@ const LenderDashboardPage = () => {
                       {portfolio?.riskScore || 1000}
                     </div>
                     <Badge className={getRiskBadgeColor(portfolio?.riskScore || 1000)}>
-                      {(portfolio?.riskScore || 1000) <= 300 ? 'Low Risk' : 
-                       (portfolio?.riskScore || 1000) <= 600 ? 'Medium Risk' : 'High Risk'}
+                      {(portfolio?.riskScore || 1000) <= 300 ? 'Low Risk' :
+                        (portfolio?.riskScore || 1000) <= 600 ? 'Medium Risk' : 'High Risk'}
                     </Badge>
                   </CardContent>
                 </Card>
@@ -277,13 +277,13 @@ const LenderDashboardPage = () => {
                       <span className="text-green-400">{riskAnalytics?.ltvDistribution.low_risk || 0}</span>
                     </div>
                     <Progress value={(riskAnalytics?.ltvDistribution.low_risk || 0) * 20} className="h-2" />
-                    
+
                     <div className="flex justify-between items-center">
                       <span className="text-gray-300">Medium Risk Loans</span>
                       <span className="text-yellow-400">{riskAnalytics?.ltvDistribution.medium_risk || 0}</span>
                     </div>
                     <Progress value={(riskAnalytics?.ltvDistribution.medium_risk || 0) * 20} className="h-2" />
-                    
+
                     <div className="flex justify-between items-center">
                       <span className="text-gray-300">High Risk Loans</span>
                       <span className="text-red-400">{riskAnalytics?.ltvDistribution.high_risk || 0}</span>
@@ -381,13 +381,13 @@ const LenderDashboardPage = () => {
                     <div className={`text-4xl font-bold mb-2 ${getRiskColor(riskAnalytics?.portfolioRiskScore || 1000)}`}>
                       {riskAnalytics?.portfolioRiskScore || 1000}
                     </div>
-                    <Progress 
-                      value={Math.min((1000 - (riskAnalytics?.portfolioRiskScore || 1000)) / 10, 100)} 
-                      className="h-3 mb-2" 
+                    <Progress
+                      value={Math.min((1000 - (riskAnalytics?.portfolioRiskScore || 1000)) / 10, 100)}
+                      className="h-3 mb-2"
                     />
                     <Badge className={getRiskBadgeColor(riskAnalytics?.portfolioRiskScore || 1000)}>
-                      {(riskAnalytics?.portfolioRiskScore || 1000) <= 300 ? 'Excellent' : 
-                       (riskAnalytics?.portfolioRiskScore || 1000) <= 600 ? 'Good' : 'Needs Attention'}
+                      {(riskAnalytics?.portfolioRiskScore || 1000) <= 300 ? 'Excellent' :
+                        (riskAnalytics?.portfolioRiskScore || 1000) <= 600 ? 'Good' : 'Needs Attention'}
                     </Badge>
                   </div>
                 </CardContent>
@@ -403,7 +403,7 @@ const LenderDashboardPage = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-green-400 mb-1">
-                    +8.7%
+                    +{portfolio?.annualizedReturn || '0%'}
                   </div>
                   <div className="flex items-center text-sm text-gray-400">
                     <ArrowUpRight className="h-4 w-4 text-green-400 mr-1" />

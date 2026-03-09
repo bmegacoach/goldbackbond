@@ -1,0 +1,18 @@
+[
+    "function stake(uint256 amount)",
+    "function withdraw(uint256 amount)",
+    "function claimReward()",
+    "function claimPendingReward()",
+    "function calculateReward(address user) view returns (uint256)",
+    "function userStakes(address user) view returns (uint256 lpAmount, uint256 startTime, uint256 lastClaimTime, uint256 pendingClaimReward)",
+    "function aprTiers(uint256 index) view returns (uint256)",
+    "function GBB_TOKEN() view returns (address)",
+    "function LP_TOKEN() view returns (address)",
+    "function LAUNCH_TIME() view returns (uint256)",
+    "function SECONDS_PER_MONTH() view returns (uint256)",
+    "function PAUSER_ROLE() view returns (bytes32)",
+    "function hasRole(bytes32 role, address account) view returns (bool)",
+    "function paused() view returns (bool)",
+    "function pause()",
+    "function unpause()"
+]

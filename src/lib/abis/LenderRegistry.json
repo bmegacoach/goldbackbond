@@ -1,0 +1,37 @@
+[
+  {
+    "inputs": [{ "internalType": "address", "name": "lender", "type": "address" }],
+    "name": "isApprovedLender",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "lender", "type": "address" }],
+    "name": "approveLender",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "lender", "type": "address" }],
+    "name": "revokeLender",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address[]", "name": "lenders", "type": "address[]" }],
+    "name": "batchApproveLenders",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address[]", "name": "lenders", "type": "address[]" }],
+    "name": "batchRevokeLenders",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

@@ -6,9 +6,9 @@ import { baseChain } from '../../lib/web3Config'
 import WalletConnectModal from '../WalletConnectModal'
 import TransactionService, { TransactionState } from '../../services/transactionService'
 import { useToast } from '../ToastProvider'
-import { 
-  Globe, 
-  ArrowRight, 
+import {
+  Globe,
+  ArrowRight,
   Shield,
   DollarSign,
   Clock,
@@ -26,7 +26,7 @@ import {
 const MultichainPage = () => {
   const [showWalletModal, setShowWalletModal] = useState(false)
   const [transactionState, setTransactionState] = useState<TransactionState>({ status: 'idle' })
-  
+
   // Wallet connection hooks
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
@@ -34,7 +34,7 @@ const MultichainPage = () => {
   const { showSuccess, showError, showInfo } = useToast()
   const transactionService = TransactionService.getInstance()
 
-  // Mock blockchain data
+  // Supported blockchain networks for USDGB via LayerZero
   const blockchains = [
     { id: 'ethereum', name: 'Ethereum', symbol: 'ETH', logo: '⟠', gasPrice: 25, status: 'active' },
     { id: 'polygon', name: 'Polygon', symbol: 'MATIC', logo: '🟣', gasPrice: 0.01, status: 'active' },
@@ -85,7 +85,7 @@ const MultichainPage = () => {
       address,
       (state: TransactionState) => {
         setTransactionState(state)
-        
+
         switch (state.status) {
           case 'waiting_approval':
             showInfo('Transaction Pending', 'Please approve the transaction in your wallet...')
@@ -98,7 +98,7 @@ const MultichainPage = () => {
             break
           case 'success':
             showSuccess(
-              'Successfully Joined Multi-Chain Program!', 
+              'Successfully Joined Multi-Chain Program!',
               'Welcome to the Multi-Chain Bonus Program. Access USDGB across 100+ blockchains!',
               {
                 label: 'View Transaction',
@@ -122,7 +122,7 @@ const MultichainPage = () => {
     <div className="min-h-screen pt-16">
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 z-0"
           style={{
             backgroundImage: 'url(/images/multi-chain.png)',
@@ -195,17 +195,17 @@ const MultichainPage = () => {
                 🚀 MULTI-CHAIN BONUS PROGRAM
               </div>
             </div>
-            
+
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
               <span className="bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
                 100+ Blockchain Access
               </span>
               {" "}with DEX Launch Rewards
             </h2>
-            
+
             <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8 leading-relaxed">
-              Our DEX launch bonus program is enhanced by <strong className="text-blue-400">LayerZero integration</strong>, 
-              giving you <strong className="text-indigo-400">seamless access to 100+ blockchains</strong> without bridging complexity. 
+              Our DEX launch bonus program is enhanced by <strong className="text-blue-400">LayerZero integration</strong>,
+              giving you <strong className="text-indigo-400">seamless access to 100+ blockchains</strong> without bridging complexity.
               Earn <strong className="text-purple-400">maximum rewards across all supported networks</strong>!
             </p>
 
@@ -220,7 +220,7 @@ const MultichainPage = () => {
                 <div className="text-white font-semibold text-sm mb-1">Blockchains Supported</div>
                 <div className="text-gray-400 text-xs">LayerZero omnichain technology</div>
               </div>
-              
+
               <div className="bg-slate-800/60 backdrop-blur-sm border border-indigo-500/30 rounded-xl p-6">
                 <div className="flex items-center justify-center mb-4">
                   <div className="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center">
@@ -231,7 +231,7 @@ const MultichainPage = () => {
                 <div className="text-white font-semibold text-sm mb-1">Bridging Required</div>
                 <div className="text-gray-400 text-xs">Seamless cross-chain access</div>
               </div>
-              
+
               <div className="bg-slate-800/60 backdrop-blur-sm border border-purple-500/30 rounded-xl p-6">
                 <div className="flex items-center justify-center mb-4">
                   <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
@@ -290,7 +290,7 @@ const MultichainPage = () => {
                 <Rocket className="h-5 w-5 mr-2" />
                 {isConnected ? 'Join Multi-Chain Program' : 'Connect Wallet to Join'}
               </motion.button>
-              
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -305,8 +305,8 @@ const MultichainPage = () => {
               <div className="text-gray-400 text-sm mb-1">Access your $2M USDGB reward pool from any blockchain</div>
               <div className="text-blue-400 font-semibold">LayerZero-powered omnichain experience</div>
               <div className="text-xs text-gray-500 mt-2 max-w-2xl mx-auto">
-                * LayerZero integration enables native staking from any supported blockchain. 
-                Your USDGB tokens are seamlessly unified across all chains for staking in Uniswap pools, 
+                * LayerZero integration enables native staking from any supported blockchain.
+                Your USDGB tokens are seamlessly unified across all chains for staking in Uniswap pools,
                 eliminating the need for traditional bridging while maintaining full reward eligibility.
               </div>
             </div>
@@ -352,9 +352,8 @@ const MultichainPage = () => {
                 </h3>
                 <p className="text-gray-400 text-xs mb-2">{chain.symbol}</p>
                 <div className="flex items-center justify-center space-x-1">
-                  <div className={`w-2 h-2 rounded-full ${
-                    chain.status === 'active' ? 'bg-green-400' : 'bg-yellow-400'
-                  } animate-pulse`}></div>
+                  <div className={`w-2 h-2 rounded-full ${chain.status === 'active' ? 'bg-green-400' : 'bg-yellow-400'
+                    } animate-pulse`}></div>
                   <span className="text-xs text-gray-400 capitalize">{chain.status}</span>
                 </div>
               </motion.div>

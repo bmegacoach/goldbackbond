@@ -10,6 +10,7 @@ const Footer = () => {
       { name: 'Home', href: '/' },
       { name: 'Staking', href: '/staking' },
       { name: 'Whitepaper', href: '/whitepaper' },
+      { name: 'Users Manual', href: '/users-manual' },
       { name: 'Multi-Chain', href: '/multichain' },
       { name: '🚀 Bonus Program', href: '/bonus-program', highlight: true },
     ],
@@ -22,8 +23,9 @@ const Footer = () => {
     ],
     resources: [
       { name: 'Documentation', href: '/whitepaper' },
+      { name: 'Platform Users Manual', href: '/users-manual' },
+      { name: 'FAQ', href: '/faq' },
       { name: 'Support', href: '/contact' },
-      { name: 'Audit Reports', href: '/whitepaper' },
       { name: 'Terms & Conditions', href: '/terms' },
       { name: 'Privacy Policy', href: '/privacy' },
     ],

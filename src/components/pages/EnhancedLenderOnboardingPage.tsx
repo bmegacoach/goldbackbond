@@ -45,11 +45,11 @@ const EnhancedLenderOnboardingPage = () => {
       4: 0.2, // 20% discount
       5: 0.25 // 25% discount
     }
-    
+
     const discountRate = tierDiscounts[tier as keyof typeof tierDiscounts] || 0
     const discountedFee = baseFee * (1 - discountRate)
     const annualFee = volume * discountedFee
-    
+
     return {
       baseFeeRate: `${(baseFee * 100).toFixed(2)}%`,
       tierDiscount: `${(discountRate * 100).toFixed(0)}%`,
@@ -147,7 +147,7 @@ const EnhancedLenderOnboardingPage = () => {
                 Institutional Lender Onboarding
               </h1>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Join the world's largest gold-backed lending protocol. Access $250B in gold certificates 
+                Join the world's largest gold-backed lending protocol. Access $250B in gold certificates
                 with smart contract automation and enterprise-grade tools.
               </p>
             </motion.div>
@@ -255,12 +255,11 @@ const EnhancedLenderOnboardingPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {integrationOptions.map((option) => (
                 <motion.div key={option.type} className="space-y-4">
-                  <Card 
-                    className={`bg-slate-800/60 border-2 transition-all cursor-pointer ${
-                      selectedIntegration === option.type 
-                        ? 'border-amber-500 bg-amber-500/10' 
+                  <Card
+                    className={`bg-slate-800/60 border-2 transition-all cursor-pointer ${selectedIntegration === option.type
+                        ? 'border-amber-500 bg-amber-500/10'
                         : 'border-slate-600 hover:border-amber-500/50'
-                    }`}
+                      }`}
                     onClick={() => setSelectedIntegration(option.type)}
                   >
                     <CardHeader>
@@ -322,8 +321,8 @@ const EnhancedLenderOnboardingPage = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-gray-300 mb-2">
-                          {selectedIntegration === 'portal' 
-                            ? 'You\'ll have access to our professional management portal immediately after onboarding.' 
+                          {selectedIntegration === 'portal'
+                            ? 'You\'ll have access to our professional management portal immediately after onboarding.'
                             : 'Our team will provide API credentials and technical support for your integration.'}
                         </p>
                         <div className="flex items-center space-x-4 text-sm text-gray-400">
@@ -431,13 +430,12 @@ const EnhancedLenderOnboardingPage = () => {
                 {/* Tier Benefits */}
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                   {Object.entries(tierBenefits).map(([tier, benefits]) => (
-                    <Card 
-                      key={tier} 
-                      className={`bg-slate-700/50 border ${
-                        selectedTier === parseInt(tier) 
-                          ? 'border-amber-500 bg-amber-500/10' 
+                    <Card
+                      key={tier}
+                      className={`bg-slate-700/50 border ${selectedTier === parseInt(tier)
+                          ? 'border-amber-500 bg-amber-500/10'
                           : 'border-slate-600'
-                      }`}
+                        }`}
                     >
                       <CardHeader className="pb-2">
                         <CardTitle className="text-white text-sm text-center">
@@ -478,7 +476,7 @@ const EnhancedLenderOnboardingPage = () => {
                   <div>
                     <label className="text-white text-sm font-medium mb-2 block">Institution Name</label>
                     <Input
-                      placeholder="Lender Bank Digital Assets (demo)"
+                      placeholder="Lender Bank Digital Assets"
                       className="bg-slate-700 border-slate-600 text-white"
                     />
                   </div>
@@ -544,10 +542,10 @@ const EnhancedLenderOnboardingPage = () => {
                       <span>Multi-chain deployment and LayerZero integration</span>
                     </div>
                   </div>
-                  
+
                   <div className="mt-4 flex items-center space-x-2">
-                    <Checkbox 
-                      id="agreement" 
+                    <Checkbox
+                      id="agreement"
                       checked={agreementAccepted}
                       onCheckedChange={(checked) => setAgreementAccepted(checked as boolean)}
                     />
@@ -559,7 +557,7 @@ const EnhancedLenderOnboardingPage = () => {
 
                 {/* Submit */}
                 <div className="flex justify-center">
-                  <Button 
+                  <Button
                     disabled={!agreementAccepted || !selectedIntegration}
                     className="bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-900 hover:from-amber-400 hover:to-yellow-500 px-8 py-3 text-lg font-semibold"
                   >

@@ -1,0 +1,11 @@
+[
+    "constructor()",
+    "event AllocationInscribed(address indexed buyer, uint256 amount, string dataURI)",
+    "event MinterAdded(address indexed account)",
+    "event MinterRemoved(address indexed account)",
+    "function addMinter(address account)",
+    "function isMinter(address) view returns (bool)",
+    "function issueAllocation(address buyer, uint256 amount, string terms, string agentInfo, string commissionInfo, string paymentType)",
+    "function owner() view returns (address)",
+    "function removeMinter(address account)"
+]

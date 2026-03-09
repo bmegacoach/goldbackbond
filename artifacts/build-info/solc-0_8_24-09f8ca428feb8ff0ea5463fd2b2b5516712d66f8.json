@@ -1,0 +1,35 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_24-09f8ca428feb8ff0ea5463fd2b2b5516712d66f8",
+  "solcVersion": "0.8.24",
+  "solcLongVersion": "0.8.24+commit.e11b9ed9",
+  "userSourceNameMap": {
+    "contracts/GBBAllocationInscription.sol": "project/contracts/GBBAllocationInscription.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "shanghai",
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/GBBAllocationInscription.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.20;\r\n\r\n/**\r\n * @title GBBAllocationInscription\r\n * @dev A smart contract to issue Goldbackbond (GBB) token allocations to pre-sale buyers using structured Eth-Inscriptions.\r\n * Validates and records the Ethscription data URI on-chain for transparency and tracking.\r\n */\r\ncontract GBBAllocationInscription {\r\n    address public owner;\r\n\r\n    // Roles for access control\r\n    mapping(address => bool) public isMinter;\r\n\r\n    // Event representing the \"Eth-Inscription\" taking place through a smart contract\r\n    event AllocationInscribed(\r\n        address indexed buyer,\r\n        uint256 amount,\r\n        string dataURI\r\n    );\r\n\r\n    event MinterAdded(address indexed account);\r\n    event MinterRemoved(address indexed account);\r\n\r\n    modifier onlyOwner() {\r\n        require(msg.sender == owner, \"Caller is not the owner\");\r\n        _;\r\n    }\r\n\r\n    modifier onlyMinter() {\r\n        require(msg.sender == owner || isMinter[msg.sender], \"Caller is not a minter\");\r\n        _;\r\n    }\r\n\r\n    constructor() {\r\n        owner = msg.sender;\r\n    }\r\n\r\n    /**\r\n     * @dev Add a new minter (e.g., an automated agency backend wallet if desired).\r\n     */\r\n    function addMinter(address account) external onlyOwner {\r\n        isMinter[account] = true;\r\n        emit MinterAdded(account);\r\n    }\r\n\r\n    /**\r\n     * @dev Remove a minter.\r\n     */\r\n    function removeMinter(address account) external onlyOwner {\r\n        isMinter[account] = false;\r\n        emit MinterRemoved(account);\r\n    }\r\n\r\n    /**\r\n     * @dev Issues an allocation and generates the Ethscription calldata representation via an event.\r\n     * @param buyer The address of the pre-sale buyer.\r\n     * @param amount The allocated amount of tokens.\r\n     * @param terms The terms of the sale.\r\n     * @param agentInfo Information about the sales agent.\r\n     * @param commissionInfo Details about the sales commission.\r\n     * @param paymentType The type of payment (e.g., \"FIAT\" or \"CRYPTO\") for SLA tracking.\r\n     */\r\n    function issueAllocation(\r\n        address buyer,\r\n        uint256 amount,\r\n        string memory terms,\r\n        string memory agentInfo,\r\n        string memory commissionInfo,\r\n        string memory paymentType\r\n    ) external onlyMinter {\r\n        require(buyer != address(0), \"Invalid buyer address\");\r\n        require(amount > 0, \"Amount must be greater than zero\");\r\n\r\n        // Construct the JSON structure for the Ethscription\r\n        // e.g., data:application/json,{\"p\":\"gbb-allocation\",\"op\":\"mint\",\"buyer\":\"0x...\",\"amount\":\"100\",...}\r\n        string memory jsonPayload = string(\r\n            abi.encodePacked(\r\n                \"data:application/json,{\\\"p\\\":\\\"Goldbackbond-USDGB-allocation\\\",\\\"op\\\":\\\"mint\\\",\\\"buyer\\\":\\\"\",\r\n                toAsciiString(buyer),\r\n                \"\\\",\\\"amount\\\":\\\"\",\r\n                uint2str(amount),\r\n                \"\\\",\\\"terms\\\":\\\"\",\r\n                terms,\r\n                \"\\\",\\\"agentInfo\\\":\\\"\",\r\n                agentInfo,\r\n                \"\\\",\\\"commissionInfo\\\":\\\"\",\r\n                commissionInfo,\r\n                \"\\\",\\\"paymentType\\\":\\\"\",\r\n                paymentType,\r\n                \"\\\",\\\"legalDisclosure\\\":\\\"This token represents a contract right to inventory. This is not a security or derivative.\\\",\",\r\n                \"\\\"}\"\r\n            )\r\n        );\r\n\r\n        // Emit the inscription event\r\n        // This acts as the permanent record of the allocation and its associated metadata terms\r\n        emit AllocationInscribed(buyer, amount, jsonPayload);\r\n    }\r\n\r\n    // --- Helper Functions ---\r\n\r\n    /**\r\n     * @dev Converts an address to its ASCII string representation.\r\n     */\r\n    function toAsciiString(address x) internal pure returns (string memory) {\r\n        bytes memory s = new bytes(40);\r\n        for (uint i = 0; i < 20; i++) {\r\n            bytes1 b = bytes1(uint8(uint(uint160(x)) / (2**(8*(19 - i)))));\r\n            bytes1 hi = bytes1(uint8(b) / 16);\r\n            bytes1 lo = bytes1(uint8(b) - 16 * uint8(hi));\r\n            s[2*i] = char(hi);\r\n            s[2*i+1] = char(lo);\r\n        }\r\n        return string(abi.encodePacked(\"0x\", s));\r\n    }\r\n\r\n    /**\r\n     * @dev Converts a single byte representing a hex digit into its ASCII character.\r\n     */\r\n    function char(bytes1 b) internal pure returns (bytes1 c) {\r\n        if (uint8(b) < 10) return bytes1(uint8(b) + 0x30);\r\n        else return bytes1(uint8(b) + 0x57);\r\n    }\r\n\r\n    /**\r\n     * @dev Converts a uint256 to a string.\r\n     */\r\n    function uint2str(uint256 _i) internal pure returns (string memory _uintAsString) {\r\n        if (_i == 0) {\r\n            return \"0\";\r\n        }\r\n        uint256 j = _i;\r\n        uint256 len;\r\n        while (j != 0) {\r\n            len++;\r\n            j /= 10;\r\n        }\r\n        bytes memory bstr = new bytes(len);\r\n        uint256 k = len;\r\n        while (_i != 0) {\r\n            k = k - 1;\r\n            uint8 temp = (48 + uint8(_i - (_i / 10) * 10));\r\n            bytes1 b1 = bytes1(temp);\r\n            bstr[k] = b1;\r\n            _i /= 10;\r\n        }\r\n        return string(bstr);\r\n    }\r\n}\r\n"
+      }
+    }
+  }
+}

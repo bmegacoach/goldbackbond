@@ -50,7 +50,7 @@ const LoanManagerPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [loansPerPage] = useState(10)
 
-  // Mock lender ID for demo
+  // PRE-LAUNCH: Lender ID will come from authenticated session
   const lenderId = 1
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const LoanManagerPage = () => {
 
   const fetchLoans = async () => {
     try {
-      const response = await fetch(`http://localhost:8001/api/lenders/${lenderId}/loans?limit=20`)
+      const response = await fetch(`https://goldbackbond-backend-production.up.railway.app/api/lenders/${lenderId}/loans?limit=20`)
       const data = await response.json()
       setLoans(data.data.loans || [])
       setIsLoading(false)
@@ -75,12 +75,12 @@ const LoanManagerPage = () => {
 
   const filterAndSortLoans = () => {
     let filtered = loans.filter(loan => {
-      const matchesSearch = 
+      const matchesSearch =
         loan.borrower.toLowerCase().includes(searchTerm.toLowerCase()) ||
         loan.loanId.toString().includes(searchTerm)
-      
+
       const matchesStatus = statusFilter === 'all' || loan.status === statusFilter
-      
+
       return matchesSearch && matchesStatus
     })
 
@@ -228,7 +228,7 @@ const LoanManagerPage = () => {
                 <div>
                   <p className="text-gray-400 text-sm">Avg LTV</p>
                   <p className="text-2xl font-bold text-white">
-                    {loans.length > 0 
+                    {loans.length > 0
                       ? (loans.reduce((sum, loan) => sum + parseFloat(loan.currentLTVPercent), 0) / loans.length).toFixed(1)
                       : '0'
                     }%
@@ -292,7 +292,7 @@ const LoanManagerPage = () => {
 
               <div className="space-y-2">
                 <label className="text-sm text-gray-300">Actions</label>
-                <Button 
+                <Button
                   onClick={() => {
                     setSearchTerm('')
                     setStatusFilter('all')
@@ -413,8 +413,8 @@ const LoanManagerPage = () => {
                       variant={currentPage === i + 1 ? "default" : "outline"}
                       size="sm"
                       onClick={() => setCurrentPage(i + 1)}
-                      className={currentPage === i + 1 
-                        ? "bg-amber-500 text-slate-900" 
+                      className={currentPage === i + 1
+                        ? "bg-amber-500 text-slate-900"
                         : "border-slate-600 text-gray-300"
                       }
                     >

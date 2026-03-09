@@ -1,0 +1,14 @@
+[
+    "function emergencyGlobalPause()",
+    "function restoreOperations()",
+    "function updateTargets(address _minting, address _lpPool, address _certStaking, address _bonusVault)",
+    "function mintingContract() view returns (address)",
+    "function lpRewardPool() view returns (address)",
+    "function certificateStaking() view returns (address)",
+    "function goldBonusVault() view returns (address)",
+    "function EXECUTIVE_ADMIN_ROLE() view returns (bytes32)",
+    "function RISK_MANAGER_ROLE() view returns (bytes32)",
+    "function hasRole(bytes32 role, address account) view returns (bool)",
+    "event EmergencyGlobalPause(address indexed triggeredBy)",
+    "event OperationsRestored(address indexed triggeredBy)"
+]

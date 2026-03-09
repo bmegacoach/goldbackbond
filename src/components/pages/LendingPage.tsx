@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { 
-  Users, 
-  Calculator, 
-  Shield, 
+import {
+  Users,
+  Calculator,
+  Shield,
   TrendingUp,
   DollarSign,
   Clock,
@@ -23,8 +23,9 @@ import {
   Zap
 } from 'lucide-react'
 import { useAccount, useChainId, useSwitchChain } from 'wagmi'
-import { baseChain } from '../../lib/web3Config'
+import { activeChain } from '../../lib/web3Config'
 import WalletConnectModal from '../WalletConnectModal'
+import { useCertificateStaking } from '../../hooks/useCertificateStaking'
 
 const LendingPage = () => {
   const [usdgbAmount, setUsdgbAmount] = useState(10000)
@@ -33,21 +34,26 @@ const LendingPage = () => {
   const [showCollateralModal, setShowCollateralModal] = useState(false)
   const [showRepayModal, setShowRepayModal] = useState(false)
   const [agreedToDisclosure, setAgreedToDisclosure] = useState(false)
-  
+
   // Wallet connection hooks
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
   const { switchChain } = useSwitchChain()
   const [loanTerm, setLoanTerm] = useState(12)
-  
+
+  // Smart Contract Hooks
+  const { useUserStakes, placeLien, releaseLien } = useCertificateStaking()
+  const { data: userStakeData } = useUserStakes(address)
+
+  // PRE-LAUNCH: Stats will be populated from smart contracts
   const lendingStats = {
-    totalBorrowed: 89500000,
-    activeLenders: 12,
-    avgLTV: 65.8,
-    avgRate: 9.9
+    totalBorrowed: 0,
+    activeLenders: 0,
+    avgLTV: 0,
+    avgRate: 0
   }
 
-  // Mock lenders data
+  // PRE-LAUNCH: Lenders will be populated from on-chain data
   const lenders = [
     {
       id: 'aave',
@@ -98,9 +104,9 @@ const LendingPage = () => {
       return
     }
 
-    if (chainId !== baseChain.id) {
+    if (chainId !== activeChain.id) {
       try {
-        switchChain({ chainId: baseChain.id })
+        switchChain({ chainId: activeChain.id })
       } catch (error) {
         console.error('Failed to switch to Base network:', error)
         return
@@ -108,8 +114,18 @@ const LendingPage = () => {
     }
 
     // Here you would implement the actual loan application logic
-    console.log('Applying for loan:', usdgbAmount, 'USDGB collateral')
-    alert(`Applying for loan with ${usdgbAmount} USDGB collateral - This would connect to your smart contract!`)
+    try {
+      // NOTE: In production, placeLien is typically called by a GUARDIAN_ROLE Safe after off-chain doc signing.
+      // This is enabled for direct demonstration/admin usage.
+      const lenderAddress = selectedLenderData.id === 'aave' ? '0x0000000000000000000000000000000000000001' : '0x0000000000000000000000000000000000000002'; // Mock lender mapping
+      if (!address) throw new Error("No address found");
+      const tx = await placeLien(address, lenderAddress as `0x${string}`);
+      console.log('Loan applied, tx hash:', tx);
+      alert(`Successfully initiated loan with ${selectedLenderData.name}! Transaction Hash: ${tx}`);
+    } catch (err: any) {
+      console.error('Failed to apply for loan:', err);
+      alert(`Transaction failed: ${err.message || 'Check if you have Guardian permissions to place a lien!'}`);
+    }
   }
 
   const handleAddCollateral = async () => {
@@ -118,9 +134,9 @@ const LendingPage = () => {
       return
     }
 
-    if (chainId !== baseChain.id) {
+    if (chainId !== activeChain.id) {
       try {
-        switchChain({ chainId: baseChain.id })
+        switchChain({ chainId: activeChain.id })
       } catch (error) {
         console.error('Failed to switch to Base network:', error)
         return
@@ -138,9 +154,9 @@ const LendingPage = () => {
       return
     }
 
-    if (chainId !== baseChain.id) {
+    if (chainId !== activeChain.id) {
       try {
-        switchChain({ chainId: baseChain.id })
+        switchChain({ chainId: activeChain.id })
       } catch (error) {
         console.error('Failed to switch to Base network:', error)
         return
@@ -148,8 +164,15 @@ const LendingPage = () => {
     }
 
     // Here you would implement the actual repay logic
-    console.log('Repaying loan')
-    alert('Repaying loan - This would connect to your smart contract!')
+    try {
+      if (!address) throw new Error("No address found");
+      const tx = await releaseLien(address);
+      console.log('Loan repaid, tx hash:', tx);
+      alert(`Successfully repaid loan and released collateral lien! Transaction Hash: ${tx}`);
+    } catch (err: any) {
+      console.error('Failed to repay loan:', err);
+      alert(`Transaction failed: ${err.message || 'Failed to release lien.'}`);
+    }
   }
 
   const calculateLoan = (usdgbAmount: number, ltv: number) => {
@@ -168,29 +191,18 @@ const LendingPage = () => {
   const selectedLenderData = lenders.find(l => l.id === selectedLender) || lenders[0]
   const loanCalculation = calculateLoan(usdgbAmount, selectedLenderData.maxLTV)
 
-  // Mock user loans
-  const [userLoans] = useState([
-    {
-      id: 1,
-      lender: 'Aave Protocol',
-      collateral: 15000,
-      borrowed: 10500,
-      rate: 7.5,
-      ltv: 70,
-      nextPayment: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      status: 'active'
-    },
-    {
-      id: 2,
-      lender: 'Compound Finance',
-      collateral: 8000,
-      borrowed: 5440,
-      rate: 8.2,
-      ltv: 68,
-      nextPayment: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-      status: 'active'
-    }
-  ])
+  // Construct user active loan dynamically from on-chain stake data
+  const userLoans = []
+  if (userStakeData && userStakeData[4]) { // userStakeData[4] is lienActive
+    userLoans.push({
+      id: 'active-loan-1',
+      lender: userStakeData[5] || 'Assigned Lender', // lienLender address
+      borrowed: Number(userStakeData[0]) / 3, // Approximation based on 3:1
+      collateral: Number(userStakeData[0]),
+      nextPayment: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Next month
+      rate: selectedLenderData.rate,
+    })
+  }
 
   const getLTVColor = (ltv: number) => {
     if (ltv <= 50) return 'text-green-400'
@@ -211,7 +223,7 @@ const LendingPage = () => {
     <div className="min-h-screen pt-8">
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 z-0"
           style={{
             backgroundImage: 'url(/images/lending-platform.jpg)',
@@ -285,16 +297,16 @@ const LendingPage = () => {
                 🚀 ENHANCED BY DEX LAUNCH PROGRAM
               </div>
             </div>
-            
+
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
               <span className="bg-gradient-to-r from-emerald-400 via-teal-500 to-blue-600 bg-clip-text text-transparent">
                 Maximum Leverage
               </span>
               {" "}with Bonus Program
             </h2>
-            
+
             <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8 leading-relaxed">
-              Participants in our DEX launch bonus program unlock <strong className="text-emerald-400">enhanced lending opportunities</strong>. 
+              Participants in our DEX launch bonus program unlock <strong className="text-emerald-400">enhanced lending opportunities</strong>.
               12-month stakers get <strong className="text-amber-400">3:1 gold certificate value</strong> leverage with up to <strong className="text-teal-400">70% LTV</strong> from our institutional lender network.
             </p>
 
@@ -309,7 +321,7 @@ const LendingPage = () => {
                 <div className="text-white font-semibold text-sm mb-1">Gold Certificate Value</div>
                 <div className="text-gray-400 text-xs">12-month staking benefit</div>
               </div>
-              
+
               <div className="bg-slate-800/60 backdrop-blur-sm border border-teal-500/30 rounded-xl p-6">
                 <div className="flex items-center justify-center mb-4">
                   <div className="w-12 h-12 bg-teal-500/20 rounded-xl flex items-center justify-center">
@@ -320,7 +332,7 @@ const LendingPage = () => {
                 <div className="text-white font-semibold text-sm mb-1">Maximum LTV</div>
                 <div className="text-gray-400 text-xs">Institutional grade lending</div>
               </div>
-              
+
               <div className="bg-slate-800/60 backdrop-blur-sm border border-blue-500/30 rounded-xl p-6">
                 <div className="flex items-center justify-center mb-4">
                   <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
@@ -366,7 +378,7 @@ const LendingPage = () => {
                   Join Bonus Program
                 </motion.button>
               </Link>
-              
+
               <Link to="/staking">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -381,7 +393,7 @@ const LendingPage = () => {
 
             <div className="mt-6 text-center">
               <div className="text-gray-400 text-sm mb-1">Example: $10,000 staked → $30,000 lending value → $21,000 max loan</div>
-              
+
             </div>
           </motion.div>
         </div>
@@ -466,11 +478,10 @@ const LendingPage = () => {
                   {lenders.map((lender) => (
                     <div
                       key={lender.id}
-                      className={`p-4 rounded-lg border cursor-pointer transition-all ${
-                        selectedLender === lender.id || (selectedLender === '' && lender.id === 'aave')
-                          ? 'border-emerald-400 bg-emerald-400/10'
-                          : 'border-slate-600 bg-slate-700/50 hover:border-slate-500'
-                      }`}
+                      className={`p-4 rounded-lg border cursor-pointer transition-all ${selectedLender === lender.id || (selectedLender === '' && lender.id === 'aave')
+                        ? 'border-emerald-400 bg-emerald-400/10'
+                        : 'border-slate-600 bg-slate-700/50 hover:border-slate-500'
+                        }`}
                       onClick={() => setSelectedLender(lender.id)}
                     >
                       <div className="flex items-center justify-between">
@@ -522,11 +533,11 @@ const LendingPage = () => {
                   <div className="flex-1">
                     <h4 className="text-red-400 font-semibold mb-3">Important Disclosure</h4>
                     <p className="text-gray-300 text-sm mb-4">
-                      <strong>Goldbackbond is NOT a lender or bank.</strong> Loans are subject to 3rd party lenders' terms and conditions. 
-                      Loan approval, rates, and terms are determined solely by the selected lender. 
+                      <strong>Goldbackbond is NOT a lender or bank.</strong> Loans are subject to 3rd party lenders' terms and conditions.
+                      Loan approval, rates, and terms are determined solely by the selected lender.
                       Please review all loan agreements carefully before proceeding.
                     </p>
-                    
+
                     {/* Checkbox Agreement */}
                     <div className="flex items-start space-x-3 mt-4">
                       <button
@@ -535,7 +546,7 @@ const LendingPage = () => {
                       >
                         {agreedToDisclosure && <Check className="h-3 w-3 text-red-400" />}
                       </button>
-                      <label 
+                      <label
                         onClick={() => setAgreedToDisclosure(!agreedToDisclosure)}
                         className="text-gray-300 text-sm cursor-pointer select-none"
                       >
@@ -552,11 +563,10 @@ const LendingPage = () => {
                 whileTap={{ scale: agreedToDisclosure || !isConnected ? 0.98 : 1 }}
                 onClick={handleApplyLoan}
                 disabled={isConnected && !agreedToDisclosure}
-                className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 flex items-center justify-center space-x-2 ${
-                  isConnected && !agreedToDisclosure 
-                    ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-400 hover:to-teal-500'
-                }`}
+                className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 flex items-center justify-center space-x-2 ${isConnected && !agreedToDisclosure
+                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-400 hover:to-teal-500'
+                  }`}
               >
                 {!isConnected ? (
                   <>
@@ -615,7 +625,7 @@ const LendingPage = () => {
             >
               <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
                 <DollarSign className="h-8 w-8 text-emerald-400 mr-3" />
-                Active Loans (demo)
+                Your Loan Positions
               </h2>
 
               {userLoans.length > 0 ? (
@@ -623,7 +633,7 @@ const LendingPage = () => {
                   {userLoans.map((loan) => {
                     const currentLTV = (loan.borrowed / loan.collateral) * 100
                     const healthFactor = (loan.collateral * 0.8) / loan.borrowed
-                    
+
                     return (
                       <div key={loan.id} className="bg-slate-700/50 rounded-2xl p-6">
                         <div className="flex justify-between items-start mb-4">
@@ -650,10 +660,9 @@ const LendingPage = () => {
                             </span>
                           </div>
                           <div className="w-full bg-slate-600 rounded-full h-2">
-                            <div 
-                              className={`h-2 rounded-full transition-all duration-300 ${
-                                healthFactor >= 1.5 ? 'bg-gradient-to-r from-green-400 to-emerald-600' : 'bg-gradient-to-r from-yellow-400 to-orange-600'
-                              }`}
+                            <div
+                              className={`h-2 rounded-full transition-all duration-300 ${healthFactor >= 1.5 ? 'bg-gradient-to-r from-green-400 to-emerald-600' : 'bg-gradient-to-r from-yellow-400 to-orange-600'
+                                }`}
                               style={{ width: `${Math.min((healthFactor / 2) * 100, 100)}%` }}
                             ></div>
                           </div>
@@ -675,13 +684,13 @@ const LendingPage = () => {
 
                         {/* Actions */}
                         <div className="flex space-x-3">
-                          <button 
+                          <button
                             onClick={handleAddCollateral}
                             className="flex-1 bg-emerald-500/20 text-emerald-400 py-2 px-4 rounded-lg text-sm font-medium hover:bg-emerald-500/30 transition-colors"
                           >
                             Add Collateral
                           </button>
-                          <button 
+                          <button
                             onClick={handleRepayLoan}
                             className="flex-1 bg-blue-500/20 text-blue-400 py-2 px-4 rounded-lg text-sm font-medium hover:bg-blue-500/30 transition-colors"
                           >

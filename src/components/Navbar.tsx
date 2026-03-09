@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Menu, X, Coins, BarChart3, Users, Globe, Gift } from 'lucide-react'
+import { Menu, X, Coins, BarChart3, Users, Globe, Gift, BookOpen } from 'lucide-react'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -14,6 +14,7 @@ const Navbar = () => {
     { name: 'Lending', href: '/lending', icon: Users },
     { name: '🚀 Bonus Program', href: '/bonus-program', icon: Gift, highlight: true },
     { name: 'Multi-Chain', href: '/multichain', icon: Globe },
+    { name: 'Docs', href: '/whitepaper', icon: BookOpen },
     { name: 'Contact', href: '/contact', icon: null },
   ]
 

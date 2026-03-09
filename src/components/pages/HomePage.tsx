@@ -23,12 +23,14 @@ import LiveStats from '../sections/LiveStats'
 import BenefitsGrid from '../sections/BenefitsGrid'
 import PremiumFeatures from '../sections/PremiumFeatures'
 import AggressiveRewardsOffer from '../sections/AggressiveRewardsOffer'
-import BuyUSDGBModal from '../BuyUSDGBModal'
+import CCAAuctionModal from '../CCAAuctionModal'
 import WalletConnectModal from '../WalletConnectModal'
 import { useAccount, useChainId, useSwitchChain } from 'wagmi'
 import { baseChain } from '../../lib/web3Config'
 import TransactionService, { TransactionState } from '../../services/transactionService'
 import { useToast } from '../ToastProvider'
+import FloatingGoldParticles from '../FloatingGoldParticles'
+import GoldPriceTicker from '../GoldPriceTicker'
 
 interface WebsiteData {
   specifications: {
@@ -44,10 +46,10 @@ interface WebsiteData {
 
 const HomePage = () => {
   const [websiteData, setWebsiteData] = useState<WebsiteData | null>(null)
-  const [isBuyModalOpen, setIsBuyModalOpen] = useState(false)
+  const [isCcaModalOpen, setIsCcaModalOpen] = useState(false)
   const [showBonusProgramModal, setShowBonusProgramModal] = useState(false)
   const [transactionState, setTransactionState] = useState<TransactionState>({ status: 'idle' })
-  
+
   // Wallet connection hooks
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
@@ -92,7 +94,7 @@ const HomePage = () => {
       address,
       (state: TransactionState) => {
         setTransactionState(state)
-        
+
         switch (state.status) {
           case 'waiting_approval':
             showInfo('Transaction Pending', 'Please approve the transaction in your wallet...')
@@ -105,7 +107,7 @@ const HomePage = () => {
             break
           case 'success':
             showSuccess(
-              'Successfully Joined Bonus Program!', 
+              'Successfully Joined Bonus Program!',
               'Welcome to the DEX Launch Bonus Program. Start earning maximum rewards!',
               {
                 label: 'View Transaction',
@@ -147,11 +149,13 @@ const HomePage = () => {
   }
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen bg-slate-900">
+      <GoldPriceTicker />
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image */}
-        <div 
+        <div
           className="absolute inset-0 z-0"
           style={{
             backgroundImage: 'url(/images/hero-gold-bars.jpg)',
@@ -163,6 +167,8 @@ const HomePage = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-800/80 to-slate-900/90"></div>
         </div>
 
+        <FloatingGoldParticles />
+
         {/* Hero Content */}
         <motion.div
           initial="hidden"
@@ -171,15 +177,15 @@ const HomePage = () => {
           className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
         >
           <motion.div variants={itemVariants} className="mb-8">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6">
-              <span className="bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 relative">
+              <span className="bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600 bg-clip-text text-transparent bg-300% animate-gradient-x">
                 World's Largest
               </span>
               <br />
-              <span className="text-white">Reserve Stablecoin</span>
+              <span className="text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">Reserve Stablecoin</span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
-              USDGB is a tokenized asset backed by physical gold certificates, 
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4 backdrop-blur-sm bg-black/10 rounded-xl py-2">
+              USDGB is a tokenized asset backed by physical gold certificates,
               combining the stability of gold with the accessibility of crypto assets
             </p>
           </motion.div>
@@ -188,10 +194,13 @@ const HomePage = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setIsBuyModalOpen(true)}
+              animate={{ boxShadow: ["0 0 0 0 rgba(16, 185, 129, 0.4)", "0 0 0 10px rgba(16, 185, 129, 0)"] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              onClick={() => setIsCcaModalOpen(true)}
               className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 sm:px-6 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base hover:from-emerald-400 hover:to-teal-500 transition-all duration-200 shadow-lg shadow-emerald-500/25 flex items-center justify-center min-h-[48px] touch-manipulation"
             >
-              <span className="whitespace-nowrap">🛒 Buy USDGB</span>
+              <Zap className="w-5 h-5 mr-2" />
+              <span className="whitespace-nowrap">Join CCA Auction</span>
             </motion.button>
             <Link to="/staking">
               <motion.button
@@ -247,13 +256,13 @@ const HomePage = () => {
                 🚀 LIVE NOW: DEX LAUNCH BONUS PROGRAM
               </div>
             </div>
-            
+
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
               Earn Up To <span className="bg-gradient-to-r from-red-400 via-orange-500 to-amber-600 bg-clip-text text-transparent">65% APR</span>
             </h2>
-            
+
             <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-4xl mx-auto mb-6 sm:mb-8 leading-relaxed px-4">
-              Join our historic DEX launch on Uniswap with time-decay rewards starting at <strong className="text-red-400">50% APR</strong> 
+              Join our historic DEX launch on Uniswap with time-decay rewards starting at <strong className="text-red-400">50% APR</strong>
               plus dynamic gold bonuses up to <strong className="text-amber-400">15% additional APR</strong>. Early adopters get maximum rewards!
             </p>
 
@@ -290,7 +299,7 @@ const HomePage = () => {
                 <Rocket className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                 {isConnected ? 'Join Bonus Program' : 'Connect Wallet to Join'}
               </motion.button>
-              
+
               <Link to="/staking">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -305,7 +314,7 @@ const HomePage = () => {
 
             <div className="mt-6 text-center">
               <div className="text-gray-400 text-sm mb-1">Limited Time: $2M USDGB Reward Pool</div>
-              
+
             </div>
           </motion.div>
         </div>
@@ -325,7 +334,7 @@ const HomePage = () => {
               Premium DeFi Features
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto px-4">
-              Experience the next generation of gold-backed DeFi with advanced staking, 
+              Experience the next generation of gold-backed DeFi with advanced staking,
               lending, and multi-chain capabilities
             </p>
           </motion.div>
@@ -335,7 +344,7 @@ const HomePage = () => {
       </section>
 
       {/* Aggressive Rewards Offer */}
-      <AggressiveRewardsOffer onBuyClick={() => setIsBuyModalOpen(true)} />
+      <AggressiveRewardsOffer onBuyClick={() => setIsCcaModalOpen(true)} />
 
       {/* Core Benefits Section */}
       <section className="py-20 ">
@@ -351,7 +360,7 @@ const HomePage = () => {
               Why Choose USDGB?
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto px-4">
-              Discover the 12 core benefits that make USDGB the premier choice 
+              Discover the 12 core benefits that make USDGB the premier choice
               for gold-backed digital assets
             </p>
           </motion.div>
@@ -374,7 +383,7 @@ const HomePage = () => {
                 Built on Trust & Security
               </h2>
               <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8">
-                Our gold certificates are stored in secure vaults with full transparency 
+                Our gold certificates are stored in secure vaults with full transparency
                 and regular audits to ensure your investments are protected.
               </p>
               <div className="grid grid-cols-2 gap-6">
@@ -452,10 +461,10 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Buy USDGB Modal */}
-      <BuyUSDGBModal 
-        isOpen={isBuyModalOpen} 
-        onClose={() => setIsBuyModalOpen(false)} 
+      {/* CCA Auction Modal */}
+      <CCAAuctionModal
+        isOpen={isCcaModalOpen}
+        onClose={() => setIsCcaModalOpen(false)}
       />
 
       {/* Bonus Program Wallet Connect Modal */}

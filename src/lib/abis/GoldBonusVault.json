@@ -1,0 +1,15 @@
+[
+    "function getLatestGoldPrice() view returns (uint256)",
+    "function distributeBonus(address[] users)",
+    "function baselineGoldPrice() view returns (uint256)",
+    "function BONUS_CAP() view returns (uint256)",
+    "function MAX_BONUS_BATCH() view returns (uint256)",
+    "function GBB_TOKEN() view returns (address)",
+    "function LP_REWARD_POOL() view returns (address)",
+    "function PAUSER_ROLE() view returns (bytes32)",
+    "function hasRole(bytes32 role, address account) view returns (bool)",
+    "function paused() view returns (bool)",
+    "function pause()",
+    "function unpause()",
+    "event BonusDistributed(address indexed user, uint256 amount)"
+]

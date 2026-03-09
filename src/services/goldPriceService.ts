@@ -23,57 +23,81 @@ class GoldPriceService {
   private static instance: GoldPriceService
   private cache: GoldPriceData | null = null
   private cacheTimestamp: number = 0
+  private previousPrice: number | null = null
   private readonly CACHE_DURATION = 30000 // 30 seconds
   private readonly PRIMARY_API = 'https://api.gold-api.com/price/XAU'
   private readonly FALLBACK_API = 'https://api.metals.live/v1/spot/gold'
-  
-  private constructor() {}
-  
+
+  private constructor() { }
+
   static getInstance(): GoldPriceService {
     if (!GoldPriceService.instance) {
       GoldPriceService.instance = new GoldPriceService()
     }
     return GoldPriceService.instance
   }
-  
+
   /**
    * Get current live gold price with caching
    */
   async getCurrentPrice(): Promise<GoldPriceData> {
     const now = Date.now()
-    
+
     // Return cached data if still valid
     if (this.cache && (now - this.cacheTimestamp) < this.CACHE_DURATION) {
       return this.cache
     }
-    
+
     try {
       // Try primary API first
       const priceData = await this.fetchFromPrimaryAPI()
-      
+
+      // Track previous price for change calculation
+      if (this.cache) {
+        this.previousPrice = this.cache.price
+      }
+
       // Cache the result
       this.cache = priceData
       this.cacheTimestamp = now
-      
+
       console.log(`GoldPriceService: Updated price to $${priceData.price}/oz from ${priceData.source}`)
       return priceData
-      
-    } catch (error) {
-      console.error('GoldPriceService: Error fetching live gold price:', error)
-      
-      // If we have cached data, return it even if expired
-      if (this.cache) {
-        console.warn('GoldPriceService: Using cached data due to API error')
-        return this.cache
+
+    } catch (primaryError) {
+      console.warn('GoldPriceService: Primary API failed, trying fallback...', primaryError)
+
+      try {
+        // Try fallback API
+        const fallbackData = await this.fetchFromFallbackAPI()
+
+        if (this.cache) {
+          this.previousPrice = this.cache.price
+        }
+
+        this.cache = fallbackData
+        this.cacheTimestamp = now
+
+        console.log(`GoldPriceService: Updated price to $${fallbackData.price}/oz from ${fallbackData.source}`)
+        return fallbackData
+
+      } catch (fallbackError) {
+        console.error('GoldPriceService: Both APIs failed:', fallbackError)
+
+        // If we have cached data, return it even if expired
+        if (this.cache) {
+          console.warn('GoldPriceService: Using cached data due to API errors')
+          return this.cache
+        }
+
+        // Last resort: return static fallback price
+        return this.getStaticFallbackPrice()
       }
-      
-      // Last resort: return simulated data
-      return this.getSimulatedPrice()
     }
   }
-  
+
   /**
-   * Fetch from primary gold price API
+   * Fetch from primary gold price API (gold-api.com)
    */
   private async fetchFromPrimaryAPI(): Promise<GoldPriceData> {
     const response = await fetch(this.PRIMARY_API, {
@@ -84,13 +108,13 @@ class GoldPriceService {
       },
       signal: AbortSignal.timeout(10000) // 10 second timeout
     })
-    
+
     if (!response.ok) {
-      throw new Error(`API request failed: ${response.status} ${response.statusText}`)
+      throw new Error(`Primary API request failed: ${response.status} ${response.statusText}`)
     }
-    
+
     const data: GoldPriceResponse = await response.json()
-    
+
     return {
       price: data.price,
       currency: 'USD',
@@ -98,23 +122,52 @@ class GoldPriceService {
       source: 'gold-api.com'
     }
   }
-  
+
   /**
-   * Fallback to simulated price if APIs fail
+   * Fetch from fallback API (metals.live)
    */
-  private getSimulatedPrice(): GoldPriceData {
-    const basePrice = 3286.55 // Last known good price
-    const randomVariation = (Math.random() - 0.5) * 20 // ±$10 variation
-    const simulatedPrice = basePrice + randomVariation
-    
+  private async fetchFromFallbackAPI(): Promise<GoldPriceData> {
+    const response = await fetch(this.FALLBACK_API, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      },
+      signal: AbortSignal.timeout(10000)
+    })
+
+    if (!response.ok) {
+      throw new Error(`Fallback API request failed: ${response.status} ${response.statusText}`)
+    }
+
+    const data = await response.json()
+
+    // metals.live returns an array: [{ price: number, ... }]
+    const goldData = Array.isArray(data) ? data[0] : data
+
     return {
-      price: simulatedPrice,
+      price: goldData.price,
       currency: 'USD',
       timestamp: new Date().toISOString(),
-      source: 'simulation-fallback'
+      source: 'metals.live'
     }
   }
-  
+
+  /**
+   * Static fallback price when all APIs fail and no cache exists.
+   * Updated periodically to reflect approximate market price.
+   */
+  private getStaticFallbackPrice(): GoldPriceData {
+    // Last known good price — update this periodically
+    const LAST_KNOWN_PRICE = 5063.20
+
+    return {
+      price: LAST_KNOWN_PRICE,
+      currency: 'USD',
+      timestamp: new Date().toISOString(),
+      source: 'static-fallback'
+    }
+  }
+
   /**
    * Calculate live market cap based on current gold price
    */
@@ -126,21 +179,27 @@ class GoldPriceService {
     const totalValue = totalOunces * goldPricePerOz
     return totalValue
   }
-  
+
   /**
-   * Get price change percentage (simulated for now)
+   * Get price change based on tracked previous price
    */
   calculatePriceChange(currentPrice: number): { change: number; percentage: string } {
-    // Simulate 24h change based on current market conditions
-    const change = (Math.random() - 0.5) * 60 // ±$30 change
-    const percentage = ((change / currentPrice) * 100).toFixed(2)
-    
+    if (this.previousPrice && this.previousPrice > 0) {
+      const change = currentPrice - this.previousPrice
+      const pct = ((change / this.previousPrice) * 100).toFixed(2)
+      return {
+        change,
+        percentage: `${change >= 0 ? '+' : ''}${pct}%`
+      }
+    }
+
+    // No previous price data available yet
     return {
-      change,
-      percentage: `${change >= 0 ? '+' : ''}${percentage}%`
+      change: 0,
+      percentage: '0.00%'
     }
   }
-  
+
   /**
    * Subscribe to price updates with callback
    */
@@ -153,13 +212,13 @@ class GoldPriceService {
         console.error('GoldPriceService: Error in price update subscription:', error)
       }
     }
-    
+
     // Initial update
     updatePrice()
-    
+
     // Set up interval
     const intervalId = setInterval(updatePrice, intervalMs)
-    
+
     // Return cleanup function
     return () => clearInterval(intervalId)
   }

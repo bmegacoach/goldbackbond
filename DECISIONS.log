@@ -1,0 +1,17 @@
+# DECISIONS.log
+
+## 2026-02-23T02:40:00Z
+**Decision**: Switched all testnet (Base Sepolia) references to Base Mainnet.
+**Rationale**: The user confirmed Mainnet launch was successful and provided a Mainnet token address. To ensure the current dApp reflects the live system, all endpoints and addresses were updated.
+
+## 2026-02-23T02:42:00Z
+**Decision**: Assigned the `Guardian` contract address to the "CCA" (Capital Conservation Account) role.
+**Rationale**: Audit of the contract creator's transaction history on Basescan showed the Guardian contract was deployed along with the core ecosystem. Governance and conservation roles are typically handled by such a contract in this architecture.
+
+## 2026-02-23T03:05:00Z
+**Decision**: Transitioned CCA strategy to Uniswap V4.
+**Rationale**: The user specified that CCA Uniswap is V4-only. Updated core addresses and added interaction logic for V4 LiquidityLauncher, Permit2, and LBPStrategy migrate hooks.
+
+## 2026-02-23T04:20:00Z
+**Decision**: Standardized Eth-Inscriptions via `GBBAllocationInscription.sol` instead of creating unstructured transaction calldata.
+**Rationale**: GBB requires tracking terms, agents, and commission info securely for pre-sale buyers. An indexed smart contract emitting `AllocationInscribed` with proper JSON payload ensures transparency, structure, and secure Owner approval control, overcoming the limits of pure calldata manipulation.

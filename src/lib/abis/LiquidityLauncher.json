@@ -1,0 +1,23 @@
+[
+    {
+        "type": "function",
+        "name": "distributeToken",
+        "inputs": [
+            {
+                "name": "strategy",
+                "type": "address"
+            },
+            {
+                "name": "parameters",
+                "type": "bytes"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "poolId",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    }
+]

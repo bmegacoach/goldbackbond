@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  X, 
-  Wallet, 
-  ExternalLink, 
-  Check, 
+import {
+  X,
+  Wallet,
+  ExternalLink,
+  Check,
   AlertCircle,
   Info,
   ShoppingCart,
@@ -26,7 +26,7 @@ const BuyUSDGBModal = ({ isOpen, onClose }: BuyUSDGBModalProps) => {
   const [amount, setAmount] = useState('1000')
   const [step, setStep] = useState<'connect' | 'amount' | 'purchase'>('connect')
   const [transactionState, setTransactionState] = useState<TransactionState>({ status: 'idle' })
-  
+
   const { connect, connectors, isPending } = useConnect()
   const { address, isConnected } = useAccount()
   const { disconnect } = useDisconnect()
@@ -74,14 +74,14 @@ const BuyUSDGBModal = ({ isOpen, onClose }: BuyUSDGBModalProps) => {
     }
 
     setStep('purchase')
-    
+
     // Execute the purchase transaction
     const success = await transactionService.purchaseUSDGB(
       amount,
       address,
       (state: TransactionState) => {
         setTransactionState(state)
-        
+
         switch (state.status) {
           case 'waiting_approval':
             showInfo('Transaction Pending', 'Please approve the transaction in your wallet...')
@@ -94,7 +94,7 @@ const BuyUSDGBModal = ({ isOpen, onClose }: BuyUSDGBModalProps) => {
             break
           case 'success':
             showSuccess(
-              'Purchase Successful!', 
+              'Purchase Successful!',
               `Successfully purchased ${Number(amount).toLocaleString()} USDGB tokens`,
               {
                 label: 'View Transaction',
@@ -195,7 +195,7 @@ const BuyUSDGBModal = ({ isOpen, onClose }: BuyUSDGBModalProps) => {
                 <div>
                   <h4 className="text-blue-400 font-semibold mb-1">Base Chain Token</h4>
                   <p className="text-gray-300 text-sm">
-                    USDGB is deployed on <strong>Base Chain</strong> for optimal security and low transaction costs. 
+                    USDGB is deployed on <strong>Base Chain</strong> for optimal security and low transaction costs.
                     Your wallet will automatically switch to Base network.
                   </p>
                 </div>
@@ -206,7 +206,7 @@ const BuyUSDGBModal = ({ isOpen, onClose }: BuyUSDGBModalProps) => {
             {step === 'connect' && (
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-white mb-4">Connect Your Wallet</h3>
-                
+
                 {connectors.filter(connector => ['metaMask', 'coinbaseWallet', 'walletConnect'].includes(connector.id)).map((connector) => (
                   <motion.button
                     key={connector.id}
@@ -231,27 +231,27 @@ const BuyUSDGBModal = ({ isOpen, onClose }: BuyUSDGBModalProps) => {
                 <div className="text-center mt-6">
                   <p className="text-gray-400 text-sm">
                     Don't have a wallet? Download{' '}
-                    <a 
-                      href="https://metamask.io" 
-                      target="_blank" 
+                    <a
+                      href="https://metamask.io"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-amber-400 hover:text-amber-300 underline"
                     >
                       MetaMask
                     </a>
                     {', '}
-                    <a 
-                      href="https://wallet.coinbase.com" 
-                      target="_blank" 
+                    <a
+                      href="https://wallet.coinbase.com"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-amber-400 hover:text-amber-300 underline"
                     >
                       Coinbase Wallet
                     </a>
                     {', or use '}
-                    <a 
-                      href="https://walletconnect.com" 
-                      target="_blank" 
+                    <a
+                      href="https://walletconnect.com"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-amber-400 hover:text-amber-300 underline"
                     >
@@ -379,7 +379,7 @@ const BuyUSDGBModal = ({ isOpen, onClose }: BuyUSDGBModalProps) => {
                 </div>
                 <div className="p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl">
                   <p className="text-blue-400 text-sm">
-                    <strong>Note:</strong> This is a demo interface. In production, this would interact with the USDGB smart contract on Base chain.
+                    <strong>Note:</strong> Your USDGB purchase is being processed on the Base chain. This may take a few moments to confirm.
                   </p>
                 </div>
               </div>

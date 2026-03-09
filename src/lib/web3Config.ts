@@ -1,41 +1,67 @@
 import { createConfig, http } from 'wagmi'
-import { base, mainnet } from 'wagmi/chains'
+import { base, baseSepolia, mainnet } from 'wagmi/chains'
 import { metaMask, coinbaseWallet, walletConnect } from 'wagmi/connectors'
+import { CONTRACTS, NETWORK, CONTRACT_METADATA } from './contractAddresses'
 
-// Base Chain configuration (where USDGB is deployed)
-export const baseChain = {
-  ...base,
-  name: 'Base',
-  nativeCurrency: {
-    name: 'Ethereum',
-    symbol: 'ETH',
-    decimals: 18,
-  },
+/**
+ * Chain Configuration
+ * 
+ * CURRENT: Base Mainnet — audited contracts deployed here
+ */
+
+// Base Sepolia (testnet configuration)
+export const baseSepoliaChain = {
+  ...baseSepolia,
+  name: 'Base Sepolia',
   rpcUrls: {
     default: {
-      http: ['https://mainnet.base.org'],
+      http: ['https://sepolia.base.org'],
     },
     public: {
-      http: ['https://mainnet.base.org'],
+      http: ['https://sepolia.base.org'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'BaseScan Sepolia',
+      url: 'https://sepolia.basescan.org',
+    },
+  },
+}
+
+// Base Mainnet (active production deployment)
+export const baseChain = {
+  ...base,
+  name: 'Base Mainnet',
+  rpcUrls: {
+    default: {
+      http: [NETWORK.RPC_URL],
+    },
+    public: {
+      http: [NETWORK.RPC_URL],
     },
   },
   blockExplorers: {
     default: {
       name: 'BaseScan',
-      url: 'https://basescan.org',
+      url: NETWORK.BLOCK_EXPLORER,
     },
   },
 }
 
-// USDGB Token Contract (Base Chain)
+// Active chain — the network where contracts are deployed
+// Switch to baseChain for mainnet deployment
+export const activeChain = NETWORK.IS_TESTNET ? baseSepoliaChain : baseChain
+
+// USDGB Token Contract
 export const USDGB_CONTRACT = {
-  address: '0x1234567890123456789012345678901234567890', // Replace with actual contract address
-  decimals: 18,
-  symbol: 'USDGB',
-  name: 'GoldBackBond USD',
+  address: CONTRACTS.USDGB_TOKEN,
+  decimals: CONTRACT_METADATA.USDGB_TOKEN.decimals,
+  symbol: CONTRACT_METADATA.USDGB_TOKEN.symbol,
+  name: CONTRACT_METADATA.USDGB_TOKEN.name,
 }
 
-// Wallet connectors with improved error handling
+// Wallet connectors
 const connectors = [
   metaMask({
     dappMetadata: {
@@ -47,10 +73,10 @@ const connectors = [
   coinbaseWallet({
     appName: 'GoldBackBond',
     appLogoUrl: '/images/goldbackbond-transparent.png',
-    preference: 'smartWalletOnly', // Optimize for faster connections
+    preference: 'smartWalletOnly',
   }),
   walletConnect({
-    projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || 'a7f3f8b5e1c2d4a6f8b1c3d2e4f6a8b1', // Updated project ID for production use
+    projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || 'a7f3f8b5e1c2d4a6f8b1c3d2e4f6a8b1',
     metadata: {
       name: 'GoldBackBond',
       description: 'Premium gold-backed stablecoin platform backed by federal reserve certificates',
@@ -70,35 +96,36 @@ const connectors = [
   }),
 ]
 
-// Wagmi configuration - optimized for performance with primary chains only
+// Wagmi configuration — includes testnet + mainnet chains
 export const wagmiConfig = createConfig({
-  chains: [baseChain, mainnet],
+  chains: [activeChain, baseChain, mainnet],
   connectors,
   transports: {
+    [activeChain.id]: http(NETWORK.RPC_URL),
     [baseChain.id]: http(),
     [mainnet.id]: http(),
+    [baseSepolia.id]: http(),
   },
 })
 
-// Chain switching helper with improved error handling
-export const switchToBase = async () => {
+// Chain switching helper
+export const switchToActiveChain = async () => {
   try {
     await window.ethereum?.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: `0x${baseChain.id.toString(16)}` }],
+      params: [{ chainId: `0x${activeChain.id.toString(16)}` }],
     })
   } catch (error: any) {
-    // Chain not added to wallet, add it
     if (error.code === 4902) {
       await window.ethereum?.request({
         method: 'wallet_addEthereumChain',
         params: [
           {
-            chainId: `0x${baseChain.id.toString(16)}`,
-            chainName: baseChain.name,
-            nativeCurrency: baseChain.nativeCurrency,
-            rpcUrls: [baseChain.rpcUrls.default.http[0]],
-            blockExplorerUrls: [baseChain.blockExplorers.default.url],
+            chainId: `0x${activeChain.id.toString(16)}`,
+            chainName: activeChain.name,
+            nativeCurrency: activeChain.nativeCurrency,
+            rpcUrls: [activeChain.rpcUrls.default.http[0]],
+            blockExplorerUrls: [activeChain.blockExplorers.default.url],
           },
         ],
       })
@@ -109,14 +136,15 @@ export const switchToBase = async () => {
   }
 }
 
+// Legacy alias for backward compatibility
+export const switchToBase = switchToActiveChain
+
 // Connection health check helper
 export const checkWalletConnection = async (connector: any) => {
   try {
-    // Test connection with timeout
-    const timeout = new Promise((_, reject) => 
+    const timeout = new Promise((_, reject) =>
       setTimeout(() => reject(new Error('Connection timeout')), 10000)
     )
-    
     const connection = connector.connect()
     await Promise.race([connection, timeout])
     return true

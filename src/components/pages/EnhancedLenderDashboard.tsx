@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
-import { 
-  BarChart3, 
-  TrendingUp, 
+import {
+  BarChart3,
+  TrendingUp,
   TrendingDown,
-  AlertTriangle, 
-  Shield, 
-  Users, 
+  AlertTriangle,
+  Shield,
+  Users,
   DollarSign,
   Clock,
   Zap,
@@ -35,11 +35,11 @@ import {
   X
 } from 'lucide-react'
 import { useToast } from '../../hooks/use-toast'
-import EnhancedLenderService, { 
-  LenderProfile, 
-  PortfolioMetrics, 
-  RiskAnalytics, 
-  EnhancedLoan 
+import EnhancedLenderService, {
+  LenderProfile,
+  PortfolioMetrics,
+  RiskAnalytics,
+  EnhancedLoan
 } from '../../services/enhancedLenderService'
 
 
@@ -75,7 +75,7 @@ const EnhancedLenderDashboard = () => {
   const loadDashboardData = async () => {
     try {
       setLoading(true)
-      
+
       // Load all dashboard data concurrently
       await Promise.all([
         loadLenderProfile(),
@@ -83,7 +83,7 @@ const EnhancedLenderDashboard = () => {
         loadRiskAnalytics(),
         loadRecentLoans()
       ])
-      
+
       setLoading(false)
     } catch (error) {
       console.error('Failed to load dashboard data:', error)
@@ -322,7 +322,7 @@ const EnhancedLenderDashboard = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-white">
-                  {lenderProfile?.entityName || 'Lender Bank Digital Assets (demo)'}
+                  {lenderProfile?.entityName || 'Connect to View'}
                 </h1>
                 <div className="flex items-center space-x-3">
                   {lenderProfile && getTierBadge(lenderProfile.tierLevel)}
@@ -346,7 +346,7 @@ const EnhancedLenderDashboard = () => {
               <button className="text-gray-400 hover:text-white transition-colors p-2">
                 <Bell className="h-5 w-5" />
               </button>
-              <button 
+              <button
                 onClick={() => setShowConfigureModal(true)}
                 className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-4 py-2 rounded-lg font-medium hover:from-emerald-400 hover:to-teal-500 transition-all duration-200 flex items-center"
               >
@@ -374,11 +374,10 @@ const EnhancedLenderDashboard = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 pb-2 border-b-2 transition-colors ${
-                    activeTab === tab.id
+                  className={`flex items-center space-x-2 pb-2 border-b-2 transition-colors ${activeTab === tab.id
                       ? 'border-amber-400 text-amber-400'
                       : 'border-transparent text-gray-400 hover:text-white'
-                  }`}
+                    }`}
                 >
                   <Icon className="h-4 w-4" />
                   <span className="font-medium">{tab.label}</span>
@@ -482,11 +481,10 @@ const EnhancedLenderDashboard = () => {
                     <button
                       key={period}
                       onClick={() => setSelectedTimeframe(period)}
-                      className={`px-3 py-1 rounded text-sm transition-colors ${
-                        selectedTimeframe === period
+                      className={`px-3 py-1 rounded text-sm transition-colors ${selectedTimeframe === period
                           ? 'bg-amber-500 text-slate-900'
                           : 'bg-slate-700/50 text-gray-400 hover:text-white'
-                      }`}
+                        }`}
                     >
                       {period}
                     </button>
@@ -576,7 +574,7 @@ const EnhancedLenderDashboard = () => {
                 View All Loans
               </button>
             </div>
-            
+
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -605,10 +603,9 @@ const EnhancedLenderDashboard = () => {
                         <span className="text-white font-medium">{formatCurrency(loan.loanAmount)}</span>
                       </td>
                       <td className="py-3 px-4">
-                        <span className={`font-medium ${
-                          loan.currentLTV <= 6000 ? 'text-green-400' :
-                          loan.currentLTV <= 7500 ? 'text-yellow-400' : 'text-red-400'
-                        }`}>
+                        <span className={`font-medium ${loan.currentLTV <= 6000 ? 'text-green-400' :
+                            loan.currentLTV <= 7500 ? 'text-yellow-400' : 'text-red-400'
+                          }`}>
                           {(loan.currentLTV / 100).toFixed(1)}%
                         </span>
                       </td>
@@ -672,17 +669,15 @@ const EnhancedLenderDashboard = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Immediate</span>
-                    <span className={`font-medium ${
-                      riskAnalytics.liquidationRisk.immediate > 0 ? 'text-red-400' : 'text-green-400'
-                    }`}>
+                    <span className={`font-medium ${riskAnalytics.liquidationRisk.immediate > 0 ? 'text-red-400' : 'text-green-400'
+                      }`}>
                       {riskAnalytics.liquidationRisk.immediate}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-300">Within 24h</span>
-                    <span className={`font-medium ${
-                      riskAnalytics.liquidationRisk.within_24h > 0 ? 'text-yellow-400' : 'text-green-400'
-                    }`}>
+                    <span className={`font-medium ${riskAnalytics.liquidationRisk.within_24h > 0 ? 'text-yellow-400' : 'text-green-400'
+                      }`}>
                       {riskAnalytics.liquidationRisk.within_24h}
                     </span>
                   </div>
@@ -707,10 +702,9 @@ const EnhancedLenderDashboard = () => {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-300 text-sm">Concentration</span>
-                      <span className={`font-medium ${
-                        parseFloat(riskAnalytics.concentrationMetrics.concentrationRatio) > 20 ? 'text-red-400' :
-                        parseFloat(riskAnalytics.concentrationMetrics.concentrationRatio) > 10 ? 'text-yellow-400' : 'text-green-400'
-                      }`}>
+                      <span className={`font-medium ${parseFloat(riskAnalytics.concentrationMetrics.concentrationRatio) > 20 ? 'text-red-400' :
+                          parseFloat(riskAnalytics.concentrationMetrics.concentrationRatio) > 10 ? 'text-yellow-400' : 'text-green-400'
+                        }`}>
                         {riskAnalytics.concentrationMetrics.concentrationRatio}
                       </span>
                     </div>

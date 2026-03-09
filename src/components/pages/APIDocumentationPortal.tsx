@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Book, 
-  Code, 
-  Copy, 
-  CheckCircle, 
-  ExternalLink, 
+import {
+  Book,
+  Code,
+  Copy,
+  CheckCircle,
+  ExternalLink,
   Download,
   Zap,
   Shield,
@@ -109,7 +109,7 @@ const APIDocumentationPortal = () => {
               },
               example: {
                 lenderAddress: '0x742d35Cc6634C0532925a3b8D5a1A8e1aC29c4b1',
-                entityName: 'Lender Bank Digital Assets (demo)',
+                entityName: 'Acme Financial',
                 licenseNumber: 'FDIC-2024-GS-001',
                 maxLendingCapacity: '5000000000000000000000000000',
                 tierLevel: 5
@@ -124,7 +124,7 @@ const APIDocumentationPortal = () => {
                   message: 'Enhanced institutional lender registered successfully',
                   data: {
                     lenderId: 1,
-                    entityName: 'Lender Bank Digital Assets (demo)',
+                    entityName: 'Acme Financial',
                     tierLevel: 5,
                     registrationDate: '2025-01-15T10:30:00.000Z'
                   }
@@ -141,7 +141,7 @@ const registerLender = async () => {
   try {
     const response = await axios.post('https://api.goldbackbond.com/api/enhanced-lenders/register', {
       lenderAddress: '0x742d35Cc6634C0532925a3b8D5a1A8e1aC29c4b1',
-      entityName: 'Lender Bank Digital Assets (demo)',
+      entityName: 'Acme Financial',
       licenseNumber: 'FDIC-2024-GS-001',
       maxLendingCapacity: '5000000000000000000000000000',
       tierLevel: 5
@@ -173,7 +173,7 @@ def register_lender():
     
     payload = {
         'lenderAddress': '0x742d35Cc6634C0532925a3b8D5a1A8e1aC29c4b1',
-        'entityName': 'Lender Bank Digital Assets (demo)',
+        'entityName': 'Acme Financial',
         'licenseNumber': 'FDIC-2024-GS-001',
         'maxLendingCapacity': '5000000000000000000000000000',
         'tierLevel': 5
@@ -245,8 +245,8 @@ def register_lender():
           }
         ],
         sdkExamples: {
-          javascript: `// GoldBackBond Node.js SDK\nconst { GoldBackBondAPI } = require('@goldbackbond/api-sdk');\n\nconst client = new GoldBackBondAPI({\n  apiKey: 'YOUR_API_KEY',\n  baseURL: 'https://api.goldbackbond.com'\n});\n\n// Register enhanced lender\nconst lender = await client.enhancedLenders.register({\n  entityName: 'Lender Bank Digital Assets (demo)',\n  licenseNumber: 'FDIC-2024-GS-001',\n  tierLevel: 5\n});\n\n// Get portfolio analytics\nconst portfolio = await client.enhancedLenders.getPortfolio(lender.id);\n\n// Monitor risk analytics\nconst riskAnalytics = await client.enhancedLenders.getRiskAnalytics(lender.id);`,
-          python: `# GoldBackBond Python SDK\nfrom goldbackbond import GoldBackBondAPI\n\nclient = GoldBackBondAPI(\n    api_key="YOUR_API_KEY",\n    base_url="https://api.goldbackbond.com"\n)\n\n# Register enhanced lender\nlender = client.enhanced_lenders.register(\n    entity_name="Lender Bank Digital Assets (demo)",\n    license_number="FDIC-2024-GS-001",\n    tier_level=5\n)\n\n# Get portfolio analytics\nportfolio = client.enhanced_lenders.get_portfolio(lender.id)\n\n# Monitor risk analytics\nrisk_analytics = client.enhanced_lenders.get_risk_analytics(lender.id)`
+          javascript: `// GoldBackBond Node.js SDK\nconst { GoldBackBondAPI } = require('@goldbackbond/api-sdk');\n\nconst client = new GoldBackBondAPI({\n  apiKey: 'YOUR_API_KEY',\n  baseURL: 'https://api.goldbackbond.com'\n});\n\n// Register enhanced lender\nconst lender = await client.enhancedLenders.register({\n  entityName: 'Acme Financial',\n  licenseNumber: 'FDIC-2024-GS-001',\n  tierLevel: 5\n});\n\n// Get portfolio analytics\nconst portfolio = await client.enhancedLenders.getPortfolio(lender.id);\n\n// Monitor risk analytics\nconst riskAnalytics = await client.enhancedLenders.getRiskAnalytics(lender.id);`,
+          python: `# GoldBackBond Python SDK\nfrom goldbackbond import GoldBackBondAPI\n\nclient = GoldBackBondAPI(\n    api_key="YOUR_API_KEY",\n    base_url="https://api.goldbackbond.com"\n)\n\n# Register enhanced lender\nlender = client.enhanced_lenders.register(\n    entity_name="Acme Financial",\n    license_number="FDIC-2024-GS-001",\n    tier_level=5\n)\n\n# Get portfolio analytics\nportfolio = client.enhanced_lenders.get_portfolio(lender.id)\n\n# Monitor risk analytics\nrisk_analytics = client.enhanced_lenders.get_risk_analytics(lender.id)`
         },
         webhookDocs: {
           overview: 'Real-time event notifications via HTTPS webhooks with HMAC signature verification',
@@ -260,7 +260,7 @@ def register_lender():
                 event: 'lender.registered',
                 data: {
                   lenderId: 123,
-                  entityName: 'Lender Bank Digital Assets (demo)',
+                  entityName: 'Acme Financial',
                   tierLevel: 5,
                   registrationDate: '2025-01-15T10:30:00.000Z'
                 },
@@ -387,10 +387,10 @@ def register_lender():
           <div className="lg:col-span-1">
             <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-500/20 rounded-2xl p-6 sticky top-6">
               <h3 className="text-lg font-semibold text-white mb-4">Navigation</h3>
-              
+
               {/* Quick Links */}
               <div className="space-y-3">
-                <button 
+                <button
                   onClick={() => toggleSection('overview')}
                   className="w-full flex items-center justify-between text-left text-gray-300 hover:text-white transition-colors"
                 >
@@ -400,8 +400,8 @@ def register_lender():
                   </span>
                   {expandedSections.has('overview') ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                 </button>
-                
-                <button 
+
+                <button
                   onClick={() => toggleSection('endpoints')}
                   className="w-full flex items-center justify-between text-left text-gray-300 hover:text-white transition-colors"
                 >
@@ -411,18 +411,17 @@ def register_lender():
                   </span>
                   {expandedSections.has('endpoints') ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                 </button>
-                
+
                 {expandedSections.has('endpoints') && (
                   <div className="ml-6 space-y-2">
                     {endpoints.map((endpoint, index) => (
                       <button
                         key={index}
                         onClick={() => setSelectedEndpoint(endpoint)}
-                        className={`w-full text-left text-sm py-2 px-3 rounded-lg transition-colors ${
-                          selectedEndpoint === endpoint 
-                            ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' 
+                        className={`w-full text-left text-sm py-2 px-3 rounded-lg transition-colors ${selectedEndpoint === endpoint
+                            ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
                             : 'text-gray-400 hover:text-white'
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center space-x-2">
                           <span className={`text-xs px-2 py-1 rounded text-white ${getMethodColor(endpoint.method)}`}>
@@ -434,8 +433,8 @@ def register_lender():
                     ))}
                   </div>
                 )}
-                
-                <button 
+
+                <button
                   onClick={() => toggleSection('webhooks')}
                   className="w-full flex items-center justify-between text-left text-gray-300 hover:text-white transition-colors"
                 >
@@ -445,8 +444,8 @@ def register_lender():
                   </span>
                   {expandedSections.has('webhooks') ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                 </button>
-                
-                <button 
+
+                <button
                   onClick={() => toggleSection('sdks')}
                   className="w-full flex items-center justify-between text-left text-gray-300 hover:text-white transition-colors"
                 >
@@ -471,11 +470,11 @@ def register_lender():
               >
                 <h2 className="text-2xl font-bold text-white mb-4">Enhanced Lender Protocol API</h2>
                 <p className="text-gray-300 mb-6">
-                  The GoldBackBond Enhanced Lender Protocol provides institutional-grade APIs for managing 
-                  large-scale lending operations with USDGB collateral. Features include advanced risk 
+                  The GoldBackBond Enhanced Lender Protocol provides institutional-grade APIs for managing
+                  large-scale lending operations with USDGB collateral. Features include advanced risk
                   analytics, automated liquidation, tier-based fee structures, and real-time webhooks.
                 </p>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-slate-700/50 rounded-xl p-4">
                     <Shield className="h-8 w-8 text-emerald-400 mb-2" />
@@ -511,9 +510,9 @@ def register_lender():
                     {selectedEndpoint.path}
                   </code>
                 </div>
-                
+
                 <p className="text-gray-300 mb-6">{selectedEndpoint.description}</p>
-                
+
                 {/* Authentication & Rate Limit */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div className="bg-slate-700/30 rounded-lg p-4">
@@ -531,7 +530,7 @@ def register_lender():
                     <p className="text-sm text-gray-400">{selectedEndpoint.rateLimit}</p>
                   </div>
                 </div>
-                
+
                 {/* Parameters */}
                 {selectedEndpoint.parameters && selectedEndpoint.parameters.length > 0 && (
                   <div className="mb-6">
@@ -564,7 +563,7 @@ def register_lender():
                     </div>
                   </div>
                 )}
-                
+
                 {/* Request Body */}
                 {selectedEndpoint.requestBody && (
                   <div className="mb-6">
@@ -585,17 +584,16 @@ def register_lender():
                     </div>
                   </div>
                 )}
-                
+
                 {/* Response Examples */}
                 <div className="mb-6">
                   <h4 className="font-semibold text-white mb-3">Response Examples</h4>
                   {selectedEndpoint.responses.map((response, index) => (
                     <div key={index} className="mb-4">
                       <div className="flex items-center space-x-2 mb-2">
-                        <span className={`px-2 py-1 rounded text-xs text-white ${
-                          response.statusCode >= 200 && response.statusCode < 300 ? 'bg-green-500' :
-                          response.statusCode >= 400 ? 'bg-red-500' : 'bg-yellow-500'
-                        }`}>
+                        <span className={`px-2 py-1 rounded text-xs text-white ${response.statusCode >= 200 && response.statusCode < 300 ? 'bg-green-500' :
+                            response.statusCode >= 400 ? 'bg-red-500' : 'bg-yellow-500'
+                          }`}>
                           {response.statusCode}
                         </span>
                         <span className="text-sm text-gray-400">{response.description}</span>
@@ -617,7 +615,7 @@ def register_lender():
                     </div>
                   ))}
                 </div>
-                
+
                 {/* Code Examples */}
                 <div>
                   <h4 className="font-semibold text-white mb-3">Code Examples</h4>
@@ -626,11 +624,10 @@ def register_lender():
                       <button
                         key={index}
                         onClick={() => setSelectedLanguage(example.language)}
-                        className={`px-3 py-1 rounded text-sm transition-colors ${
-                          selectedLanguage === example.language
+                        className={`px-3 py-1 rounded text-sm transition-colors ${selectedLanguage === example.language
                             ? 'bg-amber-500 text-slate-900'
                             : 'bg-slate-700/50 text-gray-400 hover:text-white'
-                        }`}
+                          }`}
                       >
                         {example.title}
                       </button>
@@ -673,7 +670,7 @@ def register_lender():
               >
                 <h2 className="text-2xl font-bold text-white mb-4">Webhook Events</h2>
                 <p className="text-gray-300 mb-6">{webhookDocs.overview}</p>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div className="bg-slate-700/30 rounded-lg p-4">
                     <h4 className="font-semibold text-white mb-2">Authentication</h4>
@@ -684,7 +681,7 @@ def register_lender():
                     <p className="text-sm text-gray-400">{webhookDocs.retryPolicy}</p>
                   </div>
                 </div>
-                
+
                 <h3 className="text-lg font-semibold text-white mb-4">Available Events</h3>
                 <div className="space-y-4">
                   {webhookDocs.events.map((event, index) => (
@@ -722,23 +719,22 @@ def register_lender():
                 <p className="text-gray-300 mb-6">
                   Official SDKs for rapid integration with the Enhanced Lender Protocol.
                 </p>
-                
+
                 <div className="flex space-x-2 mb-4">
                   {Object.keys(sdkExamples).map((language) => (
                     <button
                       key={language}
                       onClick={() => setSelectedLanguage(language)}
-                      className={`px-3 py-1 rounded text-sm transition-colors capitalize ${
-                        selectedLanguage === language
+                      className={`px-3 py-1 rounded text-sm transition-colors capitalize ${selectedLanguage === language
                           ? 'bg-amber-500 text-slate-900'
                           : 'bg-slate-700/50 text-gray-400 hover:text-white'
-                      }`}
+                        }`}
                     >
                       {language}
                     </button>
                   ))}
                 </div>
-                
+
                 {Object.entries(sdkExamples)
                   .filter(([language]) => language === selectedLanguage)
                   .map(([language, code]) => (

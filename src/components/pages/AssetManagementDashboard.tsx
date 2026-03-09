@@ -6,10 +6,10 @@
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  TrendingUp, 
-  Lock, 
-  DollarSign, 
+import {
+  TrendingUp,
+  Lock,
+  DollarSign,
   PieChart,
   ArrowUpRight,
   Coins,
@@ -43,14 +43,14 @@ const AssetManagementDashboard = () => {
   const [showLenderDisclosure, setShowLenderDisclosure] = useState(false)
   const [lenderDisclosureAccepted, setLenderDisclosureAccepted] = useState(false)
   const [showLenderDropdown, setShowLenderDropdown] = useState(false)
-  
+
   const { address, isConnected } = useAccount()
   const { metrics, formatCurrency, formatPercentage } = useSmartContractData()
-  const { 
-    formattedBalance, 
-    formattedStakedAmount, 
+  const {
+    formattedBalance,
+    formattedStakedAmount,
     formattedPortfolioValue,
-    isConnected: walletConnected 
+    isConnected: walletConnected
   } = useWalletBalance()
 
   // Handle tab parameter from URL
@@ -251,8 +251,8 @@ const AssetManagementDashboard = () => {
             <span className="text-gray-400">Leverage</span>
             <span className="text-emerald-400 font-bold">3:1 Asset Value</span>
           </div>
-          <button 
-            onClick={() => {/* Smart contract staking integration will be implemented here */}}
+          <button
+            onClick={() => {/* Smart contract staking integration will be implemented here */ }}
             className="w-full mt-6 bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-900 py-3 rounded-xl font-bold hover:from-amber-400 hover:to-yellow-500 transition-all duration-200"
           >
             Start Staking
@@ -354,7 +354,7 @@ const AssetManagementDashboard = () => {
             <span className="text-gray-400">Interest Rate</span>
             <span className="text-green-400 font-bold">From 9.9%</span>
           </div>
-          <button 
+          <button
             onClick={handleLoanApplication}
             className="w-full mt-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 rounded-xl font-bold hover:from-blue-400 hover:to-indigo-500 transition-all duration-200"
           >
@@ -383,14 +383,14 @@ const AssetManagementDashboard = () => {
             <span className="text-amber-400 font-bold">$50,000</span>
           </div>
           <div className="relative">
-            <button 
+            <button
               onClick={() => setShowLenderDropdown(!showLenderDropdown)}
               className="w-full mt-6 bg-gradient-to-r from-emerald-500 to-teal-600 text-white py-3 rounded-xl font-bold hover:from-emerald-400 hover:to-teal-500 transition-all duration-200 flex items-center justify-center space-x-2"
             >
               <span>Lend & Earn Options</span>
               <ArrowUpRight className={`h-4 w-4 transition-transform ${showLenderDropdown ? 'rotate-45' : ''}`} />
             </button>
-            
+
             <AnimatePresence>
               {showLenderDropdown && (
                 <motion.div
@@ -400,7 +400,7 @@ const AssetManagementDashboard = () => {
                   className="absolute top-full left-0 right-0 mt-2 bg-slate-800 border border-emerald-500/30 rounded-xl shadow-xl z-50"
                 >
                   <div className="p-4 space-y-2">
-                    <button 
+                    <button
                       onClick={() => {
                         setShowLenderDropdown(false)
                         navigate('/app/lender-dashboard')
@@ -410,7 +410,7 @@ const AssetManagementDashboard = () => {
                       <span>Lender Dashboard</span>
                       <ExternalLink className="h-4 w-4" />
                     </button>
-                    <button 
+                    <button
                       onClick={() => {
                         setShowLenderDropdown(false)
                         navigate('/app/lender-onboarding')
@@ -432,7 +432,7 @@ const AssetManagementDashboard = () => {
       <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-500/20 rounded-2xl p-6">
         <h3 className="text-xl font-bold text-white mb-6 flex items-center">
           <CreditCard className="h-5 w-5 text-blue-400 mr-2" />
-          Active Loans (demo)
+          Active Loans
         </h3>
         {userLoans.some(loan => parseFloat(loan.amount.replace('$', '')) > 0) ? (
           <div className="overflow-x-auto">
@@ -558,11 +558,10 @@ const AssetManagementDashboard = () => {
                 <button
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id as any)}
-                  className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl transition-all duration-200 ${
-                    activeTab === tab.id
+                  className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-xl transition-all duration-200 ${activeTab === tab.id
                       ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
                       : 'text-gray-400 hover:text-white hover:bg-slate-700/50'
-                  }`}
+                    }`}
                 >
                   <Icon className="h-4 w-4" />
                   <span className="font-medium">{tab.label}</span>

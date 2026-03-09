@@ -1,0 +1,9 @@
+[
+    {
+        "type": "function",
+        "name": "migrate",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    }
+]
