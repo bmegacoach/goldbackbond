@@ -6,7 +6,7 @@
   "description": "GoldBackBond - Digital Gold-Backed Stablecoin Platform",
   "scripts": {
     "dev": "vite",
-    "build": "npx tsc -b && vite build",
+    "build": "node scripts/build_ai_context.cjs && npx tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "npx serve dist -s",

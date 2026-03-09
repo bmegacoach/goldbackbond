@@ -1,8 +1,3 @@
-# USDGB / Goldbackbond Whitepaper  
-Version 1.0 – March 2026
-
----
-
 ## 1. Executive Summary
 
 USDGB is a gold‑backed utility token, pegged to **$1.00 worth of gold at spot price**, with reserves attested via a long‑form Monetization Memorandum and held through the USDGB Trust Fund.[file:2][file:4][file:7][file:8][file:11] Tokens do not give direct redemption rights to physical gold; users access value through trading on exchanges and collateral‑based lending with participating institutions.[file:7][file:8][file:11]  

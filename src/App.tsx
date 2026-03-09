@@ -38,7 +38,7 @@ import ComingSoonPage from './components/pages/ComingSoonPage'
 
 // Marketing site layout component
 const MarketingLayout = ({ children }: { children: React.ReactNode }) => (
-  <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-hidden">
+  <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white relative overflow-x-clip">
     <AnimatedBackground />
     <div className="relative z-10">
       <Navbar />

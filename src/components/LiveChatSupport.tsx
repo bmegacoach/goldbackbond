@@ -103,7 +103,7 @@ const LiveChatSupport = ({ isOpen, onClose, initialCategory = 'general' }: LiveC
     setIsLoading(true)
 
     try {
-      const response = await fetch('https://e3fxjgkrri.space.minimax.io/api/support/live-chat', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
