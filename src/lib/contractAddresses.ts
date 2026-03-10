@@ -9,11 +9,11 @@
 // Base Mainnet contract addresses (GBB Ecosystem)
 export const CONTRACTS = {
     USDGB_TOKEN: '0x1b12fdbda1d6709e189fe16e1a76469e05ce8a5e' as `0x${string}`,
-    MINTING: '0x4cbce2b39d4974269c7b8b1341dbc7db0352945a' as `0x${string}`, // TODO: Update with Mainnet addresses
-    LP_REWARD_POOL: '0x7c1d14578d9918c4b30110f51ea567ef3d2122f6' as `0x${string}`,
-    GOLD_BONUS_VAULT: '0x9a0142db31a3bf8423fbe240fe1dea18545be6bb' as `0x${string}`,
-    CERTIFICATE_STAKING: '0xc62083ee88a245a98b58707e868c030f3917c4fe' as `0x${string}`,
-    GUARDIAN: '0x05e907c623502700b144d6deef49dbd76acd2ffb' as `0x${string}`,
+    MINTING: '0x899a399a783494bec8ff8c2ab5ec1fc29efe3a63' as `0x${string}`, 
+    LP_REWARD_POOL: '0xbfb2a2d959819590b72815d637e50c16be9cad3f' as `0x${string}`,
+    GOLD_BONUS_VAULT: '0x3a3d2a95e29e93b9406f15e4543044a93d495a69' as `0x${string}`,
+    CERTIFICATE_STAKING: '0xfe57d42b4e32c62f69b22b459d53b9dd9021facf' as `0x${string}`,
+    GUARDIAN: '0x4cbce2b39d4974269c7b8b1341dbc7db0352945a' as `0x${string}`,
     ALLOCATION_INSCRIPTION: '0x0000000000000000000000000000000000000001' as `0x${string}`, // TODO: Deploy and replace
     LENDER_REGISTRY: '0x0000000000000000000000000000000000000000' as `0x${string}`, // TODO: Deploy and replace
 } as const

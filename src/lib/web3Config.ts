@@ -98,13 +98,11 @@ const connectors = [
 
 // Wagmi configuration — includes testnet + mainnet chains
 export const wagmiConfig = createConfig({
-  chains: [activeChain, baseChain, mainnet],
+  chains: [activeChain, mainnet],
   connectors,
   transports: {
     [activeChain.id]: http(NETWORK.RPC_URL),
-    [baseChain.id]: http(),
     [mainnet.id]: http(),
-    [baseSepolia.id]: http(),
   },
 })
 
