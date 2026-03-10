@@ -35,6 +35,7 @@ import StakingPage from './components/pages/StakingPage'
 import LendingPage from './components/pages/LendingPage'
 import AssetManagementDashboard from './components/pages/AssetManagementDashboard'
 import ComingSoonPage from './components/pages/ComingSoonPage'
+import { BuyWizardPage } from './components/pages/BuyWizardPage'
 
 // Marketing site layout component
 const MarketingLayout = ({ children }: { children: React.ReactNode }) => (
@@ -63,6 +64,7 @@ function App() {
                   <AppLayout>
                     <Routes>
                       <Route index element={<AppDashboard />} />
+                      <Route path="buy-wizard" element={<BuyWizardPage />} />
                       <Route path="asset-management" element={<AssetManagementDashboard />} />
                       <Route path="stake" element={<StakingPage />} />
                       <Route path="lend" element={<LendingPage />} />
