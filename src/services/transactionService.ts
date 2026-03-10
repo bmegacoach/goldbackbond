@@ -72,9 +72,9 @@ class TransactionService {
     try {
       const client = await getConnectorClient(wagmiConfig)
       // Extract EIP-1193 transport stream from active wagmi connector
-      const { account, transport } = client
+      const { transport } = client
       const provider = new ethers.BrowserProvider(transport as any)
-      const signer = await provider.getSigner(account.address)
+      const signer = await provider.getSigner()
       return { provider, signer }
     } catch (error) {
       console.warn("Wagmi client fetch failed, attempting window.ethereum fallback:", error)
