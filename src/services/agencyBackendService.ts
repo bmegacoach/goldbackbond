@@ -10,6 +10,7 @@ export interface AllocationRequest {
     paymentType: 'FIAT' | 'CRYPTO';
     paymentClearanceDate: string;
     status: 'pending' | 'approved';
+    openSignDocumentId: string;
 }
 
 // Ensure the user inputs the corresponding browser-safe API keys into their .env
@@ -38,6 +39,7 @@ const fallbackMockRequests: AllocationRequest[] = [
         paymentType: 'FIAT',
         paymentClearanceDate: new Date(Date.now() - 3600000 * 2).toISOString(), // 2 hours ago
         status: 'pending',
+        openSignDocumentId: 'os_doc_9x8f7e6d5c4b3a21',
     },
     {
         id: 'req_2',
@@ -48,6 +50,7 @@ const fallbackMockRequests: AllocationRequest[] = [
         paymentType: 'CRYPTO',
         paymentClearanceDate: new Date(Date.now() - 3600000 * 12).toISOString(), // 12 hours ago
         status: 'pending',
+        openSignDocumentId: 'os_doc_1y2z3x4w5v6u7t8s',
     },
 ];
 
@@ -83,6 +86,7 @@ class AgencyBackendService {
                     paymentType: (row.payment_type?.toUpperCase() === 'CRYPTO' ? 'CRYPTO' : 'FIAT'),
                     paymentClearanceDate: row.payment_clearance_date || row.createdAt || new Date().toISOString(),
                     status: row.status as 'pending' | 'approved',
+                    openSignDocumentId: row.opensign_document_id || row.document_id || `os_sim_${Math.random().toString(36).substr(2, 9)}`,
                 };
             });
         } catch (error) {

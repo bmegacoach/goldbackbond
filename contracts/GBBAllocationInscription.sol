@@ -59,7 +59,9 @@ contract GBBAllocationInscription {
      * @param terms The terms of the sale.
      * @param agentInfo Information about the sales agent.
      * @param commissionInfo Details about the sales commission.
+     * @param commissionInfo Details about the sales commission.
      * @param paymentType The type of payment (e.g., "FIAT" or "CRYPTO") for SLA tracking.
+     * @param openSignDocumentId The verified OpenSign certificate ID representing the executed contract artifact.
      */
     function issueAllocation(
         address buyer,
@@ -67,7 +69,8 @@ contract GBBAllocationInscription {
         string memory terms,
         string memory agentInfo,
         string memory commissionInfo,
-        string memory paymentType
+        string memory paymentType,
+        string memory openSignDocumentId
     ) external onlyMinter {
         require(buyer != address(0), "Invalid buyer address");
         require(amount > 0, "Amount must be greater than zero");
@@ -88,6 +91,8 @@ contract GBBAllocationInscription {
                 commissionInfo,
                 "\",\"paymentType\":\"",
                 paymentType,
+                "\",\"openSignDocumentId\":\"",
+                openSignDocumentId,
                 "\",\"legalDisclosure\":\"This token represents a contract right to inventory. This is not a security or derivative.\",",
                 "\"}"
             )

@@ -74,7 +74,8 @@ const AllocationApprovalPage: React.FC = () => {
                 request.terms,
                 request.agentInfo,
                 calculateCommission(request.amount),
-                request.paymentType
+                request.paymentType,
+                request.openSignDocumentId
             );
 
             showInfo('Processing', 'Transaction submitted, awaiting confirmation...');
@@ -183,6 +184,14 @@ const AllocationApprovalPage: React.FC = () => {
                                             </p>
                                         </div>
                                         <div>
+                                            <span className="text-xs text-slate-500 uppercase">OpenSign Certificate ID</span>
+                                            <div className="flex items-center gap-2 mt-1">
+                                                <p className="text-blue-400 font-mono text-sm bg-blue-900/20 p-2 rounded border border-blue-500/20 flex-1 break-all">
+                                                    {request.openSignDocumentId}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="md:col-span-2">
                                             <span className="text-xs text-slate-500 uppercase">Commission (Sliding Scale)</span>
                                             <p className="text-emerald-400 font-bold text-sm bg-slate-900/50 p-2 rounded mt-1 border border-emerald-500/20">
                                                 {calculateCommission(request.amount)}
