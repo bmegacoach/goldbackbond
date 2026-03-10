@@ -1,13 +1,15 @@
-import { systemKnowledge } from '../src/lib/aiContext';
+import { systemKnowledge } from './aiContext.js';
 
 export const config = {
   runtime: 'edge',
 };
 
-export default async function handler(req: Request) {
+export default async function handler(req) {
   if (req.method !== 'POST') return new Response('Method Not Allowed', { status: 405 });
 
-  const { message, category } = await req.json();
+  const body = await req.json();
+  const message = body.message;
+  const category = body.category;
   const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
@@ -38,7 +40,7 @@ Respond in strictly valid JSON format with no markdown wrappers or extra text. T
 }`;
 
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`, {
+    const response = await fetch(\`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=\${apiKey}\`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

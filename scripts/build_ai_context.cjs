@@ -15,6 +15,6 @@ for (const file of files) {
   }
 }
 
-const outPath = path.join(__dirname, '../src/lib/aiContext.ts');
+const outPath = path.join(__dirname, '../api/aiContext.js');
 fs.writeFileSync(outPath, `export const systemKnowledge = ${JSON.stringify(combinedText)};\n`);
 console.log('AI context successfully built out of the Data Center markdowns.');
