@@ -12,6 +12,8 @@ import {
   UNISWAP_V4,
   getTransactionUrl as getExplorerTxUrl
 } from '../lib/contractAddresses'
+import { wagmiConfig } from '../lib/web3Config'
+import { getConnectorClient } from '@wagmi/core'
 
 // ABI imports (ethers human-readable format)
 import USDGBTokenABI from '../lib/abis/USDGBToken.json'
@@ -63,15 +65,26 @@ class TransactionService {
   }
 
   /**
-   * Get ethers provider and signer from the browser wallet
+   * Get ethers provider and signer universally using Wagmi Core
+   * Bypasses the limiting window.ethereum check to fully support WalletConnect & Coinbase Mobile
    */
   private async getProviderAndSigner() {
-    if (!window.ethereum) {
+    try {
+      const client = await getConnectorClient(wagmiConfig)
+      // Extract EIP-1193 transport stream from active wagmi connector
+      const { account, transport } = client
+      const provider = new ethers.BrowserProvider(transport as any)
+      const signer = await provider.getSigner(account.address)
+      return { provider, signer }
+    } catch (error) {
+      console.warn("Wagmi client fetch failed, attempting window.ethereum fallback:", error)
+      if (typeof window !== 'undefined' && window.ethereum) {
+        const provider = new ethers.BrowserProvider(window.ethereum)
+        const signer = await provider.getSigner()
+        return { provider, signer }
+      }
       throw new Error(TransactionError.NOT_CONNECTED)
     }
-    const provider = new ethers.BrowserProvider(window.ethereum)
-    const signer = await provider.getSigner()
-    return { provider, signer }
   }
 
   /**
