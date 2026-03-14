@@ -21,5 +21,20 @@ export default defineConfig({
       accounts: process.env.PRIVATE_KEY ? [`0x${process.env.PRIVATE_KEY.replace(/^0x/, '')}`] : [],
       chainId: 8453
     }
+  },
+  etherscan: {
+    apiKey: {
+      basemainnet: process.env.ETHERSCAN_API_KEY || ""
+    },
+    customChains: [
+      {
+        network: "basemainnet",
+        chainId: 8453,
+        urls: {
+          apiURL: "https://api.basescan.org/api",
+          browserURL: "https://basescan.org"
+        }
+      }
+    ]
   }
 });
