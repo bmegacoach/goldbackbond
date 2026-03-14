@@ -7,8 +7,8 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { 
-  Menu, 
-  X, 
+  Menu,
+  X,
   Home,
   Lock,
   DollarSign,
@@ -16,7 +16,8 @@ import {
   Settings,
   ArrowLeft,
   Wallet,
-  Shield
+  Shield,
+  Building2
 } from 'lucide-react'
 import { useAccount } from 'wagmi'
 import WalletStatus from '../WalletStatus'
@@ -34,11 +35,12 @@ const AppNavbar = () => {
     return location.pathname === path
   }
 
-  const navigation = [
+  const navigation: { name: string; href: string; icon: React.ElementType; badge?: string }[] = [
     { name: 'Dashboard', href: '/app', icon: Home },
     { name: 'Stake', href: '/app/asset-management?tab=staking', icon: Lock },
     { name: 'Lending', href: '/app/asset-management?tab=lending', icon: DollarSign },
-    { name: 'Analytics', href: '/app/asset-management?tab=analytics', icon: BarChart3 }
+    { name: 'Analytics', href: '/app/asset-management?tab=analytics', icon: BarChart3 },
+    { name: 'Genesis Bank', href: '/app/genesis-bank', icon: Building2, badge: 'Soon' },
   ]
 
   return (
@@ -76,6 +78,11 @@ const AppNavbar = () => {
                 >
                   <Icon className="h-4 w-4" />
                   <span>{item.name}</span>
+                  {item.badge && (
+                    <span className="text-xs text-amber-500 font-medium bg-amber-500/10 px-1.5 py-0.5 rounded-full border border-amber-500/20 leading-none">
+                      {item.badge}
+                    </span>
+                  )}
                 </Link>
               )
             })}
