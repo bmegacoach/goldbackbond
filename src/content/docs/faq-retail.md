@@ -1,106 +1,136 @@
 # USDGB / Goldbackbond FAQ – Retail Version  
-Version 1.0 – March 2026
+Version 4.1 – March 2026
 
-This FAQ explains USDGB in plain language for everyday users, based on the official whitepaper, users manual, and compliance docs.[file:7][file:8][file:11]
+This FAQ explains USDGB in plain language for everyday users, based on the official whitepaper, users manual, and compliance docs.
 
 ---
 
 ## A. Basics
 
 **Q1. What is USDGB in simple terms?**  
-USDGB is a digital token that tracks **$1.00 worth of gold at spot price**.[file:2][file:4][file:7][file:11] You can buy it, hold it in your wallet, use it as collateral for loans, and trade it on exchanges.[file:7][file:11]
+USDGB is a digital utility token issued by Goldbackbond Inc. that directly tokenizes **Trust Certificate Units** held by the USDGB Trust Fund. Each token represents **$1.00 worth of gold at spot price** — stable NAV, not volatile like a full-ounce gold token. You can buy it, hold it in your wallet, use it as collateral for loans, and trade it on exchanges 24/7.
 
 **Q2. Who runs USDGB?**  
-USDGB is issued and operated by **Goldbackbond Inc.**, a Texas company.[file:7][file:11] A separate USDGB Trust Fund holds gold‑related assets, corporate shares, and intellectual property that support the ecosystem’s value and credibility.[file:2][file:4][file:11]
+USDGB is issued and operated by **Goldbackbond Inc.** (Delaware). It is led by **Troy Joyner, CEO & Founder** (PMP, 26 years experience in real estate, technology, and finance), with a management and advisory network including securities attorney Gila Lee Adato (Trust trustee), Henry Amado (Ebisu Securities), and Shannon Steel (Steel Private Bank).
 
 **Q3. Is USDGB a stock or security?**  
-No. USDGB is structured as a **utility token**, not a stock or bond.[file:7][file:8][file:11] It does not give you ownership of the company, dividends, or a claim on the Trust’s assets or debentures.[file:7][file:8][file:11]
+No. USDGB is structured as a **utility token (non-security)**. It does not give you ownership of the company, dividends, voting rights, or any claim on the Trust's assets. Goldbackbond Secured Debentures are a completely separate fixed-income securities product offered only to accredited investors.
 
 **Q4. Can I redeem USDGB for physical gold?**  
-No. There is **no physical gold redemption**.[file:7][file:8][file:11] You get value from USDGB by trading it, using it in DeFi, or borrowing against it—not by swapping it for gold bars or coins.[file:7][file:11]
+No. There is **no physical gold redemption** — this is by design to avoid banking and securities distribution risks. You access value by trading on DEXs or borrowing against your staked position.
+
+**Q5. What are the two token states?**  
+There are exactly **two token states** in the Goldbackbond ecosystem:
+
+- **USDGB** — the freely transferable base token. Hold, trade on DEXs, or stake.
+- **sUSDGB** — USDGB that has been staked and locked in Goldbackbond smart contracts. While staked, it is locked and non-transferable. sUSDGB earns 9% APR growth rewards and can be used as lending collateral. These are two use cases of the same token state — not separate instruments.
+
+"pUSDGB" is **not a third token** — it is a UX label for USDGB used within a Railgun privacy environment (coming Q3 2026).
 
 ---
 
 ## B. Backing and Safety
 
-**Q5. What backs USDGB?**  
-The USDGB Trust Fund holds a portfolio of Federal Reserve gold certificates, plus 100% of Goldbackbond Inc.’s shares and its core intellectual property, documented in a long‑form Monetization Memorandum and valuation reports.[file:2][file:4][file:11] This structure supports the gold‑linked $1.00 NAV, but token holders only own tokens, not the underlying assets.[file:7][file:8][file:11]
+**Q6. What backs USDGB?**  
+USDGB tokenizes **Trust Certificate Units** held by the USDGB Trust Fund. Those units are backed by approximately **108 Series 1934 U.S. Federal Reserve Gold Certificate Bearer Instruments**, each with a face value of $1 billion (~$2.32B conservative trade value), totaling ~$250.56B in collateral face value. The Trust also holds associated intellectual property and 100% of Goldbackbond Inc.'s equity. Token holders own tokens, not the underlying Trust assets.
 
-**Q6. Has the code been audited?**  
-Yes. InterFi Network audited the USDGB token and staking contracts on **February 2, 2026**, and all identified issues were fixed before deployment.[file:7]
+**Q7. Has the code been audited?**  
+Yes. All core USDGB smart contracts completed an independent third-party security audit by **InterFi Security**. The full audit report is publicly accessible in the **Goldbackbond online Whitepaper documentation repository**.
+
+**Q8. Has the gold collateral been independently verified?**  
+Yes. Multi-party attestation has been completed by Wells Fargo Bank, Federal judges, certified appraisers from Pennsylvania and Washington DC, and an ex-Federal Reserve Board member. Attestation reports are published in the online Whitepaper repository.
 
 ---
 
 ## C. Buying and Selling
 
-**Q7. How do I buy in the presale?**  
-Until **April 31, 2026**, qualified buyers can purchase USDGB in the presale at **$0.80 per token**, with a **$10,000 minimum**.[file:7][file:8][file:11] You complete KYC, sign an allocation agreement, fund by bank wire or crypto (USDC, USDT, BTC, ETH, SOL), and receive tokens in your wallet **within 2 hours** after funds clear.[file:7][file:8][file:11]
+**Q9. How do I buy in the presale (CCA Auction)?**  
+The **Uniswap CCA Auction** runs **March 15 – April 31, 2026**. Qualified buyers purchase USDGB at **$0.80 per token** (20% discount to $1.00 NAV), with a **$10,000 minimum**. Process: complete Tier 1 KYC → sign allocation agreement → wire funds → receive tokens within **2 hours** of funds clearing.
 
-**Q8. What is the “locked private allocation”?**  
-Goldbackbond offers up to **$25M** of USDGB at $0.80 to professional buyers in a special **12‑month lock contract**.[file:11] Those tokens cannot be traded, used in Uniswap CCA, or used for arbitrage during the lock period.[file:11]
+⚠️ Pre-sale tokens are delivered in a staked state and cannot be sold during the CCA Auction period. Free trading resumes once the Auction concludes.
 
-**Q9. Where will USDGB trade after launch?**  
-USDGB follows a staged rollout:[file:7][file:11][web:19][web:52][web:59]  
+**Q10. What does "KYC tier" mean?**  
+Goldbackbond operates a **three-tier KYC framework**:
 
-- Until April 31, 2026: presale + **Uniswap CCA auctions** on Base.  
-- May 1 – Oct 31, 2026: trading on DEXs including **Hyperliquid, Aster, Aerodrome, and Jupiter**.  
-- From Nov 1, 2026: centralized exchange listings starting with **MEXC**, then a second mid‑tier CEX (BTCC, KuCoin, or similar) on **Jan 1, 2027**.[web:47][web:51][web:54]
+- **Tier 1** — Valid government photo ID + OFAC screening → Purchase USDGB, trade on DEXs, participate in CCA Auction. Min: $10,000. No accredited-investor status required.
+- **Tier 2** — Tier 1 + proof of address + source of funds → Stake as sUSDGB, earn 9% APR, access 70% LTV institutional lending
+- **Tier 3** — Tier 2 completed (automatic) → Access Railgun privacy environment (Q3 2026)
+
+**Q11. Where will USDGB trade after the CCA Auction?**
+
+- **Now through April 31, 2026:** Uniswap CCA Auction (presale + live DEX on Base)
+- **May 1 – Oct 31, 2026:** Hyperliquid, Aster, Aerodrome, Jupiter DEXs
+- **Nov 1, 2026+:** Centralized exchange listings — MEXC first, then BTCC/KuCoin/Binance
 
 ---
 
-## D. Staking and Earning
+## D. Staking and Earning (sUSDGB)
 
-**Q10. How does staking work?**  
-You lock USDGB in the official staking contract and receive a **staking certificate** that shows how much you locked and when it unlocks.[file:7][file:11] You earn a fixed APY (for example, 9%) paid weekly in USDGB, plus possible bonus rewards from special programs.[file:7]
+**Q12. How does staking work?**  
+You stake USDGB (it becomes sUSDGB) by locking it in the Goldbackbond staking smart contract. While staked, you earn a **9% annualized growth reward** (current program target) paid in USDGB. Rewards come from Goldbackbond's treasury-management activities — DeFi strategies, secured lending, and yield farming — **not** from Debenture coupons or any securities product.
 
-**Q11. How long is my money locked?**  
-Every stake starts with a **1‑year (365‑day) lock**.[file:7][file:11] You can later extend your certificate to **3, 5, or 10 years**, especially if a lender requires it; when you extend, the unlock date is reset based on the new term and the date you extend.[file:7][file:11] You cannot shorten the term once extended.[file:7][file:11]
+**Q13. Is the 9% APR guaranteed?**  
+No. The 9% is the **current program target**. Goldbackbond reserves the right to adjust this rate for future staking programs based on regulatory, market, or treasury conditions. Any adjustments are disclosed prospectively. Rewards already accrued are not retroactively affected.
 
-**Q12. Can I unstake early?**  
-No. You cannot withdraw staked USDGB before the unlock date, unless the certificate is reassigned to a lender after a loan default.[file:7][file:8][file:11]
+**Q14. Can I earn 9% APR even if I take a loan against my staked position?**  
+Yes. sUSDGB earns 9% APR **regardless** of whether you are borrowing against it or simply staking without a loan. The rewards do not stop or pause upon adding a loan.
+
+**Q15. How long is my USDGB locked when staked?**  
+Every stake starts with a **1-year (365-day) lock**. You can extend to 3, 5, or 10 years. Lenders may require term extensions at loan origination. You cannot shorten a term once extended.
+
+**Q16. Can I unstake early?**  
+No. You cannot withdraw staked USDGB before the unlock date unless the certificate is reassigned to a lender after a loan default.
 
 ---
 
 ## E. Borrowing Against USDGB
 
-**Q13. How do I borrow using my USDGB?**  
-You stake USDGB, get a certificate, and then work with a participating institutional lender.[file:7][file:11] If approved, you can borrow up to **70% of the USD value** of your staked USDGB, usually in cash or stablecoins.[file:7]
+**Q17. How do I borrow using my USDGB?**  
+Stake USDGB as sUSDGB, then work with a participating institutional lender such as **Genesis Bank & Trust**. If approved, borrow up to **70% LTV** of your base USDGB value. Your sUSDGB remains locked and continues earning 9% APR throughout the loan term.
 
-**Q14. What happens if I miss a loan payment?**  
-If you miss a payment:[file:7][file:8][file:11]  
+Example:
+- Stake $1,000,000 → sUSDGB locked
+- Borrow: $700,000 cash (70% LTV)
+- sUSDGB continues earning: $90,000/year (9% APR)
 
-- A **30‑day late period** starts from the date of the first missed payment.  
-- You receive **daily risk notifications** during those 30 days.  
-- You can catch up the payment, refinance, or otherwise fix the issue.  
-- If you still have not cured the default after 30 days, a guardian‑controlled contract can **transfer your staking certificate to the lender**, and you lose that staked principal.[file:7][file:8][file:11]  
+**Q18. What happens if I miss a loan payment?**  
+There are **no automatic price-based liquidations** or margin calls. If you default on your contractual loan obligations (miss payments or breach loan covenants), a **30-day cure period** begins. Daily risk notifications are sent. If uncured after 30 days, a guardian-controlled contract may transfer your certificate to the lender. You lose the staked collateral — you bear full credit and default risk.
 
-There are **no automatic price‑based liquidations** like on many DeFi platforms.[web:38][web:46]
-
-**Q15. What happens when I fully pay off the loan?**  
-When your loan is fully paid, the lender releases its **lien** on your certificate in the contract.[file:7][file:11] Your certificate is still locked until its unlock date, but you are free to use it for a **new loan** or to unstake and withdraw USDGB once it unlocks.[file:7][file:11]
+**Q19. What happens when I fully pay off the loan?**  
+The lender releases its lien in the contract. Your certificate remains locked until its unlock date, then you can unstake and withdraw USDGB.
 
 ---
 
 ## F. Risks
 
-**Q16. Can I lose money with USDGB?**  
-Yes. You can lose money if:[file:7][file:8][file:11]  
+**Q20. Can I lose money with USDGB?**  
+Yes. You can lose money via:
 
-- Smart contracts fail or are exploited.  
-- Lenders or partners default.  
-- You take a loan and fail to pay it back, causing loss of your staked USDGB.  
+- Smart contract exploits (mitigated by InterFi Security audit; residual risk remains)
+- Default on your loan — staked collateral is reassigned to lender
+- Counterparty risk (Goldbackbond, Trust structure, Genesis Bank & Trust, or lenders defaulting)
+- Regulatory changes affecting token utility
+- Market/liquidity risk — DEX depth and pricing during early launch phase
 
-There are no guarantees of principal, peg, or yield.[file:7][file:8][file:11]
+There are **no guarantees** of principal, peg, or yield, and USDGB does not offer direct capital redemption.
 
-**Q17. Is this investment advice?**  
-No. All information here is educational only.[file:8][file:11] You should consult your own legal, tax, and financial advisors before making decisions.
+**Q21. Is this investment advice?**  
+No. All information is educational only. Consult your own legal, tax, and financial advisors before making decisions.
 
 ---
 
 ## G. Compliance and KYC
 
-**Q18. Do I need KYC?**  
-Yes, for presale, private allocations, staking programs, and any bank off‑ramps, you must complete KYC and sanctions screening.[file:7][file:8][file:11] You can trade on public DEXs without KYC at the protocol level, but you are still responsible for complying with your local laws.[file:7][file:8]
+**Q22. Do I need KYC?**  
+Yes, for presale, staking programs, and bank off-ramps, you must complete KYC per the Tier model above. You may trade USDGB on non-custodial DEXs permissionlessly at the protocol level, but you remain responsible for your local legal compliance.
 
-**Q19. Who cannot buy USDGB?**  
-Goldbackbond does not sell USDGB to people or entities in OFAC/UN/EU‑sanctioned countries or in jurisdictions where such tokens are not allowed.[file:7][file:8]
+**Q23. Who cannot buy USDGB?**  
+Goldbackbond does not sell USDGB to individuals or entities on the OFAC/UN/EU sanctions list, in OFAC-designated sanctioned jurisdictions, or otherwise prohibited by applicable U.S. law.
+
+---
+
+## H. Universal Risk Disclosure
+
+USDGB and sUSDGB are digital utility tokens and are not securities. The 9% annualized growth reward on sUSDGB is a current program target funded by treasury-management activities; it is not a guaranteed return, does not constitute interest income from a fixed-income instrument, and may be modified for future staking programs. sUSDGB is locked while staked and is subject to reassignment to a participating lender in the event of a borrower default. Goldbackbond Secured Debentures are entirely separate instruments issued by Goldbackbond Ltd. and are not referenced by or linked to USDGB token values. This document does not constitute an offer of securities. Consult your financial, legal, and tax advisors before participating.
+
+_Version 4.1 | March 2026_

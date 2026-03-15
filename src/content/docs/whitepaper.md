@@ -10,13 +10,13 @@ The Goldbackbond ecosystem is organized into three independent but aligned entit
 
 USDGB's design targets three main objectives:
 
-1. **Gold‑linked stability** – a $1.00 NAV tied to gold spot price, without physical redemption or ounce‑denominated volatility.  
-2. **Institutional‑grade leverage with no price‑triggered liquidations** – staking certificates support bilateral loans from lenders with flexible lock terms (1–10 years), a guardian‑controlled 30‑day grace period instead of automated bot liquidations, and automatic lien release upon loan payoff.[file:7][file:8]  
-3. **Compliance‑first, multi‑venue launch** – a phased roadmap built around Uniswap Continuous Clearing Auctions (CCA), key DEXs (Hyperliquid, Aster, Aerodrome, Jupiter), and mid‑tier centralized exchanges such as MEXC and KuCoin.[web:16][web:19][web:24][file:7][file:11]  
+1. **Gold‑linked stability** – a $1.00 NAV tied to gold spot price, without physical redemption or ounce‑denominated volatility.
+2. **Institutional‑grade leverage with no price‑triggered liquidations** – staking certificates support bilateral loans from Genesis Bank & Trust as primary lender, with flexible lock terms (1–10 years), a guardian‑controlled 30‑day grace period instead of automated bot liquidations, and automatic lien release upon loan payoff.[file:7][file:8]
+3. **Compliance‑first, multi‑venue launch** – a phased roadmap built around Uniswap Continuous Clearing Auctions (CCA) (March 15 – April 31), key DEXs (Hyperliquid, Aster, Aerodrome, Jupiter), and mid‑tier centralized exchanges such as MEXC and KuCoin.[web:16][web:19][web:24][file:7][file:11]
 
-The project's smart contracts (including the USDGB token and staking certificate contract at address **0x1b12FDBDa1D6709e189Fe16E1A76469E05CE8A5e**) have been audited by **InterFi Network** (February 2, 2026) with all identified issues remediated before deployment.[file:7]  
+The project's smart contracts (including the USDGB token and staking certificate contract at address **0x1b12FDBDa1D6709e189Fe16E1A76469E05CE8A5e**) have been audited by **InterFi Security**, a third-party blockchain security firm, with all identified issues remediated before deployment.[file:7]
 
-Development and technical direction are led by the **CoachAI Development Fund**, a five‑developer team headed by **Troy Joyner, PMP**.[file:11]
+Development and technical direction are led by Troy Joyner, PMP (CEO & Founder), supported by a management and advisory network including Gila Lee Adato (securities attorney and Trust trustee), Henry Amado (Ebisu Securities), and Shannon Steel (Steel Private Bank).[file:11]
 
 ---
 
@@ -210,16 +210,16 @@ In a reassignment:
 - Ownership of the certificate (and the right to withdraw tokens at unlock) is transferred to the lender.  
 - Tokens are **reassigned**, not automatically sold on an exchange.
 
-### 5.4 Audit – InterFi Network
+### 5.4 Audit – InterFi Security
 
-InterFi Network completed a security audit of the USDGB token contract, staking certificate contract, and administrative role configuration on **February 2, 2026**.[file:7] The audit:
+**InterFi Security**, an independent third-party blockchain security firm specializing in smart contract and protocol security reviews, completed a security audit of the USDGB token contract, staking certificate contract, and administrative role configuration.[file:7] The audit:
 
 - Identified centralization risks and typical Solidity issues.  
 - Recommended ReentrancyGuard on state‑changing functions and multisig controls on privileged roles.  
 
 All identified items were remediated or fully addressed before mainnet deployment, and the current contracts went live with **zero unresolved audit findings**.[file:7]  
 
-The audit reports are published in the platform's Transparency portal and on the official website.[file:7]
+The full audit report and executive summary are publicly accessible in the **Goldbackbond online Whitepaper documentation repository**.[file:7]
 
 ---
 
@@ -248,12 +248,13 @@ Participation in bonus pools is optional and may require LP contributions or oth
 
 ### 6.3 Leverage via Participating Lenders
 
-Goldbackbond partners with institutional lenders (bank desks, credit funds, digital asset lenders) that recognize staking certificates as high‑quality collateral:
+Goldbackbond partners with institutional lenders — including **Genesis Bank & Trust** as the primary named lender and other institutional lending partners — that recognize staking certificates as high‑quality collateral:
 
 - **Loan‑to‑value (LTV):** up to 70% of the USD value of staked USDGB.  
-- **Collateral treatment:** some lenders may treat the gold‑backed certificate as up to 3x risk‑adjusted collateral internally, improving their safety margin while still offering 70% LTV to the borrower.[file:7]  
+- **Collateral treatment:** lenders recognize up to **3× the collateral value** of the underlying Trust Certificate Units based on their institutional quality — a lender-side risk-adjusted multiplier, not an on-chain synthetic leverage mechanism.[file:7]  
 - **Loan terms:** interest rate, duration, and amortization are set by each lender; typical ranges are 8–12% interest and 12–36‑month terms.[file:7]  
-- **Term extension requirements:** at loan origination, the lender may require that the certificate's staking term be extended to 3, 5, or 10 years to match the loan duration or to provide additional security. The borrower can request term extensions at any time during the certificate's life; such extensions reset the unlock clock.[file:7][file:8]
+- **No price-based liquidation:** there are no price-triggered margin calls or automatic liquidations from gold price or USDGB price movements. Loss of collateral occurs only through contractual default.[file:7]  
+- **Term extension requirements:** at loan origination, the lender may require that the certificate's staking term be extended to 3, 5, or 10 years to match the loan duration. The borrower can request term extensions at any time; such extensions reset the unlock clock.[file:7][file:8]
 
 Goldbackbond Inc. does **not** make loans itself; it:
 
@@ -303,14 +304,15 @@ Goldbackbond's launch roadmap is structured in four phases:
 
 This phased approach gives the team time to exercise the technical stack, gather market data, and build liquidity before entering higher‑visibility centralized venues.[web:47][web:51][web:55]
 
-### 7.2 Presale at $0.80 (Now – April 31, 2026)
+### 7.2 Presale at $0.80 (March 15 – April 31, 2026)
 
-- **Price:** $0.80 per USDGB.  
-- **Window:** Pre‑launch presale runs until **April 31, 2026**.  
-- **Minimum allocation:** $10,000.  
-- **Eligibility:** Non‑sanctioned jurisdictions; full KYC (government ID + signed allocation agreement) is required.[file:7][file:8][file:11]  
-- **Funding:** Buyers fund via bank wire or by sending USDC, USDT, BTC, ETH, or SOL to addresses specified in the allocation agreement.[file:7][file:8][file:11]  
-- **Delivery:** Once funds clear or on‑chain transfers are confirmed, USDGB tokens **will be delivered** to buyer wallets **within 2 hours**.[file:7][file:8]  
+- **Price:** $0.80 per USDGB (20% discount to $1.00 NAV).  
+- **Window:** Uniswap CCA Auction presale runs **March 15 – April 31, 2026**.  
+- **Minimum allocation:** $10,000. No accredited-investor status required.  
+- **Eligibility:** Non‑sanctioned jurisdictions; Tier 1 KYC (valid government-issued photo ID + OFAC screening) required.[file:7][file:8][file:11]  
+- **Funding:** Buyers fund via bank wire to Goldbackbond's designated account.[file:7][file:8][file:11]  
+- **Delivery:** USDGB tokens delivered to buyer wallets **within 2 hours** of funds clearing.[file:7][file:8]  
+- **Note:** Pre-sale tokens are delivered in a staked (sUSDGB) state and cannot be sold during the CCA Auction period. Free trading resumes once the Auction concludes.  
 
 ### 7.3 Strategic Private Allocation (Locked)
 
@@ -323,17 +325,17 @@ In parallel with the public presale and CCA auctions, Goldbackbond will conduct 
 
 The address and parameters of the private‑allocation contract will be published in the platform's Transparency section.
 
-### 7.4 Uniswap Continuous Clearing Auctions (CCA) on Base
+### 7.4 Uniswap Concentrated Capital Auction (CCA) on Base — March 15 to April 31, 2026
 
-During the pre‑launch window (up to April 31, 2026), Goldbackbond will use Uniswap's **Continuous Clearing Auction (CCA)** module on Base chain to:
+From **March 15 through April 31, 2026**, Goldbackbond is running a **Uniswap Concentrated Capital Auction (CCA)** on Base chain. The CCA is a Uniswap v4-native liquidity bootstrap event designed to:
 
-- Auction a defined allocation of USDGB to the public.  
-- Discover a **market‑driven clearing price** for each tranche.  
-- Automatically seed Uniswap v4 liquidity pools at each tranche's clearing price.[web:16][web:19][web:24][web:52][web:59]  
+- Auction a defined allocation of USDGB to the public at a transparent market-driven clearing price.  
+- Automatically seed a deep, stable Uniswap v4 liquidity pool at the clearing price, targeting **$25M–$35M initial liquidity**.  
+- Create a fair, permissionless price-discovery mechanism on-chain.[web:16][web:19][web:24][web:52][web:59]  
 
-CCA tranches will target price ranges around **$0.85, $0.90, $0.95, and $1.00**, allowing the market to validate the step‑up from the $0.80 presale price and building an organic order book.[web:19][web:52][web:59]  
+CCA tranches target price ranges around **$0.85, $0.90, $0.95, and $1.00**, validating the step‑up from the $0.80 presale price while building an organic on-chain order book. For detailed CCA mechanics, see the dedicated Uniswap CCA Information page.
 
-Goldbackbond's **Year‑1 target** for capital raised and distributed via presale + CCA is **$25,000,000**, forming one quarter of the overall liquidity objective.
+Goldbackbond's **Year‑1 target** for capital raised via presale + CCA is **$25,000,000**, forming one quarter of the overall liquidity objective.
 
 ### 7.5 Official Launch Phase – DEX Expansion (May 1 – October 31, 2026)
 
@@ -539,4 +541,10 @@ This is a cultural concept, not a legal construct: holding USDGB does **not** gr
 
 ---
 
-_End of USDGB / Goldbackbond Whitepaper v1.0_
+## 13. Universal Risk Disclosure
+
+USDGB and sUSDGB are digital utility tokens and are not securities. The 9% annualized growth reward on sUSDGB is a current program target funded by treasury-management activities; it is not a guaranteed return, does not constitute interest income from a fixed-income instrument, and may be modified for future staking programs prospectively. sUSDGB is locked while staked and is subject to reassignment to a participating lender in the event of a borrower default. Goldbackbond Secured Debentures are entirely separate instruments issued by Goldbackbond Ltd. and are not referenced by or linked to USDGB token values. This document does not constitute an offer of securities. Consult your financial, legal, and tax advisors before participating.
+
+---
+
+_End of USDGB / Goldbackbond Whitepaper v4.1 | March 2026_

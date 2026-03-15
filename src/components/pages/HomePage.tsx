@@ -16,8 +16,7 @@ import {
   Star,
   Gift,
   Rocket,
-  ArrowRight,
-  Flame
+  ArrowRight
 } from 'lucide-react'
 import LiveStats from '../sections/LiveStats'
 import BenefitsGrid from '../sections/BenefitsGrid'
@@ -197,10 +196,10 @@ const HomePage = () => {
               animate={{ boxShadow: ["0 0 0 0 rgba(16, 185, 129, 0.4)", "0 0 0 10px rgba(16, 185, 129, 0)"] }}
               transition={{ repeat: Infinity, duration: 2 }}
               onClick={() => setIsCcaModalOpen(true)}
-              className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 sm:px-6 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base hover:from-emerald-400 hover:to-teal-500 transition-all duration-200 shadow-lg shadow-emerald-500/25 flex items-center justify-center min-h-[48px] touch-manipulation"
+              className="bg-gradient-to-r from-violet-500 to-purple-600 text-white px-6 sm:px-6 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base hover:from-violet-400 hover:to-purple-500 transition-all duration-200 shadow-lg shadow-violet-500/25 flex items-center justify-center min-h-[48px] touch-manipulation"
             >
               <Zap className="w-5 h-5 mr-2" />
-              <span className="whitespace-nowrap">Join CCA Auction</span>
+              <span className="whitespace-nowrap">Uniswap CCA Launch</span>
             </motion.button>
             <Link to="/staking">
               <motion.button
@@ -240,8 +239,8 @@ const HomePage = () => {
         </motion.div>
       </section>
 
-      {/* DEX Launch Bonus Program Banner */}
-      <section className="py-16 bg-gradient-to-r from-red-500/20 via-orange-500/20 to-amber-500/20 border-y border-amber-500/30">
+      {/* Uniswap CCA Launch Banner */}
+      <section className="py-16 bg-gradient-to-r from-violet-900/20 via-purple-900/20 to-indigo-900/20 border-y border-violet-500/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -251,41 +250,44 @@ const HomePage = () => {
             className="text-center"
           >
             <div className="flex items-center justify-center mb-6">
-              <div className="flex items-center bg-gradient-to-r from-red-500 to-orange-600 rounded-full px-6 py-2 text-white font-bold text-sm animate-pulse">
-                <Flame className="h-4 w-4 mr-2" />
-                🚀 LIVE NOW: DEX LAUNCH BONUS PROGRAM
+              <div className="flex items-center bg-gradient-to-r from-violet-500 to-purple-600 rounded-full px-6 py-2 text-white font-bold text-sm animate-pulse">
+                <Zap className="h-4 w-4 mr-2" />
+                🦄 LIVE NOW: UNISWAP CCA LAUNCH — MARCH 15 TO APRIL 31, 2026
               </div>
             </div>
 
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
-              Earn Up To <span className="bg-gradient-to-r from-red-400 via-orange-500 to-amber-600 bg-clip-text text-transparent">65% APR</span>
+              Goldbackbond × <span className="bg-gradient-to-r from-violet-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">Uniswap CCA</span>
             </h2>
 
             <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-4xl mx-auto mb-6 sm:mb-8 leading-relaxed px-4">
-              Join our historic DEX launch on Uniswap with time-decay rewards starting at <strong className="text-red-400">50% APR</strong>
-              plus dynamic gold bonuses up to <strong className="text-amber-400">15% additional APR</strong>. Early adopters get maximum rewards!
+              USDGB is launching via a <strong className="text-white">Uniswap Concentrated Capital Auction</strong> — 
+              the most transparent, fair, and permissionless way to bootstrap deep on-chain liquidity.
+              Buy pre-sale at <strong className="text-amber-400">$0.80</strong> (20% below $1.00 NAV), 
+              earn <strong className="text-emerald-400">9% APR</strong> staking rewards, and access up to 
+              <strong className="text-violet-400"> 70% LTV institutional lending</strong> with no price-based liquidation.
             </p>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8 px-4">
-              <div className="bg-slate-800/60 backdrop-blur-sm border border-red-500/30 rounded-xl p-3 sm:p-4">
-                <div className="text-xl sm:text-2xl font-bold text-red-400 mb-1">50%</div>
-                <div className="text-white font-semibold text-xs sm:text-sm">Month 1 APR</div>
-                <div className="text-gray-400 text-xs">Maximum launch rewards</div>
-              </div>
-              <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-500/30 rounded-xl p-3 sm:p-4">
-                <div className="text-xl sm:text-2xl font-bold text-amber-400 mb-1">+15%</div>
-                <div className="text-white font-semibold text-xs sm:text-sm">Gold Bonus</div>
-                <div className="text-gray-400 text-xs">Dynamic price rewards</div>
+              <div className="bg-slate-800/60 backdrop-blur-sm border border-violet-500/30 rounded-xl p-3 sm:p-4">
+                <div className="text-xl sm:text-2xl font-bold text-violet-400 mb-1">$0.80</div>
+                <div className="text-white font-semibold text-xs sm:text-sm">Pre-Sale Price</div>
+                <div className="text-gray-400 text-xs">20% below $1.00 NAV</div>
               </div>
               <div className="bg-slate-800/60 backdrop-blur-sm border border-emerald-500/30 rounded-xl p-3 sm:p-4">
-                <div className="text-xl sm:text-2xl font-bold text-emerald-400 mb-1">3:1</div>
-                <div className="text-white font-semibold text-xs sm:text-sm">Leverage Unlock</div>
-                <div className="text-gray-400 text-xs">12-month staking benefit</div>
+                <div className="text-xl sm:text-2xl font-bold text-emerald-400 mb-1">9% APR</div>
+                <div className="text-white font-semibold text-xs sm:text-sm">sUSDGB Rewards</div>
+                <div className="text-gray-400 text-xs">Current program target</div>
+              </div>
+              <div className="bg-slate-800/60 backdrop-blur-sm border border-amber-500/30 rounded-xl p-3 sm:p-4">
+                <div className="text-xl sm:text-2xl font-bold text-amber-400 mb-1">$25M–$35M</div>
+                <div className="text-white font-semibold text-xs sm:text-sm">Liquidity Target</div>
+                <div className="text-gray-400 text-xs">Initial Uniswap pool depth</div>
               </div>
               <div className="bg-slate-800/60 backdrop-blur-sm border border-blue-500/30 rounded-xl p-3 sm:p-4">
-                <div className="text-xl sm:text-2xl font-bold text-blue-400 mb-1">100+</div>
-                <div className="text-white font-semibold text-xs sm:text-sm">Blockchains</div>
-                <div className="text-gray-400 text-xs">LayerZero integration</div>
+                <div className="text-xl sm:text-2xl font-bold text-blue-400 mb-1">70% LTV</div>
+                <div className="text-white font-semibold text-xs sm:text-sm">Borrow Power</div>
+                <div className="text-gray-400 text-xs">Genesis Bank & Trust</div>
               </div>
             </div>
 
@@ -293,28 +295,27 @@ const HomePage = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={handleJoinBonusProgram}
-                className="bg-gradient-to-r from-red-500 to-orange-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:from-red-400 hover:to-orange-500 transition-all duration-200 shadow-lg shadow-red-500/25 flex items-center justify-center min-h-[48px] touch-manipulation"
+                onClick={() => setIsCcaModalOpen(true)}
+                className="bg-gradient-to-r from-violet-500 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:from-violet-400 hover:to-purple-500 transition-all duration-200 shadow-lg shadow-violet-500/25 flex items-center justify-center min-h-[48px] touch-manipulation"
               >
                 <Rocket className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                {isConnected ? 'Join Bonus Program' : 'Connect Wallet to Join'}
+                {isConnected ? 'Join CCA Auction Now' : 'Connect Wallet to Participate'}
               </motion.button>
 
-              <Link to="/staking">
+              <Link to="/uniswap-cca">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-slate-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:bg-slate-600 transition-all duration-200 flex items-center justify-center min-h-[48px] w-full sm:w-auto touch-manipulation"
+                  className="bg-slate-700 border border-violet-500/40 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:bg-slate-600 transition-all duration-200 flex items-center justify-center min-h-[48px] w-full sm:w-auto touch-manipulation"
                 >
-                  Start Staking Now
+                  Learn More About CCA
                   <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2" />
                 </motion.button>
               </Link>
             </div>
 
             <div className="mt-6 text-center">
-              <div className="text-gray-400 text-sm mb-1">Limited Time: $2M USDGB Reward Pool</div>
-
+              <div className="text-gray-400 text-sm mb-1">$2M USDGB Rewards Pool • No price-based liquidation • Genesis Bank & Trust lending • InterFi Security audited</div>
             </div>
           </motion.div>
         </div>

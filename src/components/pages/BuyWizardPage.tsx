@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, ShieldCheck, FileSignature, Wallet, CheckCircle, AlertTriangle, Building, ChevronRight, Lock } from 'lucide-react';
 import { useAccount } from 'wagmi';
+import agencyBackendService from '@/services/agencyBackendService';
 
 export const BuyWizardPage = () => {
+    const [searchParams] = useSearchParams();
+    const initialAmount = Number(searchParams.get('amount')) || 10000;
+    const leadId = searchParams.get('leadId');
+    const initialName = searchParams.get('name') || '';
+    const initialEmail = searchParams.get('email') || '';
+
     const [phase, setPhase] = useState<1 | 2>(1);
-    const [orderData, setOrderData] = useState({ amount: 10000, paymentMethod: 'wire' });
+    const [orderData, setOrderData] = useState({ amount: initialAmount, paymentMethod: 'wire' });
 
     return (
         <div className="min-h-screen bg-slate-900 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
@@ -40,6 +47,9 @@ export const BuyWizardPage = () => {
                             orderData={orderData} 
                             setOrderData={setOrderData} 
                             onBack={() => setPhase(1)} 
+                            leadId={leadId}
+                            initialName={initialName}
+                            initialEmail={initialEmail}
                         />
                     )}
                 </AnimatePresence>
@@ -102,11 +112,12 @@ const Phase1Education = ({ onComplete }: { onComplete: () => void }) => {
     );
 };
 
-const Phase2Closing = ({ orderData, setOrderData, onBack }: { orderData: any, setOrderData: any, onBack: () => void }) => {
+const Phase2Closing = ({ orderData, setOrderData, onBack, leadId, initialName, initialEmail }: { orderData: any, setOrderData: any, onBack: () => void, leadId: string | null, initialName: string, initialEmail: string }) => {
     const { address } = useAccount();
     const [step, setStep] = useState<1 | 2 | 3>(1);
-    const [kycData, setKycData] = useState({ name: '', email: '', idUploaded: false });
+    const [kycData, setKycData] = useState({ name: initialName, email: initialEmail, idUploaded: false });
     const [signatureId, setSignatureId] = useState<string | null>(null);
+    const [isExecuting, setIsExecuting] = useState(false);
 
     const usdgbTokens = orderData.amount / 0.80;
 
@@ -197,14 +208,22 @@ const Phase2Closing = ({ orderData, setOrderData, onBack }: { orderData: any, se
                                 <h4 className="text-white font-semibold mb-3">OpenSign Digital Execution</h4>
                                 <p className="text-sm text-slate-400 mb-4">By executing below, you agree to the Goldbackbond Independent Contractor & Private Token Allocation terms. This signature will be irrevocably inscribed on the blockchain.</p>
                                 <button 
-                                    disabled={!kycData.name || !kycData.email || !kycData.idUploaded}
-                                    onClick={() => {
-                                        setSignatureId(`OS-${Math.random().toString(36).substr(2, 9).toUpperCase()}`);
+                                    disabled={!kycData.name || !kycData.email || !kycData.idUploaded || isExecuting}
+                                    onClick={async () => {
+                                        setIsExecuting(true);
+                                        const newSigId = `OS-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+                                        
+                                        if (leadId) {
+                                            await agencyBackendService.updateLeadToPending(leadId, newSigId);
+                                        }
+
+                                        setSignatureId(newSigId);
+                                        setIsExecuting(false);
                                         setStep(3);
                                     }}
                                     className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-colors disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/20"
                                 >
-                                    <FileSignature className="w-5 h-5" /> Execute OpenSign Contract
+                                    <FileSignature className="w-5 h-5" /> {isExecuting ? 'Executing...' : 'Execute OpenSign Contract'}
                                 </button>
                             </div>
                         </div>

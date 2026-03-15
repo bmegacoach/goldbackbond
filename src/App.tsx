@@ -20,6 +20,7 @@ import TermsPage from './components/pages/TermsPage'
 import PrivacyPage from './components/pages/PrivacyPage'
 import BonusProgramPage from './components/pages/BonusProgramPage'
 import MultichainPage from './components/pages/MultichainPage'
+import UniswapCCAInfoPage from './components/pages/UniswapCCAInfoPage'
 
 // Import institutional/lender pages 
 import EnhancedLenderDashboard from './components/pages/EnhancedLenderDashboard'
@@ -97,6 +98,7 @@ function App() {
               <Route path="/privacy" element={<MarketingLayout><PrivacyPage /></MarketingLayout>} />
               <Route path="/bonus-program" element={<MarketingLayout><BonusProgramPage /></MarketingLayout>} />
               <Route path="/multichain" element={<MarketingLayout><MultichainPage /></MarketingLayout>} />
+              <Route path="/uniswap-cca" element={<MarketingLayout><UniswapCCAInfoPage /></MarketingLayout>} />
 
               {/* Legacy/Marketing staking and lending pages - redirect to app */}
               <Route path="/staking" element={<MarketingLayout><StakingPage /></MarketingLayout>} />

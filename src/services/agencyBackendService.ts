@@ -117,6 +117,30 @@ class AgencyBackendService {
             return false;
         }
     }
+
+    /**
+     * Updates an allocation record's status to 'pending' and attaches the OpenSign Document ID.
+     * This is called by the Buy Wizard when a user executes the digital signature.
+     */
+    async updateLeadToPending(requestId: string, openSignId: string): Promise<boolean> {
+        if (!import.meta.env.VITE_FIREBASE_API_KEY || import.meta.env.VITE_USE_MOCK_AGENCY_DATA === 'true') {
+            console.log(`Mock DB Update: Request ${requestId} marked pending with OpenSign ID ${openSignId}`);
+            return true;
+        }
+
+        try {
+            const leadRef = doc(db, 'leads', requestId);
+            await updateDoc(leadRef, {
+                status: 'pending',
+                opensign_document_id: openSignId,
+                updatedAt: new Date().toISOString()
+            });
+            return true;
+        } catch (error) {
+            console.error('Firebase update failed (updateLeadToPending):', error);
+            return false;
+        }
+    }
 }
 
 export default new AgencyBackendService();
