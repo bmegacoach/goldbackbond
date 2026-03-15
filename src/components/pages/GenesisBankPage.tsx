@@ -25,8 +25,8 @@ const features = [
   },
   {
     icon: Lock,
-    title: 'Collateral Management',
-    description: 'On-chain collateral tracking, automated margin calls, and liquidation protection.',
+    title: 'Loan & Collateral Management',
+    description: 'Lenders manage loan terms and payment schedules. Collateral reassignment occurs only on borrower default — never triggered by market volatility.',
     status: 'coming-soon',
   },
 ]
