@@ -1,0 +1,13 @@
+{
+  "network": "basemainnet",
+  "chainId": 8453,
+  "deployedAt": "2026-03-14T00:00:00.000Z",
+  "deployer": "0x921ed4606Ed838563681062BD683f38C691744c1",
+  "contracts": {
+    "GBBAllocationInscription": "0xC14607086D470Bc9737756FBb2B14a091EF37B32",
+    "LenderRegistry": "0x07c810645b5230DE0430d5A93705E323f5a5104e"
+  },
+  "initialLenders": {
+    "GenesisBankAndTrust": "0xc2FF845095ADC1EE93c93Bec0c33a538D0208407"
+  }
+}

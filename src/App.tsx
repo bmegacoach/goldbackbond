@@ -36,6 +36,7 @@ import LendingPage from './components/pages/LendingPage'
 import AssetManagementDashboard from './components/pages/AssetManagementDashboard'
 import ComingSoonPage from './components/pages/ComingSoonPage'
 import { BuyWizardPage } from './components/pages/BuyWizardPage'
+import GenesisBankPage from './components/pages/GenesisBankPage'
 
 // Marketing site layout component
 const MarketingLayout = ({ children }: { children: React.ReactNode }) => (
@@ -80,6 +81,7 @@ function App() {
 
                       {/* Admin / Issuance routes */}
                       <Route path="allocations" element={<AllocationApprovalPage />} />
+                      <Route path="genesis-bank" element={<GenesisBankPage />} />
                     </Routes>
                   </AppLayout>
                 }

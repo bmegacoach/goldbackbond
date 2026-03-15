@@ -1,9 +1,11 @@
-require("@nomicfoundation/hardhat-toolbox");
-// NOTE: Do NOT require("@nomicfoundation/hardhat-verify") — bundled in toolbox v6.
-// NOTE: Do NOT require("@nomiclabs/hardhat-etherscan") — legacy, causes conflicts.
+import hardhatEthersPlugin from "@nomicfoundation/hardhat-ethers";
+import { defineConfig } from "hardhat/config";
 
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
+// NOTE: Hardhat v3 ESM config — mirrors hardhat.config.cjs intent.
+// hardhat.config.cjs is kept for toolbox v2 reference; Hardhat v3 loads this file.
+
+export default defineConfig({
+  plugins: [hardhatEthersPlugin],
   solidity: "0.8.20",
   networks: {
     hardhat: {
@@ -14,6 +16,7 @@ module.exports = {
       }
     },
     basemainnet: {
+      type: "http",
       url: "https://mainnet.base.org",
       accounts: process.env.PRIVATE_KEY ? [`0x${process.env.PRIVATE_KEY.replace(/^0x/, '')}`] : [],
       chainId: 8453
@@ -34,4 +37,4 @@ module.exports = {
       }
     ]
   }
-};
+});

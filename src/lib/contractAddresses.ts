@@ -2,8 +2,7 @@
  * Contract Address Registry
  * Centralized contract addresses for the GOLDBACKBOND ecosystem
  * 
- * NETWORK: Base Sepolia (Testnet) — deployed and audited by InterFi
- * Switch to mainnet addresses when deploying to production.
+ * NETWORK: Base Mainnet — production deployment
  */
 
 // Base Mainnet contract addresses (GBB Ecosystem)
@@ -14,8 +13,8 @@ export const CONTRACTS = {
     GOLD_BONUS_VAULT: '0x3a3d2a95e29e93b9406f15e4543044a93d495a69' as `0x${string}`,
     CERTIFICATE_STAKING: '0xfe57d42b4e32c62f69b22b459d53b9dd9021facf' as `0x${string}`,
     GUARDIAN: '0x4cbce2b39d4974269c7b8b1341dbc7db0352945a' as `0x${string}`,
-    ALLOCATION_INSCRIPTION: '0x0000000000000000000000000000000000000001' as `0x${string}`, // TODO: Deploy and replace
-    LENDER_REGISTRY: '0x0000000000000000000000000000000000000000' as `0x${string}`, // TODO: Deploy and replace
+    ALLOCATION_INSCRIPTION: '0xC14607086D470Bc9737756FBb2B14a091EF37B32' as `0x${string}`,
+    LENDER_REGISTRY: '0x07c810645b5230DE0430d5A93705E323f5a5104e' as `0x${string}`,
 } as const
 
 // Uniswap V4 Addresses (Base Mainnet)
