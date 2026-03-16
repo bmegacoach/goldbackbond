@@ -12,12 +12,12 @@ Goldbackbond (GBB) is a premium gold-backed stablecoin platform. The ecosystem c
 
 ## Core Components
 ### Smart Contracts
-1. **USDGB Token (`0x1b1...`)**: The primary asset, backed by gold certificates.
+1. **USDGB Token (`0x1b12FDBDa1D6709e189Fe16E1A76469E05CE8A5e`)**: The primary asset, backed by gold certificates.
 2. **USDGBMinting (`0x899...`)**: Handles token issuance and purchases.
-3. **LpRewardPool (`0xbfb...`)**: Manages rewards for liquidity providers.
-4. **CertificateStaking (`0xfe5...`)**: Enables long-term staking of USDGB for leverage/lending.
+3. **LpRewardPool (`0xbfb2a2d959819590b72815d637e50c16be9cad3f`)**: Manages rewards for liquidity providers.
+4. **CertificateStaking (`0xfe57d42b4e32c62f69b22b459d53b9dd9021facf`)**: Enables long-term staking of USDGB for leverage/lending.
 5. **Guardian (CCA) (`0x4cb...`)**: Acts as a capital conservation and governance layer.
-6. **GBBAllocationInscription**: (Pending Deployment) Smart contract interface to mint allocations wrapped as on-chain JSON Ethscriptions.
+6. **GoldBonusVault (`0x9A0142DB31a3Bf8423fBe240Fe1dEa18545be6Bb`)**: Secondary staking reward vault.
 7. **Uniswap V4 Suite**: `PoolManager`, `LiquidityLauncher`, `Permit2`.
 
 ### Technical Stack
@@ -34,7 +34,7 @@ Goldbackbond (GBB) is a premium gold-backed stablecoin platform. The ecosystem c
 - **Approvals**: Uses `Permit2` for gas-efficient, signature-based token authorizations.
 - **Liquidity Seeding**: Post-auction proceeds (USDC) are paired with USDGB and migrated into a canonical V4 pool with 0.05% fee and tick spacing 10.
 - **CCA Info Page**: A dedicated educational route (`/uniswap-cca`) explaining mechanics, pre-sale value, and timelines.
-- **Launch Dates**: March 15 to April 31, 2026.
+- **Launch Dates**: March 16 to June 14, 2026.
 - **Rewards**: $2M rewards program integrated with V4 positions to incentivize tight liquidity ±0.5-1%. Current target: 9% APR via sUSDGB staking.
 
 ## Token Allocation Architecture (Eth-Inscriptions)

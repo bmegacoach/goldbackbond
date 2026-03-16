@@ -174,14 +174,14 @@ const CCAAuctionModal = ({ isOpen, onClose }: CCAAuctionModalProps) => {
                         {/* Header */}
                         <div className="flex items-start justify-between mb-8 relative z-10">
                             <div className="flex items-center space-x-4">
-                                <div className="w-14 h-14 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                <div className="w-14 h-14 bg-gradient-to-br from-[#FF007A] to-[#ff4d9d] rounded-2xl flex items-center justify-center shadow-lg shadow-[#FF007A]/20">
                                     <Activity className="w-7 h-7 text-white" />
                                 </div>
                                 <div>
-                                    <h2 className="text-2xl font-bold text-white tracking-tight">CCA Auction</h2>
+                                    <h2 className="text-2xl font-bold text-white tracking-tight">Continuous Clearing Auction</h2>
                                     <div className="flex items-center space-x-2 mt-1">
-                                        <span className="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/30 uppercase tracking-wider">
-                                            Uniswap V4 LBP
+                                        <span className="px-2.5 py-0.5 bg-[#FF007A]/20 text-[#FF007A] text-xs font-bold rounded-full border border-[#FF007A]/30 uppercase tracking-wider">
+                                            Uniswap V4 CCA
                                         </span>
                                         <span className="text-gray-400 text-sm">Base Mainnet</span>
                                     </div>
@@ -197,14 +197,14 @@ const CCAAuctionModal = ({ isOpen, onClose }: CCAAuctionModalProps) => {
                             <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50 relative overflow-hidden group">
                                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                 <p className="text-sm text-gray-400 mb-1 font-medium">Current Price</p>
-                                <p className="text-3xl font-bold text-white tracking-tight">${currentPrice} <span className="text-base font-normal text-emerald-400">USDC</span></p>
-                                <p className="text-xs text-emerald-500 mt-2 flex items-center"><Globe className="w-3 h-3 mr-1" /> Dynamic Clearing</p>
+                                <p className="text-3xl font-bold text-white tracking-tight">${currentPrice} <span className="text-base font-normal text-[#FF007A]">USDC</span></p>
+                                <p className="text-xs text-[#FF007A] mt-2 flex items-center"><Globe className="w-3 h-3 mr-1" /> Dynamic Clearing</p>
                             </div>
                             <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
                                 <p className="text-sm text-gray-400 mb-1 font-medium">Target Raise</p>
                                 <p className="text-3xl font-bold text-white tracking-tight">${(Number(targetRaise) / 1000000).toFixed(0)}M</p>
                                 <div className="w-full bg-slate-700 h-1.5 rounded-full mt-3 overflow-hidden">
-                                    <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${progressPercent}%` }} />
+                                    <div className="bg-[#FF007A] h-full rounded-full" style={{ width: `${progressPercent}%` }} />
                                 </div>
                                 <p className="text-xs text-gray-500 mt-1.5">${formatNumber(totalRaised)} raised</p>
                             </div>
@@ -221,18 +221,18 @@ const CCAAuctionModal = ({ isOpen, onClose }: CCAAuctionModalProps) => {
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => handleConnect(connector.id)}
                                         disabled={isPending}
-                                        className="w-full p-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-emerald-500/50 rounded-2xl transition-all duration-200 flex items-center justify-between group"
+                                        className="w-full p-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-[#FF007A]/50 rounded-2xl transition-all duration-200 flex items-center justify-between group"
                                     >
                                         <div className="flex items-center space-x-4">
-                                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center border border-slate-700 group-hover:border-emerald-500/30 transition-colors">
-                                                <Wallet className="w-5 h-5 text-gray-400 group-hover:text-emerald-400 transition-colors" />
+                                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center border border-slate-700 group-hover:border-[#FF007A]/30 transition-colors">
+                                                <Wallet className="w-5 h-5 text-gray-400 group-hover:text-[#FF007A] transition-colors" />
                                             </div>
                                             <div className="text-left">
                                                 <p className="text-white font-medium">{connector.name}</p>
                                                 <p className="text-gray-400 text-xs">Connect to Base Mainnet</p>
                                             </div>
                                         </div>
-                                        <ArrowRight className="w-5 h-5 text-gray-500 group-hover:text-emerald-400 transition-colors" />
+                                        <ArrowRight className="w-5 h-5 text-gray-500 group-hover:text-[#FF007A] transition-colors" />
                                     </motion.button>
                                 ))}
                             </div>
@@ -258,7 +258,7 @@ const CCAAuctionModal = ({ isOpen, onClose }: CCAAuctionModalProps) => {
                                             type="number"
                                             value={usdcAmount}
                                             onChange={(e) => setUsdcAmount(e.target.value)}
-                                            className="w-full bg-slate-900 border-2 border-slate-700 rounded-2xl px-5 py-4 text-white text-2xl font-bold focus:border-emerald-500 focus:outline-none transition-colors"
+                                            className="w-full bg-slate-900 border-2 border-slate-700 rounded-2xl px-5 py-4 text-white text-2xl font-bold focus:border-[#FF007A] focus:outline-none transition-colors"
                                             placeholder="1000"
                                         />
                                         <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
@@ -273,7 +273,7 @@ const CCAAuctionModal = ({ isOpen, onClose }: CCAAuctionModalProps) => {
                                         <button
                                             key={preset}
                                             onClick={() => setUsdcAmount(preset.replace('K', '000'))}
-                                            className="py-2.5 bg-slate-800 hover:bg-emerald-500/10 border border-slate-700 hover:border-emerald-500/50 rounded-xl text-gray-300 hover:text-emerald-400 text-sm font-semibold transition-all"
+                                            className="py-2.5 bg-slate-800 hover:bg-[#FF007A]/10 border border-slate-700 hover:border-[#FF007A]/50 rounded-xl text-gray-300 hover:text-[#FF007A] text-sm font-semibold transition-all"
                                         >
                                             ${preset}
                                         </button>
@@ -287,11 +287,11 @@ const CCAAuctionModal = ({ isOpen, onClose }: CCAAuctionModalProps) => {
                                     </div>
                                     <div className="flex justify-between items-center text-sm">
                                         <span className="text-gray-400">Permit2 Approval</span>
-                                        <span className="text-emerald-400 flex items-center">Included <Check className="w-3 h-3 ml-1" /></span>
+                                        <span className="text-[#FF007A] flex items-center">Included <Check className="w-3 h-3 ml-1" /></span>
                                     </div>
                                     <hr className="border-slate-700 my-2" />
                                     <div className="text-xs text-gray-500 leading-relaxed">
-                                        By confirming, you authorize the Uniswap V4 <code className="text-emerald-400/80 bg-emerald-500/10 px-1 rounded">LiquidityLauncher</code> parameter strategy to spend via Permit2.
+                                        By confirming, you authorize the Uniswap V4 <code className="text-[#FF007A]/80 bg-[#FF007A]/10 px-1 rounded">LiquidityLauncher</code> parameter strategy to spend via Permit2.
                                     </div>
                                 </div>
 
@@ -299,7 +299,7 @@ const CCAAuctionModal = ({ isOpen, onClose }: CCAAuctionModalProps) => {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={handleParticipate}
-                                    className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold rounded-2xl transition-all shadow-lg shadow-emerald-500/25 flex items-center justify-center space-x-2 text-lg"
+                                    className="w-full py-4 bg-gradient-to-r from-[#FF007A] to-[#ff4d9d] hover:from-[#ff1a8c] hover:to-[#ff66b3] text-white font-bold rounded-2xl transition-all shadow-lg shadow-[#FF007A]/25 flex items-center justify-center space-x-2 text-lg"
                                 >
                                     <span>Place Bid</span>
                                     <ArrowUpRight className="w-5 h-5" />
@@ -312,9 +312,9 @@ const CCAAuctionModal = ({ isOpen, onClose }: CCAAuctionModalProps) => {
                             <div className="text-center py-8 space-y-6 animate-in fade-in">
                                 <div className="relative w-24 h-24 mx-auto">
                                     <div className="absolute inset-0 border-4 border-slate-700 rounded-full" />
-                                    <div className="absolute inset-0 border-4 border-emerald-500 rounded-full border-t-transparent animate-spin" />
+                                    <div className="absolute inset-0 border-4 border-[#FF007A] rounded-full border-t-transparent animate-spin" />
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <Clock className="w-8 h-8 text-emerald-400" />
+                                        <Clock className="w-8 h-8 text-[#FF007A]" />
                                     </div>
                                 </div>
                                 <div>

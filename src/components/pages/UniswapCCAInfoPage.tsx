@@ -48,18 +48,18 @@ const UniswapCCAInfoPage = () => {
             {/* Live Badge */}
             <div className="inline-flex items-center bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/40 rounded-full px-5 py-2 mb-6">
               <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse mr-2" />
-              <span className="text-emerald-400 text-sm font-semibold tracking-wide">LIVE: March 15 – April 31, 2026</span>
+              <span className="text-emerald-400 text-sm font-semibold tracking-wide">LIVE: March 16 – June 14, 2026</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-violet-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">
-                Uniswap CCA
+              <span className="bg-gradient-to-r from-[#FF007A] via-[#ff4d9d] to-pink-400 bg-clip-text text-transparent">
+                Continuous Clearing Auction
               </span>
               <br />
               <span className="text-white">× Goldbackbond</span>
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              The Goldbackbond USDGB token is launching via a <strong className="text-white">Uniswap Concentrated Capital Auction</strong> — 
+              The Goldbackbond USDGB token is launching via a <strong className="text-white">Uniswap Continuous Clearing Auction</strong> — 
               the most transparent, permissionless, and fair method for bootstrapping deep on-chain liquidity for a new token.
             </p>
           </motion.div>
@@ -94,10 +94,10 @@ const UniswapCCAInfoPage = () => {
           >
             <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-                What Is a Uniswap <span className="text-violet-400">CCA?</span>
+                What Is a Uniswap <span className="text-[#FF007A]">CCA?</span>
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                A <strong className="text-white">Concentrated Capital Auction (CCA)</strong> is a Uniswap v4-native liquidity bootstrapping mechanism 
+                A <strong className="text-white">Continuous Clearing Auction (CCA)</strong> is a Uniswap v4-native liquidity bootstrapping mechanism 
                 that replaces traditional token launch methods. Instead of selling tokens to VCs at discounts and dumping on retail, 
                 the CCA lets the <em>market</em> discover the fair clearing price on-chain — transparently and permissionlessly.
               </p>
@@ -111,7 +111,7 @@ const UniswapCCAInfoPage = () => {
               <div className="bg-slate-800/60 border border-slate-700/50 rounded-2xl overflow-hidden">
                 <div className="grid grid-cols-2 text-xs font-semibold">
                   <div className="bg-red-500/10 border-r border-slate-700/50 p-3 text-red-400 text-center">Traditional IDO Launch</div>
-                  <div className="bg-violet-500/10 p-3 text-violet-400 text-center">Uniswap CCA Launch ✓</div>
+                  <div className="bg-[#FF007A]/10 p-3 text-[#FF007A] text-center">Uniswap CCA Launch ✓</div>
                 </div>
                 {[
                   ['VC allocations at huge discounts', 'Market discovers fair price on-chain'],
@@ -215,17 +215,17 @@ const UniswapCCAInfoPage = () => {
                 color: 'text-amber-400',
                 bg: 'from-amber-500/20 to-amber-600/10',
                 border: 'border-amber-500/30',
-                title: 'Pre-Sale at $0.80',
-                body: 'Qualified buyers (Tier 1 KYC, min $10K) purchase USDGB at $0.80 during March 15 – April 31, 2026 — a 20% discount to the $1.00 NAV. Pre-sale tokens are delivered staked (sUSDGB) and locked during the CCA period.'
+                title: 'Private Placement at $0.80',
+                body: 'Institutional and professional buyers purchase USDGB at $0.80 via agent-closed channels — a 20% discount to NAV. These tokens are delivered pre-staked (sUSDGB) with a 12-month lockup.'
               },
               {
                 step: '02',
                 icon: BarChart3,
-                color: 'text-violet-400',
-                bg: 'from-violet-500/20 to-violet-600/10',
-                border: 'border-violet-500/30',
-                title: 'CCA Auction Opens on Uniswap',
-                body: 'The CCA runs on Uniswap v4 (Base Mainnet). Public participants bid on USDGB across price tranches: $0.85, $0.90, $0.95, and $1.00. All bids are on-chain and publicly visible — no order front-running.'
+                color: 'text-[#FF007A]',
+                bg: 'from-[#FF007A]/20 to-[#ff4d9d]/10',
+                border: 'border-[#FF007A]/30',
+                title: 'Continuous Clearing Auction Opens',
+                body: 'The CCA runs on Uniswap v4 (Base Mainnet). Public participants bid on USDGB across transparent price tranches: $0.85, $0.90 (Floor), $0.95, and $1.00. All bids are on-chain and publicly visible — no order front-running.'
               },
               {
                 step: '03',
@@ -243,7 +243,7 @@ const UniswapCCAInfoPage = () => {
                 bg: 'from-blue-500/20 to-blue-600/10',
                 border: 'border-blue-500/30',
                 title: 'Deep Liquidity Pool Seeded',
-                body: 'Upon auction close, proceeds automatically seed a concentrated Uniswap v4 USDGB/USDC liquidity pool targeting $25M–$35M depth. 60% of proceeds + matched USDGB are deposited into the pool — creating immediate, deep on-chain liquidity.'
+                body: 'Upon auction close, proceeds automatically seed a concentrated Uniswap v4 USDGB/USDC liquidity pool targeting $25M–$35M depth. 70% of proceeds automatically seed LP liquidity, with 20% for operations and 10% for reserves.'
               },
               {
                 step: '05',
@@ -297,10 +297,10 @@ const UniswapCCAInfoPage = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              What Pre-Sale Buyers Receive
+              Private Placement & CCA Participation
             </h2>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-              The $0.80 pre-sale price during the CCA launch window represents the best pricing available in the Goldbackbond ecosystem.
+              Early participants access USDGB at the most favorable terms before permanent DEX expansion.
             </p>
           </motion.div>
 
@@ -348,9 +348,9 @@ const UniswapCCAInfoPage = () => {
           <div className="relative">
             <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-violet-500/50 via-emerald-500/50 to-blue-500/50" />
             {[
-              { date: 'March 15, 2026', label: 'CCA Auction Opens', desc: 'Pre-sale window opens at $0.80/USDGB on Uniswap v4 (Base). Tier 1 KYC required. Min $10K.', color: 'bg-violet-500', active: true },
-              { date: 'March 15 – April 31', label: 'Auction Window Active', desc: 'Public bidding across $0.85 → $0.90 → $0.95 → $1.00 tranches. $25M–$35M liquidity target.', color: 'bg-emerald-500', active: true },
-              { date: 'April 31, 2026', label: 'CCA Auction Closes', desc: 'Clearing price set. Uniswap v4 pool seeded automatically. Pre-sale tokens unlock for free trading.', color: 'bg-amber-500', active: false },
+              { date: 'March 16, 2026', label: 'CCA Auction Opens', desc: 'Pre-sale window opens at $0.80/USDGB on Uniswap v4 (Base). Tier 1 KYC required. Min $10K.', color: 'bg-violet-500', active: true },
+              { date: 'March 16 – June 14', label: 'Auction Window Active', desc: 'Public bidding across $0.85 → $0.90 → $0.95 → $1.00 tranches. $25M–$35M liquidity target.', color: 'bg-emerald-500', active: true },
+              { date: 'June 14, 2026', label: 'CCA Auction Closes', desc: 'Clearing price set. Uniswap v4 pool seeded automatically. Pre-sale tokens unlock for free trading.', color: 'bg-amber-500', active: false },
               { date: 'Q2 2026', label: 'Hyperliquid Listing', desc: 'USDGB lists on Hyperliquid for institutional depth. $2M Rewards Pool distributed to eligible holders.', color: 'bg-blue-500', active: false },
               { date: 'Q3 2026', label: 'Railgun Privacy (Tier 3)', desc: 'Railgun shielded environment activates for fully KYC\'d Tier 2 users. No new token — same USDGB.', color: 'bg-purple-500', active: false },
               { date: 'Q4 2026+', label: 'CEX Listings', desc: 'MEXC listing Nov 1, 2026. BTCC/KuCoin/Binance targeted sequentially thereafter.', color: 'bg-pink-500', active: false },
@@ -391,7 +391,7 @@ const UniswapCCAInfoPage = () => {
               Ready to Participate?
             </h2>
             <p className="text-xl text-gray-300 mb-10">
-              The Uniswap CCA Auction is live now. Pre-sale pricing at <strong className="text-amber-400">$0.80</strong> closes April 31, 2026.
+              The Uniswap CCA Auction is live now. Pre-sale pricing at <strong className="text-amber-400">$0.80</strong> closes June 14, 2026.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
@@ -399,12 +399,12 @@ const UniswapCCAInfoPage = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-violet-500 to-purple-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-violet-400 hover:to-purple-500 transition-all duration-200 shadow-lg shadow-violet-500/25 flex items-center justify-center gap-2 w-full sm:w-auto"
+                  className="bg-gradient-to-r from-[#FF007A] to-[#ff4d9d] text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-[#ff1a8c] hover:to-[#ff66b3] transition-all duration-200 shadow-lg shadow-[#FF007A]/25 flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
                   <Zap className="h-5 w-5" />
-                  Participate in CCA Auction
+                  Participate in Continuous Clearing Auction
                 </motion.button>
-              </Link>
+            </Link>
               <Link to="/whitepaper">
                 <motion.button
                   whileHover={{ scale: 1.05 }}

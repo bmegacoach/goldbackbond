@@ -252,7 +252,7 @@ const HomePage = () => {
             <div className="flex items-center justify-center mb-6">
               <div className="flex items-center bg-gradient-to-r from-violet-500 to-purple-600 rounded-full px-6 py-2 text-white font-bold text-sm animate-pulse">
                 <Zap className="h-4 w-4 mr-2" />
-                🦄 LIVE NOW: UNISWAP CCA LAUNCH — MARCH 15 TO APRIL 31, 2026
+                🦄 LIVE NOW: UNISWAP CCA LAUNCH — MARCH 16 TO JUNE 14, 2026
               </div>
             </div>
 

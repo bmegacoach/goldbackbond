@@ -73,7 +73,7 @@ async function registerLender() {
       lenderAddress: '0x742d35Cc6634C0532925a3b8D5a1A8e1aC29c4b1',
       entityName: 'Your Institution Name',
       licenseNumber: 'LICENSE-12345',
-      maxLendingCapacity: '1000000000000000000000000000', // $1B
+      maxLendingCapacity: '100000000000000000000000000', // $100M
       tierLevel: 3
     });
     

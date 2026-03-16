@@ -7,14 +7,17 @@
 
 // Base Mainnet contract addresses (GBB Ecosystem)
 export const CONTRACTS = {
-    USDGB_TOKEN: '0x1b12fdbda1d6709e189fe16e1a76469e05ce8a5e' as `0x${string}`,
+    USDGB_TOKEN: '0x1b12FDBDa1D6709e189Fe16E1A76469E05CE8A5e' as `0x${string}`,
     MINTING: '0x899a399a783494bec8ff8c2ab5ec1fc29efe3a63' as `0x${string}`, 
     LP_REWARD_POOL: '0xbfb2a2d959819590b72815d637e50c16be9cad3f' as `0x${string}`,
-    GOLD_BONUS_VAULT: '0x3a3d2a95e29e93b9406f15e4543044a93d495a69' as `0x${string}`,
+    GOLD_BONUS_VAULT: '0x9A0142DB31a3Bf8423fBe240Fe1dEa18545be6Bb' as `0x${string}`,
     CERTIFICATE_STAKING: '0xfe57d42b4e32c62f69b22b459d53b9dd9021facf' as `0x${string}`,
     GUARDIAN: '0x4cbce2b39d4974269c7b8b1341dbc7db0352945a' as `0x${string}`,
     ALLOCATION_INSCRIPTION: '0xC14607086D470Bc9737756FBb2B14a091EF37B32' as `0x${string}`,
     LENDER_REGISTRY: '0x07c810645b5230DE0430d5A93705E323f5a5104e' as `0x${string}`,
+    GENESIS_BANK_LENDER: '0xc2FF845095ADC1EE93c93Bec0c33a538D0208407' as `0x${string}`,
+    CHAINLINK_XAU_USD: '0x5213eBB69743b85644dbB6E25cdF994aFBb8cF31' as `0x${string}`,
+    ADMIN: '0xE9Eb8E7B94C1Ebb02Ac44975435e3d2bCa8E6a33' as `0x${string}`,
 } as const
 
 // Uniswap V4 Addresses (Base Mainnet)
@@ -56,7 +59,7 @@ export const CONTRACT_METADATA = {
         maxSupply: '250560000000', // 250.56B
     },
     LP_REWARD_POOL: {
-        aprTiers: [50, 30, 20, 10], // Month 1-4+ APR %
+        aprTiers: [50, 30, 20, 9], // Month 1-4+ APR %
     },
     GOLD_BONUS_VAULT: {
         bonusCap: 15, // Max 15% APR bonus
@@ -69,6 +72,19 @@ export const CONTRACT_METADATA = {
         defaultSoftLimit: '10000', // 10K USDGB
         defaultHardLimit: '1000000', // 1M USDGB
     },
+    LP_REWARDS: {
+        phases: [
+            { name: 'Prelaunch (CCA)', apr: 30, dates: 'Mar 16 — Jun 14, 2026' },
+            { name: 'Launch', apr: 15, dates: 'Jun 15 — Sep 13, 2026' },
+            { name: 'Steady State', apr: 9, dates: 'Sep 14, 2026+' },
+        ],
+        multipliers: [
+            { size: '100k', value: 1.5 },
+            { size: '50k', value: 1.3 },
+            { size: '10k', value: 1.15 },
+            { size: 'base', value: 1.0 },
+        ]
+    }
 } as const
 
 /**

@@ -430,20 +430,29 @@ class SmartContractDataService {
 
   private async getCCAMetrics() {
     try {
-      // Future: Will read from LBPStrategy hook
-      // Mocking CCA data based on CCA_PARAMETERS.md for now
+      // CCA Metrics sourced from Uniswap v4 LBP Strategy Hook
+      // For now, using totalSupply as a proxy for tokens distributed in CCA
+      if (!this.contracts.usdgb) throw new Error('Contract not initialized')
+      
+      const totalSupplyRaw = await this.contracts.usdgb.totalSupply()
+      const totalSupply = parseFloat(ethers.formatUnits(totalSupplyRaw, 18))
+      
+      // Calculate total raised based on $0.90 floor price for tokens minted so far
+      const totalRaised = (totalSupply * 0.90).toFixed(0)
+      
       return {
         ccaCurrentPrice: "0.90",
-        ccaTotalRaised: "12500000",
-        ccaTargetRaise: "20000000",
+        ccaTotalRaised: totalRaised,
+        ccaTargetRaise: "100000000",
         ccaTimeRemaining: 518400, // 6 days
-        ccaTokensDistributed: "13888888",
+        ccaTokensDistributed: totalSupply.toFixed(0),
       }
-    } catch {
+    } catch (error) {
+      console.warn('CCA metrics fetch failed:', error)
       return {
         ccaCurrentPrice: "0.90",
         ccaTotalRaised: "0",
-        ccaTargetRaise: "20000000",
+        ccaTargetRaise: "100000000",
         ccaTimeRemaining: 604800,
         ccaTokensDistributed: "0"
       }

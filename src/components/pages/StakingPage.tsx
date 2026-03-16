@@ -112,7 +112,6 @@ const StakingPage = () => {
     const month2Rewards = amount * 0.30 * (1 / 12)  // 30% APR for Month 2  
     const month3Rewards = amount * 0.20 * (1 / 12)  // 20% APR for Month 3
     const remaining9MonthsRewards = amount * 0.09 * (9 / 12)  // 9% APR for Months 4-12
-
     const goldBonusYearly = amount * goldBonusAPR  // Gold bonus applies all year
     const totalYearlyRewards = month1Rewards + month2Rewards + month3Rewards + remaining9MonthsRewards + goldBonusYearly
 
@@ -464,7 +463,7 @@ const StakingPage = () => {
                       <span className="text-yellow-300">${Math.round(rewards.breakdownRewards.month3).toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Months 4-12 (10% APR):</span>
+                      <span className="text-gray-400">Months 4-12 (9% APR):</span>
                       <span className="text-amber-300">${Math.round(rewards.breakdownRewards.remaining).toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between border-t border-gray-600 pt-2">

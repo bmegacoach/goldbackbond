@@ -11,7 +11,7 @@ This FAQ explains USDGB in plain language for everyday users, based on the offic
 USDGB is a digital utility token issued by Goldbackbond Inc. that directly tokenizes **Trust Certificate Units** held by the USDGB Trust Fund. Each token represents **$1.00 worth of gold at spot price** — stable NAV, not volatile like a full-ounce gold token. You can buy it, hold it in your wallet, use it as collateral for loans, and trade it on exchanges 24/7.
 
 **Q2. Who runs USDGB?**  
-USDGB is issued and operated by **Goldbackbond Inc.** (Delaware). It is led by **Troy Joyner, CEO & Founder** (PMP, 26 years experience in real estate, technology, and finance), with a management and advisory network including securities attorney Gila Lee Adato (Trust trustee), Henry Amado (Ebisu Securities), and Shannon Steel (Steel Private Bank).
+USDGB is issued and operated by **Goldbackbond Inc.** (Delaware). Technical direction is led by **CoachAI Development Fund**, supported by a management and advisory network including **Troy Joyner, PMP** (Lead Developer & Founder), securities attorney **Gila Lee Adato** (Trust trustee), **Henry Amado** (Ebisu Securities), and **Shannon Steel** (Steel Private Bank).
 
 **Q3. Is USDGB a stock or security?**  
 No. USDGB is structured as a **utility token (non-security)**. It does not give you ownership of the company, dividends, voting rights, or any claim on the Trust's assets. Goldbackbond Secured Debentures are a completely separate fixed-income securities product offered only to accredited investors.
@@ -44,10 +44,12 @@ Yes. Multi-party attestation has been completed by Wells Fargo Bank, Federal jud
 
 ## C. Buying and Selling
 
-**Q9. How do I buy in the presale (CCA Auction)?**  
-The **Uniswap CCA Auction** runs **March 15 – April 31, 2026**. Qualified buyers purchase USDGB at **$0.80 per token** (20% discount to $1.00 NAV), with a **$10,000 minimum**. Process: complete Tier 1 KYC → sign allocation agreement → wire funds → receive tokens within **2 hours** of funds clearing.
+**Q9. How do I buy tokens?**  
+There are two main channels:
+1. **Private Placement:** $0.80 per token, agent-closed, $10K minimum, pre-staked as sUSDGB with a 12-month lock.
+2. **Uniswap Continuous Clearing Auctions (CCA):** A public auction running **March 16 – June 14, 2026** with tranches from $0.85 to $1.00 and a **$0.90 floor price**.
 
-⚠️ Pre-sale tokens are delivered in a staked state and cannot be sold during the CCA Auction period. Free trading resumes once the Auction concludes.
+⚠️ Pre-sale tokens from the private placement are delivered in a staked state and cannot be sold during the CCA period.
 
 **Q10. What does "KYC tier" mean?**  
 Goldbackbond operates a **three-tier KYC framework**:
@@ -58,9 +60,12 @@ Goldbackbond operates a **three-tier KYC framework**:
 
 **Q11. Where will USDGB trade after the CCA Auction?**
 
-- **Now through April 31, 2026:** Uniswap CCA Auction (presale + live DEX on Base)
-- **May 1 – Oct 31, 2026:** Hyperliquid, Aster, Aerodrome, Jupiter DEXs
-- **Nov 1, 2026+:** Centralized exchange listings — MEXC first, then BTCC/KuCoin/Binance
+| Phase | Timeline | Venue | Target |
+|:--|:--|:--|:--|
+| Continuous Clearing Auctions | March 16 – June 14, 2026 | Uniswap (Base) | $25M–$35M liquidity |
+| DEX Expansion | June 15 – Oct 31, 2026 | Hyperliquid, Aster, Aerodrome, Jupiter | $50M+ |
+| CEX Phase 1 | Nov 1, 2026 | MEXC | Initial CEX depth |
+| CEX Phase 2 | Jan 1, 2027 | BTCC, KuCoin, or Binance | Expanded retail access |
 
 ---
 

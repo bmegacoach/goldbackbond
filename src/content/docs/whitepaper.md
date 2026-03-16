@@ -1,22 +1,22 @@
 ## 1. Executive Summary
 
-USDGB is a gold‑backed utility token, pegged to **$1.00 worth of gold at spot price**, with reserves attested via a long‑form Monetization Memorandum and held through the USDGB Trust Fund.[file:2][file:4][file:7][file:8][file:11] Tokens do not give direct redemption rights to physical gold; users access value through trading on exchanges and collateral‑based lending with participating institutions.[file:7][file:8][file:11]  
+USDGB is a gold‑backed utility token, pegged to **$1.00 worth of gold at spot price**, with reserves attested via a long‑form Monetization Memorandum and held through the USDGB Trust Fund. Tokens do not give direct redemption rights to physical gold; users access value through trading on exchanges and collateral‑based lending with participating institutions.  
 
 The Goldbackbond ecosystem is organized into three independent but aligned entities:
 
-- **USDGB Trust Fund** – holds Federal Reserve gold certificates, corporate equity, intellectual property, and related assets documented in the Monetization Memorandum and associated legal opinions; issues Trust Certificates to affiliated entities.[file:2][file:4][file:7]  
-- **Goldbackbond LTD (Delaware)** – institutional capital‑markets arm that issues Class A debentures to accredited and institutional investors via licensed broker‑dealers; debenture proceeds remain on LTD's balance sheet and may be used, at LTD's discretion, to support operating credit lines for Goldbackbond Inc.[file:11][file:12]  
-- **Goldbackbond Inc. (Texas)** – operating company that issues and manages the USDGB token, staking certificate contracts, user interfaces, and integrations with lenders and exchanges.[file:7][file:8][file:11]  
+- **USDGB Trust Fund** – holds Federal Reserve gold certificates, corporate equity, intellectual property, and related assets documented in the Monetization Memorandum and associated legal opinions; issues Trust Certificates to affiliated entities.  
+- **Goldbackbond LTD (Delaware)** – institutional capital‑markets arm that issues Class A debentures to accredited and institutional investors via licensed broker‑dealers; debenture proceeds remain on LTD's balance sheet and may be used, at LTD's discretion, to support operating credit lines for Goldbackbond Inc.  
+- **Goldbackbond Inc. (Texas)** – operating company that issues and manages the USDGB token, staking certificate contracts, user interfaces, and integrations with lenders and exchanges.  
 
 USDGB's design targets three main objectives:
 
 1. **Gold‑linked stability** – a $1.00 NAV tied to gold spot price, without physical redemption or ounce‑denominated volatility.
-2. **Institutional‑grade leverage with no price‑triggered liquidations** – staking certificates support bilateral loans from Genesis Bank & Trust as primary lender, with flexible lock terms (1–10 years), a guardian‑controlled 30‑day grace period instead of automated bot liquidations, and automatic lien release upon loan payoff.[file:7][file:8]
-3. **Compliance‑first, multi‑venue launch** – a phased roadmap built around Uniswap Continuous Clearing Auctions (CCA) (March 15 – April 31), key DEXs (Hyperliquid, Aster, Aerodrome, Jupiter), and mid‑tier centralized exchanges such as MEXC and KuCoin.[web:16][web:19][web:24][file:7][file:11]
+2. **Institutional‑grade leverage with no price‑triggered liquidations** – staking certificates support bilateral loans from Genesis Bank & Trust as primary lender, with flexible lock terms (1–10 years), a guardian‑controlled 30‑day grace period instead of automated bot liquidations, and automatic lien release upon loan payoff.
+3. **Compliance-first, multi‑venue launch** – a phased roadmap built around Uniswap Continuous Clearing Auctions (CCA) (March 16 – June 14), key DEXs (Hyperliquid, Aster, Aerodrome, Jupiter), and mid‑tier centralized exchanges such as MEXC and KuCoin.
 
-The project's smart contracts (including the USDGB token and staking certificate contract at address **0x1b12FDBDa1D6709e189Fe16E1A76469E05CE8A5e**) have been audited by **InterFi Security**, a third-party blockchain security firm, with all identified issues remediated before deployment.[file:7]
+The project's smart contracts (including the USDGB token and staking certificate contract at address **0x1b12FDBDa1D6709e189Fe16E1A76469E05CE8A5e**) have been audited by **InterFi Security**, a third-party blockchain security firm, with all identified issues remediated before deployment.
 
-Development and technical direction are led by Troy Joyner, PMP (CEO & Founder), supported by a management and advisory network including Gila Lee Adato (securities attorney and Trust trustee), Henry Amado (Ebisu Securities), and Shannon Steel (Steel Private Bank).[file:11]
+Development and technical direction are led by CoachAI Development Fund, supported by a management and advisory network including Troy Joyner, PMP Lead Developer and Founder, Gila Lee Adato (securities attorney and trustee), Henry Amado (Ebisu Securities), and Shannon Steel (Steel Private Bank).
 
 ---
 
@@ -28,18 +28,18 @@ Investors traditionally gain gold exposure through:
 
 - Physical bullion (bars/coins).  
 - Exchange‑traded funds (ETFs) like GLD and IAU.  
-- Tokenized gold products such as PAXG or XAUt.[file:7][file:9]  
+- Tokenized gold products such as PAXG or XAUt.  
 
 These options have important constraints:
 
 - **Operational friction** – physical gold involves storage, insurance, shipping, and custody risk.  
 - **Market‑hours limits** – ETFs trade only during market hours, not 24/7.  
-- **Unit volatility** – ounce‑denominated tokens like PAXG trade around the full price of an ounce of gold, which can move hundreds of dollars per day, making them awkward as a "base unit" for DeFi.[file:7]  
+- **Unit volatility** – ounce‑denominated tokens like PAXG trade around the full price of an ounce of gold, which can move hundreds of dollars per day, making them awkward as a "base unit" for DeFi.  
 
 At the same time, fiat‑backed stablecoins such as USDT and USDC offer:
 
 - Deep liquidity and broad acceptance.  
-- Simple 1:1 USD pegs.[file:7][file:9]  
+- Simple 1:1 USD pegs.  
 
 But they:
 
@@ -48,20 +48,20 @@ But they:
 
 ### 2.2 Liquidation risk in DeFi lending
 
-DeFi lending protocols like Aave and Compound use **over‑collateralized loans** with automatic liquidations when collateral value falls below defined thresholds.[web:38][web:45][web:46] In practice:
+DeFi lending protocols use **over‑collateralized loans** with manual and community parameters instead of aggressive algorithmic liquidations. In practice:
 
 - Price wicks or short‑term volatility can trigger liquidations far from long‑term value.  
 - Liquidation bots sell collateral into thin markets, exacerbating downside moves.
 
-For investors who want **stable, gold‑linked collateral and access to leverage** without exposure to these liquidation cascades, existing tools are inadequate.[file:7][web:40][web:46]
+For investors who want **stable, gold‑linked collateral and access to leverage** without exposure to these liquidation cascades, existing tools are inadequate.
 
 ### 2.3 Goldbackbond's approach
 
 Goldbackbond aims to:
 
 - Provide a **$1.00 gold‑pegged token** that behaves like a stablecoin backed by gold exposure.  
-- Tie the broader ecosystem's economic footing to a portfolio of Federal Reserve gold certificates, corporate equity, and intellectual property documented in extensive legal and forensic work.[file:2][file:4]  
-- Use **certificate‑based staking with flexible lock terms and bilateral lending**, with a guardian‑controlled grace period instead of algorithmic liquidation, to deliver institutional‑style leverage safely to crypto users.[file:7][file:8]
+- Tie the broader ecosystem's economic footing to a portfolio of Federal Reserve gold certificates, corporate equity, and intellectual property documented in extensive legal and forensic work.  
+- Use **certificate‑based staking with flexible lock terms and bilateral lending**, with a guardian‑controlled grace period instead of algorithmic liquidation, to deliver institutional‑style leverage safely to crypto users.
 
 ---
 
@@ -74,20 +74,20 @@ The USDGB Trust Fund is a foreign express trust that:
 - Holds a defined portfolio of Federal Reserve gold certificates and related instruments.  
 - Holds 100% of the issued and outstanding corporate shares of Goldbackbond Inc.  
 - Holds Goldbackbond's core intellectual property portfolio and associated IP evaluation.  
-- Maintains custody under documented vault arrangements and attorney attestation.[file:2][file:4]  
-- Issues **Trust Certificates** that evidence economic rights in the asset base; these certificates may be pledged in connection with Goldbackbond LTD's capital‑markets activities.[file:2][file:4][file:11]  
+- Maintains custody under documented vault arrangements and attorney attestation.  
+- Issues **Trust Certificates** that evidence economic rights in the asset base; these certificates may be pledged in connection with Goldbackbond LTD's capital‑markets activities.  
 
-The Trust is the **economic owner** of the underlying portfolio. USDGB token holders do **not** own an interest in the Trust, its assets, or Goldbackbond Inc. equity; they own only tokens with a gold‑linked NAV and defined utility in the ecosystem.[file:7][file:8][file:11]
+The Trust is the **economic owner** of the underlying portfolio. USDGB token holders do **not** own an interest in the Trust, its assets, or Goldbackbond Inc. equity; they own only tokens with a gold‑linked NAV and defined utility in the ecosystem.
 
 ### 3.2 Goldbackbond LTD (Delaware)
 
 Goldbackbond LTD is a Delaware corporation that:
 
-- Issues **Class A debentures** to institutional and accredited investors through licensed broker‑dealers.[file:11][file:12]  
-- Uses Trust Certificates as part of its collateral and capital structure, subject to securities law and broker‑dealer oversight.[file:11][file:12]  
+- Issues **Class A debentures** to institutional and accredited investors through licensed broker‑dealers.  
+- Uses Trust Certificates as part of its collateral and capital structure, subject to securities law and broker‑dealer oversight.  
 - Receives debenture proceeds into LTD corporate accounts, which are used for LTD's treasury management, operations, and growth.  
 
-From time to time, Goldbackbond LTD may extend credit facilities or intercompany funding to Goldbackbond Inc., but **USDGB tokens are not backed by or priced from any specific debenture issue**, and tokens do not confer any rights in LTD securities.[file:7][file:8][file:11]
+From time to time, Goldbackbond LTD may extend credit facilities or intercompany funding to Goldbackbond Inc., but **USDGB tokens are not backed by or priced from any specific debenture issue**, and tokens do not confer any rights in LTD securities.
 
 ### 3.3 Goldbackbond Inc. (Texas)
 
@@ -95,13 +95,13 @@ Goldbackbond Inc.:
 
 - Issues and manages the USDGB token.  
 - Operates the staking certificate contract and web‑based user interface.  
-- Coordinates with lending partners, exchanges, and sales contractors.[file:7][file:8][file:11]  
+- Coordinates with lending partners, exchanges, and sales contractors.  
 
 Sales contractors:
 
 - May sell **USDGB tokens** (utility product) and refer borrowers and debenture buyers.  
 - May **not** sell securities or give individualized investment advice.  
-- Work under a detailed compliance playbook covering approved and prohibited marketing language, KYC/AML, and telemarketing rules.[file:8][file:11]
+- Work under a detailed compliance playbook covering approved and prohibited marketing language, KYC/AML, and telemarketing rules.
 
 ### 3.4 Governance & Operating Model
 
@@ -110,11 +110,11 @@ Goldbackbond Inc. operates with a six‑agent functional structure:
 1. **Product & Development** – smart contracts, integrations, audits.  
 2. **Growth & Acquisition** – presale, CCA participation, exchange user growth.  
 3. **Community & Retention** – education, support, community channels.  
-4. **Operations & Compliance** – KYC/AML, sanctions screening, contractor oversight.[file:8][file:11]  
+4. **Operations & Compliance** – KYC/AML, sanctions screening, contractor oversight.  
 5. **Financial & Treasury** – liquidity management, market‑making, reporting.  
 6. **Data & Analytics** – monitoring, risk metrics, performance dashboards.
 
-Each agent has explicit KPIs and participates in weekly and monthly review cycles as described in the internal documentation package.[file:11]
+Each agent has explicit KPIs and participates in weekly and monthly review cycles as described in the internal documentation package.
 
 ---
 
@@ -122,39 +122,39 @@ Each agent has explicit KPIs and participates in weekly and monthly review cycle
 
 ### 4.1 Federal Reserve Gold Certificates
 
-The Trust's asset base is built around a portfolio of Series 1934 US Federal Reserve Gold Certificate Bearer Instruments with attached coupons, as described in a 10‑year Monetization Program Information Memorandum.[file:2] The documentation package includes:
+The Trust's asset base is built around a portfolio of Series 1934 US Federal Reserve Gold Certificate Bearer Instruments with attached coupons, as described in a 10‑year Monetization Program Information Memorandum. The documentation package includes:
 
 - Forensic examinations of certificates and coupon sheets.  
 - Historical research and archival evidence of issuance and custody.  
 - Bank SKRs and vault documentation.  
-- Legal opinions and notarized attestations at state and federal levels.[file:2]  
+- Legal opinions and notarized attestations at state and federal levels.  
 
-The certificates are stored in specially fabricated bronze boxes, with chain‑of‑custody records including periods in US Treasury facilities and major US banks.[file:2]
+The certificates are stored in specially fabricated bronze boxes, with chain‑of‑custody records including periods in US Treasury facilities and major US banks.
 
 ### 4.2 Colburn Valuation Report
 
-An updated **Colburn Valuation Report** dated **9 July 2025** recalculates the Gold Backed Value of each bond using the prevailing gold price on that date.[file:4] According to the report:
+An updated **Colburn Valuation Report** dated **9 July 2025** recalculates the Gold Backed Value of each bond using the prevailing gold price on that date. According to the report:
 
-- Each bond has a **Gold Backed Value** of approximately **USD 10.659 billion** and an **Interest Value** of **USD 1.32 billion**, for a combined valuation of **USD 11.979 billion per bond** on a gold‑linked basis.[file:4]  
+- Each bond has a **Gold Backed Value** of approximately **USD 10.659 billion** and an **Interest Value** of **USD 1.32 billion**, for a combined valuation of **USD 11.979 billion per bond** on a gold‑linked basis.  
 
-For prudence, Goldbackbond uses more conservative currency‑value baselines in its own planning, recognizing the Colburn numbers as independent third‑party valuation of the ultimate gold‑linked potential rather than a direct guarantee or redemption value.[file:2][file:4]
+For prudence, Goldbackbond uses more conservative currency‑value baselines in its own planning, recognizing the Colburn numbers as independent third‑party valuation of the ultimate gold‑linked potential rather than a direct guarantee or redemption value.
 
 ### 4.3 Additional Trust Assets: Corporate Equity and Intellectual Property
 
 Beyond the gold certificates portfolio, the USDGB Trust Fund holds additional intangible and corporate assets that strengthen the overall ecosystem:
 
 - **Monetization Memorandum and Associated Rights:** The Monetization Program Information Memorandum itself, together with its supporting legal opinions and archival research, is treated as an intangible Trust asset and underpins institutional‑grade attestation of the gold‑certificate portfolio.  
-- **100% of Goldbackbond Inc. Corporate Shares:** The Trust holds 100% of the issued and outstanding corporate shares of Goldbackbond Inc. as part of its asset base, aligning the operating company's long‑term interests with the Trust structure.[file:7][file:11]  
-- **Intellectual Property Portfolio and Valuation:** The Trust holds Goldbackbond's core intellectual property (including software, brand assets, and proprietary processes) together with an independent IP evaluation report that assigns a documented economic value to this portfolio.[file:7][file:11]  
+- **100% of Goldbackbond Inc. Corporate Shares:** The Trust holds 100% of the issued and outstanding corporate shares of Goldbackbond Inc. as part of its asset base, aligning the operating company's long‑term interests with the Trust structure.  
+- **Intellectual Property Portfolio and Valuation:** The Trust holds Goldbackbond's core intellectual property (including software, brand assets, and proprietary processes) together with an independent IP evaluation report that assigns a documented economic value to this portfolio.  
 
 These additional assets are **supplementary** to the gold‑certificate base and may be referenced in institutional arrangements (such as debenture issuance and credit facilities), but they do not alter the fact that USDGB token holders own only tokens with a gold‑linked NAV and defined utility; they do not own equity in Goldbackbond Inc. or direct rights to any intellectual property.
 
 ### 4.4 Separation from Token Rights
 
-The Trust → LTD → Inc structure defines how capital flows into the corporate ecosystem, but **USDGB tokens do not grant any direct claim on Trust assets or debentures**.[file:7][file:8][file:11] Instead:
+The Trust → LTD → Inc structure defines how capital flows into the corporate ecosystem, but **USDGB tokens do not grant any direct claim on Trust assets or debentures**. Instead:
 
 - Token holders receive access to a gold‑pegged NAV and to staking and lending utilities described in this whitepaper.  
-- Debenture holders have rights and protections exclusively under debenture offering documents and securities law, managed via broker‑dealers.[file:11][file:12]  
+- Debenture holders have rights and protections exclusively under debenture offering documents and securities law, managed via broker‑dealers.  
 
 This separation is intentional and central to ensuring USDGB remains a **utility token, not a security token**.
 
@@ -166,9 +166,9 @@ This separation is intentional and central to ensuring USDGB remains a **utility
 
 - **Standard:** ERC‑20‑compatible on an EVM chain.  
 - **Contract:** `0x1b12FDBDa1D6709e189Fe16E1A76469E05CE8A5e`.  
-- **Maximum supply:** 250.56 billion USDGB.[file:7]  
-- **Peg:** 1 USDGB is designed to reflect **$1.00 worth of gold at spot price**; as gold price moves, the amount of gold represented per token adjusts while the NAV target remains $1.00.[file:7][file:8]  
-- **Redemption:** There is **no physical gold redemption** mechanism. Users exit via trading, fiat off‑ramps, or loan settlement, not by exchanging tokens for bullion.[file:7][file:8][file:11]
+- **Maximum supply:** 250.56 billion USDGB.  
+- **Peg:** 1 USDGB is designed to reflect **$1.00 worth of gold at spot price**; as gold price moves, the amount of gold represented per token adjusts while the NAV target remains $1.00.  
+- **Redemption:** There is **no physical gold redemption** mechanism. Users exit via trading, fiat off‑ramps, or loan settlement, not by exchanging tokens for bullion.
 
 ### 5.2 Staking Certificate Contract
 
@@ -180,7 +180,7 @@ The **CertificateStaking** contract provides:
   - Locked amount.  
   - Start timestamp.  
   - Current unlock timestamp (initially start + 365 days, and updatable if the term is extended).  
-- Reward accrual and distribution logic for base APY and optional bonus pools.[file:7]  
+- Reward accrual and distribution logic for base APY and optional bonus pools.  
 
 By default, new stakes are created with a 365‑day term. At any point after the initial stake—and in particular as a condition of receiving a loan—the holder may **extend the staking term to 3, 5, or 10 years**, subject to lender requirements:
 
@@ -197,12 +197,12 @@ The staking certificate contract uses a **guardian‑controlled architecture** t
 - A Gnosis Safe multisig holds the **GUARDIAN_ROLE**.  
 - When a borrower misses a scheduled loan payment, the lender (or servicing agent) can signal a **missed payment** to the guardian.  
 - The contract records a `firstMissedPaymentTimestamp` for that certificate, starting a **30‑day late period**.  
-- During these 30 days, the borrower receives **daily risk notifications** from the platform and has the opportunity to cure the default, refinance, or reduce exposure.[file:7][file:8]  
+- During these 30 days, the borrower receives **daily risk notifications** from the platform and has the opportunity to cure the default, refinance, or reduce exposure.  
 - Only if:
   - The default remains uncured after 30 days from the first missed payment, or  
   - Another material default condition defined in the loan agreement occurs,  
 
-may the GUARDIAN multisig execute a reassignment of the staking certificate from the borrower to the lender using the guardian‑controlled function.[file:7][file:8]  
+may the GUARDIAN multisig execute a reassignment of the staking certificate from the borrower to the lender using the guardian‑controlled function.  
 
 In a reassignment:
 
@@ -212,14 +212,14 @@ In a reassignment:
 
 ### 5.4 Audit – InterFi Security
 
-**InterFi Security**, an independent third-party blockchain security firm specializing in smart contract and protocol security reviews, completed a security audit of the USDGB token contract, staking certificate contract, and administrative role configuration.[file:7] The audit:
+**InterFi Security**, an independent third-party blockchain security firm specializing in smart contract and protocol security reviews, completed a security audit of the USDGB token contract, staking certificate contract, and administrative role configuration. The audit:
 
 - Identified centralization risks and typical Solidity issues.  
 - Recommended ReentrancyGuard on state‑changing functions and multisig controls on privileged roles.  
 
-All identified items were remediated or fully addressed before mainnet deployment, and the current contracts went live with **zero unresolved audit findings**.[file:7]  
+All identified items were remediated or fully addressed before mainnet deployment, and the current contracts went live with **zero unresolved audit findings**.  
 
-The full audit report and executive summary are publicly accessible in the **Goldbackbond online Whitepaper documentation repository**.[file:7]
+The full audit report and executive summary are publicly accessible in the **Goldbackbond online Whitepaper documentation repository**.
 
 ---
 
@@ -227,34 +227,38 @@ The full audit report and executive summary are publicly accessible in the **Gol
 
 ### 6.1 Base Staking Model
 
-When users lock tokens via `stakeForCertificate`:
-
-- **Lock period:** minimum **365 days**, with the option to extend to **3, 5, or 10 years** either at loan origination or later during the life of the certificate; any extension resets the unlock timer from the date of extension.  
-- **Base APY:** fixed target APY (for example, 9%) set in the staking program configuration.[file:7]  
-- **Accrual:** rewards accrue continuously based on time and staked balance.  
-- **Distribution:** rewards are calculated daily and **paid weekly** in USDGB by the staking certificate contract.[file:7]  
-
 Rewards are funded by **treasury operations and program reserves**, not by direct redistribution of new investor deposits.
 
-### 6.2 Gold‑Price‑Linked Bonus Pools (Optional)
+### 6.2 Blended LP Reward Model (Time + Amount)
 
-Certain liquidity programs may offer a gold‑price‑linked bonus:
+LP rewards follow a blended model that incentivizes both early participation and capital depth.
 
-- **Bonus cap:** up to 15% additional APY.  
-- **Mechanism:** 3% bonus APY for every 5% increase in gold price over a defined baseline, calculated on rolling 30‑day windows and capped at 15%.[file:7]  
-- **Distribution:** claimable by eligible participants via pull‑based functions once bonus conditions are met.[file:7]
+**Base APR (by time phase):**
+| Phase | Base APR | Duration |
+|-------|----------|----------|
+| Prelaunch (CCA) | 30% | 90 days (Mar 16 — Jun 14) |
+| Launch (DEX expansion) | 15% | 90 days (Jun 15 — Sep 13) |
+| Steady State | 9% | Ongoing (Sep 14+) |
 
-Participation in bonus pools is optional and may require LP contributions or other specific actions.
+**Amount Multiplier:**
+| Deposit Size | Multiplier |
+|-------------|-----------|
+| ≥ $100K | 1.5x |
+| ≥ $50K | 1.3x |
+| ≥ $10K | 1.15x |
+| < $10K | 1.0x |
+
+**Effective APR = Base × Multiplier.** For example, a $100K deposit during the Prelaunch (CCA) phase earns an effective APR of **45%** (30% × 1.5).
 
 ### 6.3 Leverage via Participating Lenders
 
 Goldbackbond partners with institutional lenders — including **Genesis Bank & Trust** as the primary named lender and other institutional lending partners — that recognize staking certificates as high‑quality collateral:
 
 - **Loan‑to‑value (LTV):** up to 70% of the USD value of staked USDGB.  
-- **Collateral treatment:** lenders recognize up to **3× the collateral value** of the underlying Trust Certificate Units based on their institutional quality — a lender-side risk-adjusted multiplier, not an on-chain synthetic leverage mechanism.[file:7]  
-- **Loan terms:** interest rate, duration, and amortization are set by each lender; typical ranges are 8–12% interest and 12–36‑month terms.[file:7]  
-- **No price-based liquidation:** there are no price-triggered margin calls or automatic liquidations from gold price or USDGB price movements. Loss of collateral occurs only through contractual default.[file:7]  
-- **Term extension requirements:** at loan origination, the lender may require that the certificate's staking term be extended to 3, 5, or 10 years to match the loan duration. The borrower can request term extensions at any time; such extensions reset the unlock clock.[file:7][file:8]
+- **Collateral treatment:** lenders recognize up to **3× the collateral value** of the underlying Trust Certificate Units based on their institutional quality — a lender-side risk-adjusted multiplier, not an on-chain synthetic leverage mechanism.  
+- **Loan terms:** interest rate, duration, and amortization are set by each lender; typical ranges are 8–12% interest and 12–36‑month terms.  
+- **No price-based liquidation:** there are no price-triggered margin calls or automatic liquidations from gold price or USDGB price movements. Loss of collateral occurs only through contractual default.  
+- **Term extension requirements:** at loan origination, the lender may require that the certificate's staking term be extended to 3, 5, or 10 years to match the loan duration. The borrower can request term extensions at any time; such extensions reset the unlock clock.
 
 Goldbackbond Inc. does **not** make loans itself; it:
 
@@ -275,7 +279,7 @@ If a borrower fails to make a scheduled payment:
 3. A **30‑day late period** begins. During this window:
    - The borrower receives automated **daily risk notifications** from the platform.  
    - The borrower may cure the default, refinance, or otherwise resolve the situation.  
-4. If the default remains uncured after 30 days (or other material default conditions occur per the loan agreement), the GUARDIAN multisig may call the reassignment function to transfer the certificate to the lender.[file:7][file:8]  
+4. If the default remains uncured after 30 days (or other material default conditions occur per the loan agreement), the GUARDIAN multisig may call the reassignment function to transfer the certificate to the lender.  
 
 Key properties:
 
@@ -302,36 +306,23 @@ Goldbackbond's launch roadmap is structured in four phases:
 3. **Centralized Exchange Ramp (from November 1, 2026).**  
 4. **Year‑1 liquidity and growth targets.**
 
-This phased approach gives the team time to exercise the technical stack, gather market data, and build liquidity before entering higher‑visibility centralized venues.[web:47][web:51][web:55]
+This phased approach gives the team time to exercise the technical stack, gather market data, and build liquidity before entering higher‑visibility centralized venues.
 
-### 7.2 Presale at $0.80 (March 15 – April 31, 2026)
+### 7.2 Private Placement ($0.80)
+The $0.80 private placement is a separate channel from the CCA public auction. It is designed for institutional and professional partners:
+- **Price:** $0.80 per USDGB.
+- **Minimum allocation:** $10,000.
+- **Staking:** Pre-staked as sUSDGB with a 12-month lockup.
+- **Channel:** Agent-closed, non-automated onboarding.
 
-- **Price:** $0.80 per USDGB (20% discount to $1.00 NAV).  
-- **Window:** Uniswap CCA Auction presale runs **March 15 – April 31, 2026**.  
-- **Minimum allocation:** $10,000. No accredited-investor status required.  
-- **Eligibility:** Non‑sanctioned jurisdictions; Tier 1 KYC (valid government-issued photo ID + OFAC screening) required.[file:7][file:8][file:11]  
-- **Funding:** Buyers fund via bank wire to Goldbackbond's designated account.[file:7][file:8][file:11]  
-- **Delivery:** USDGB tokens delivered to buyer wallets **within 2 hours** of funds clearing.[file:7][file:8]  
-- **Note:** Pre-sale tokens are delivered in a staked (sUSDGB) state and cannot be sold during the CCA Auction period. Free trading resumes once the Auction concludes.  
+### 7.3 Uniswap Continuous Clearing Auctions (CCA) — March 16 to June 14, 2026
+From **March 16 through June 14, 2026**, Goldbackbond is running a **Uniswap Continuous Clearing Auction (CCA)** on Base chain. The CCA is a Uniswap v4-native batch clearing auction designed to:
+- Auction a defined allocation of USDGB to the public at transparent, market-driven tranches ($0.85, $0.90, $0.95, and $1.00).
+- Establish a **$0.90 floor price**.
+- Automatically seed a deep, stable Uniswap v4 liquidity pool at the clearing price, targeting **$25M–$35M initial liquidity**.
+- Create a fair, permissionless price-discovery mechanism on-chain.
 
-### 7.3 Strategic Private Allocation (Locked)
-
-In parallel with the public presale and CCA auctions, Goldbackbond will conduct a **strategic private allocation** for qualified professional buyers introduced through the sales network:
-
-- **Price:** $0.80 per USDGB (same as presale).  
-- **Hard cap:** **$25,000,000** notional value in Year 1.  
-- **Lockup:** All private‑allocation tokens are issued directly into a **12‑month lockup contract**; they **cannot be transferred, traded, deposited into Uniswap CCA, or used for market‑making or arbitrage** during the lock period.  
-- **Purpose:** Provide early economic exposure to professional partners while preserving fair, on‑chain price discovery for the circulating supply used in CCA and initial DEX markets.  
-
-The address and parameters of the private‑allocation contract will be published in the platform's Transparency section.
-
-### 7.4 Uniswap Concentrated Capital Auction (CCA) on Base — March 15 to April 31, 2026
-
-From **March 15 through April 31, 2026**, Goldbackbond is running a **Uniswap Concentrated Capital Auction (CCA)** on Base chain. The CCA is a Uniswap v4-native liquidity bootstrap event designed to:
-
-- Auction a defined allocation of USDGB to the public at a transparent market-driven clearing price.  
-- Automatically seed a deep, stable Uniswap v4 liquidity pool at the clearing price, targeting **$25M–$35M initial liquidity**.  
-- Create a fair, permissionless price-discovery mechanism on-chain.[web:16][web:19][web:24][web:52][web:59]  
+Proceeds from the CCA are allocated as follows: **70% to seeded LP liquidity, 20% to ecosystem operations, and 10% to capital reserves.**
 
 CCA tranches target price ranges around **$0.85, $0.90, $0.95, and $1.00**, validating the step‑up from the $0.80 presale price while building an organic on-chain order book. For detailed CCA mechanics, see the dedicated Uniswap CCA Information page.
 
@@ -357,7 +348,7 @@ During this phase, Goldbackbond's objective is to build and maintain **$50,000,0
 Starting in late 2026, Goldbackbond plans a measured ramp into centralized exchanges:
 
 - **November 1, 2026:** First centralized listing on **MEXC**, providing CEX access while targeting a crypto‑native, globally distributed audience.  
-- **January 1, 2027:** Second mid‑tier CEX listing on **BTCC, KuCoin, or a comparable exchange** (final venue to be confirmed), expanding reach and preparing for potential future Tier‑1 discussions.[web:47][web:48][web:51][web:54]  
+- **January 1, 2027:** Second mid‑tier CEX listing on **BTCC, KuCoin, or a comparable exchange** (final venue to be confirmed), expanding reach and preparing for potential future Tier‑1 discussions.  
 
 By the time of the second CEX listing, the project will have:
 
@@ -373,19 +364,18 @@ Goldbackbond Inc.'s Year‑1 liquidity objective is **$100,000,000** of combined
 - **$25M Presale & CCA** – raised and distributed through the pre‑launch presale and Uniswap CCA auctions.  
 - **$50M DEX Liquidity** – sustained market depth across Hyperliquid, Aster, Aerodrome, and Jupiter during the official launch phase.  
 
-These are **targets**, not guarantees, but they provide a transparent capital and liquidity roadmap for lenders, exchanges, and users.[web:47][web:51][web:60][web:64]
+These are **targets**, not guarantees, but they provide a transparent capital and liquidity roadmap for lenders, exchanges, and users.
 
 ---
 
 ## 8. Use Cases
 
-### 8.1 Digital Gold Parking
-
+- **Digital Gold Parking**
 USDGB allows users to hold a **gold‑pegged digital asset** without handling physical bullion:
 
 - $1.00 NAV tied to gold spot price.  
 - 24/7 transfers and trading on DeFi venues.  
-- Self‑custody via wallets and hardware devices.[file:7]
+- Self‑custody via wallets and hardware devices.
 
 ### 8.2 Collateral for Institutional Loans
 
@@ -393,16 +383,16 @@ By staking USDGB and obtaining a certificate, users can:
 
 - Borrow up to **70% LTV** from participating lenders.  
 - Maintain gold exposure while accessing USD or stablecoin liquidity.  
-- Use credit for business operations, hedging, or other investments.[file:7]  
+- Use credit for business operations, hedging, or other investments.  
 - Extend the staking term to 3, 5, or 10 years to match loan requirements and lock in long‑term collateral arrangements.
 
 ### 8.3 Yield & Structured Strategies
 
 Investors can use USDGB to:
 
-- Earn fixed APY from staking.  
+- Earn fixed APR from staking.  
 - Participate in gold‑price‑linked bonus pools.  
-- Combine staking, borrowing, and external strategies (e.g., basis trades) to construct custom risk/return profiles, all subject to their own risk management.[file:7]
+- Combine staking, borrowing, and external strategies (e.g., basis trades) to construct custom risk/return profiles, all subject to their own risk management.
 
 ### 8.4 DEX Liquidity Provision
 
@@ -427,17 +417,17 @@ All such trading remains purely on the token side; no arbitrage mechanism involv
 
 ### 9.1 Smart Contract Risk
 
-Even with audits and best practices, smart contracts can contain bugs or vulnerabilities that could lead to partial or total loss of funds locked in or interacting with the contracts.[file:7]
+Even with audits and best practices, smart contracts can contain bugs or vulnerabilities that could lead to partial or total loss of funds locked in or interacting with the contracts.
 
 ### 9.2 Counterparty & Custodial Risk
 
 - The USDGB Trust Fund, custodian banks, lenders, and other intermediaries could default, be hacked, or be subject to regulatory action.  
-- USDGB token holders have **contractual exposure** to a gold‑linked NAV, not direct ownership of specific metals, certificates, or corporate equity.[file:7][file:11]
+- USDGB token holders have **contractual exposure** to a gold‑linked NAV, not direct ownership of specific metals, certificates, or corporate equity.
 
 ### 9.3 Regulatory Risk
 
 - Digital‑asset, commodities, tax, and securities regulations may change in key jurisdictions.  
-- Authorities could revise their interpretation of utility tokens, stablecoins, or gold‑linked instruments.[file:8][file:11]  
+- Authorities could revise their interpretation of utility tokens, stablecoins, or gold‑linked instruments.  
 - Goldbackbond intends to adapt structures as needed, but outcomes cannot be guaranteed.
 
 ### 9.4 Market Risk
@@ -451,7 +441,7 @@ Even with audits and best practices, smart contracts can contain bugs or vulnera
 Borrowers using staking certificates as collateral face the risk of:
 
 - Losing staked principal if they miss payments and fail to cure the default within the **30‑day late period**.  
-- Being unable to refinance or repay loans under unfavorable market conditions.[file:7][file:8]
+- Being unable to refinance or repay loans under unfavorable market conditions.
 
 ### 9.6 Term Extension & Lock Duration Risk
 
@@ -473,33 +463,32 @@ Goldbackbond has structured USDGB as a **utility token**:
 
 - No equity, dividend, or profit‑sharing rights.  
 - No direct claim on Trust assets, Goldbackbond Inc. equity, intellectual property, or debentures.  
-- Designed for payments, trading, staking, and collateral use.[file:7][file:8][file:11]
+- Designed for payments, trading, staking, and collateral use.
 
 Contractors are required to follow strict marketing language and are prohibited from:
 
 - Calling USDGB a security or investment contract.  
 - Promising guaranteed returns.  
-- Describing USDGB as redeemable for physical gold or as giving ownership of Trust assets.[file:8][file:11]
+- Describing USDGB as redeemable for physical gold or as giving ownership of Trust assets.
 
-### 10.2 KYC / AML
-
-- **Presale, private allocation, and staking participants** must complete full KYC (government ID, sanctions screening, and additional documentation as required).[file:7][file:8][file:11]  
+- **KYC / AML**
+- **Presale, private allocation, and staking participants** must complete full KYC (government ID, sanctions screening, and additional documentation as required).  
 - **DEX trading** (Uniswap, Hyperliquid, etc.) is non‑custodial and permissionless at the protocol level, but Goldbackbond screens wallets in its own systems and does not directly transact with sanctioned jurisdictions.  
-- Goldbackbond complies with OFAC, UN, and EU sanctions lists and refrains from dealing with banned countries or individuals.[file:7][file:8]
+- Goldbackbond complies with OFAC, UN, and EU sanctions lists and refrains from dealing with banned countries or individuals.
 
 ### 10.3 Geographic Restrictions
 
 USDGB is intended for users in jurisdictions where non‑security digital assets are permitted. Goldbackbond does not offer tokens to:
 
 - OFAC/UN/EU‑sanctioned countries.  
-- Jurisdictions where such instruments are prohibited or where local law would likely classify USDGB as an unregistered security.[file:7][file:8]
+- Jurisdictions where such instruments are prohibited or where local law would likely classify USDGB as an unregistered security.
 
 ### 10.4 Debentures & Securities
 
 Class A debentures issued by Goldbackbond LTD:
 
 - Are fixed‑income securities sold **only** through licensed broker‑dealers to accredited investors.  
-- Are subject to securities regulations and separate offerings documents.[file:11][file:12]  
+- Are subject to securities regulations and separate offerings documents.  
 
 USDGB tokens do **not** reference, track, or confer rights in these debentures.
 
@@ -510,31 +499,24 @@ USDGB tokens do **not** reference, track, or confer rights in these debentures.
 Goldbackbond aims to cultivate a community where token holders think and act as **stewards of the ecosystem**:
 
 - Sharing accurate information based on the official docs and FAQ.  
-- Supporting responsible usage of staking and leverage.  
-- Helping improve the platform through feedback and testing.  
-
-This is a cultural concept, not a legal construct: holding USDGB does **not** grant votes, equity, or governance rights in Goldbackbond Inc., Goldbackbond LTD, or the USDGB Trust Fund.
-
----
-
-## 12. Appendices & References
+- Supporting responsible community growth and governance.
 
 ### 12.1 Key Documents
 
-- Monetization Program Information Memorandum.[file:2]  
-- Colburn Valuation Report (9 July 2025).[file:4]  
-- InterFi Network Smart Contract Audit (February 2, 2026).[file:7]  
-- Goldbackbond Complete Documentation Package.[file:11]  
-- Sales Compliance Playbook.[file:8]
+- Monetization Program Information Memorandum.  
+- Colburn Valuation Report (9 July 2025).  
+- InterFi Security Smart Contract Audit (February 2, 2026).  
+- Goldbackbond Complete Documentation Package.  
+- Sales Compliance Playbook.
 
 ### 12.2 Glossary (Selected Terms)
 
-- **APY (Annual Percentage Yield):** standardized measure of yield including compounding.  
-- **CCA (Continuous Clearing Auction):** Uniswap v4 mechanism that aggregates bids and clears at a single price while seeding liquidity at that price.[web:16][web:19][web:24]  
+- **APR (Annual Percentage Rate):** standardized measure of yield.  
+- **CCA (Continuous Clearing Auction):** Uniswap v4 mechanism that aggregates bids and clears at a single price while seeding liquidity at that price.  
 - **Certificate Term Extension:** option to lengthen a staking certificate's lock period from 365 days to 3, 5, or 10 years; resets the unlock clock upon extension.  
-- **Debenture:** a corporate debt instrument issued by Goldbackbond LTD, separate from USDGB tokens.[file:11][file:12]  
+- **Debenture:** a corporate debt instrument issued by Goldbackbond LTD, separate from USDGB tokens.  
 - **GUARDIAN_ROLE:** multisig‑controlled role in the staking certificate contract empowered to reassign certificates after defined default conditions.  
-- **KYC (Know Your Customer):** process for verifying identity and screening for sanctions.[file:7][file:8]  
+- **KYC (Know Your Customer):** process for verifying identity and screening for sanctions.  
 - **Lien Release:** action by a lender to remove its encumbrance on a staking certificate upon full loan repayment; allows the certificate to be re‑pledged or unstaked.  
 - **LTV (Loan‑to‑Value):** ratio of loan amount to collateral value.  
 - **NAV (Net Asset Value):** per‑token economic reference value in USD.  

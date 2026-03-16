@@ -38,8 +38,8 @@ Multi-party attestation has been completed by Wells Fargo Bank, Federal judges, 
 **Q5. How is the $1.00 NAV peg to gold maintained?**  
 USDGB's target NAV is $1.00 worth of gold at spot. As gold prices move, the amount of gold notionally represented per token adjusts while the USD unit remains $1.00. Market-level enforcement relies on:
 
-- CCA-driven price discovery at launch (Uniswap CCA Auction, March 15 – April 31, 2026)
-- Liquidity provision across DEX and CEX venues (Hyperliquid Q2 2026, CEX listings from Q4 2026)
+- Continuous Clearing Auctions (CCA) price discovery at launch (March 16 – June 14, 2026)
+- Liquidity provision across DEX and CEX venues (Hyperliquid Q3 2026, CEX listings from Q4 2026)
 - Arbitrage by professional traders when USDGB deviates from intended NAV
 
 There is no hard on-chain redemption arbitrage because there is no physical gold redemption; the peg is economic and market-driven.
@@ -112,8 +112,8 @@ Upon full payoff of principal and interest, the lender issues an on-chain instru
 
 | Phase | Timeline | Venue | Target |
 |:--|:--|:--|:--|
-| CCA Auction (presale) | March 15 – April 31, 2026 | Uniswap (Base) | $25M–$35M liquidity |
-| DEX Phase | May 1 – Oct 31, 2026 | Hyperliquid, Aster, Aerodrome, Jupiter | $50M+ |
+| Continuous Clearing Auctions | March 16 – June 14, 2026 | Uniswap (Base) | $25M–$35M liquidity |
+| DEX Expansion | June 15 – Oct 31, 2026 | Hyperliquid, Aster, Aerodrome, Jupiter | $50M+ |
 | CEX Phase 1 | Nov 1, 2026 | MEXC | Initial CEX depth |
 | CEX Phase 2 | Jan 1, 2027 | BTCC, KuCoin, or Binance | Expanded retail access |
 

@@ -56,40 +56,13 @@ const LendingPage = () => {
   // PRE-LAUNCH: Lenders will be populated from on-chain data
   const lenders = [
     {
-      id: 'aave',
-      name: 'Aave Protocol',
-      rate: 7.5,
+      id: 'genesis-bank',
+      name: 'Genesis Bank & Trust',
+      rate: 9.0,
       maxLTV: 70,
-      reputation: 98,
-      totalLent: 25000000,
-      logo: '🟢'
-    },
-    {
-      id: 'compound',
-      name: 'Compound Finance',
-      rate: 8.2,
-      maxLTV: 68,
-      reputation: 96,
-      totalLent: 18500000,
-      logo: '🔷'
-    },
-    {
-      id: 'maker',
-      name: 'MakerDAO',
-      rate: 8.8,
-      maxLTV: 72,
-      reputation: 99,
-      totalLent: 32000000,
-      logo: '🟡'
-    },
-    {
-      id: 'venus',
-      name: 'Venus Protocol',
-      rate: 9.1,
-      maxLTV: 65,
-      reputation: 94,
-      totalLent: 12000000,
-      logo: '🔴'
+      reputation: 100,
+      totalLent: 100000000,
+      logo: '🏦'
     }
   ]
 
@@ -117,7 +90,7 @@ const LendingPage = () => {
     try {
       // NOTE: In production, placeLien is typically called by a GUARDIAN_ROLE Safe after off-chain doc signing.
       // This is enabled for direct demonstration/admin usage.
-      const lenderAddress = selectedLenderData.id === 'aave' ? '0x0000000000000000000000000000000000000001' : '0x0000000000000000000000000000000000000002'; // Mock lender mapping
+      const lenderAddress = '0xc2FF845095ADC1EE93c93Bec0c33a538D0208407'; // Genesis Bank & Trust
       if (!address) throw new Error("No address found");
       const tx = await placeLien(address, lenderAddress as `0x${string}`);
       console.log('Loan applied, tx hash:', tx);
@@ -183,7 +156,7 @@ const LendingPage = () => {
       usdgbAmount,
       goldCertificateValue,
       maxLoanAmount,
-      liquidationPrice: goldCertificateValue * 0.8, // Liquidation at 80% of gold certificate value
+      curePeriod: '30 Days', // No price-based liquidation; 30-day cure period for defaults
       safetyBuffer: goldCertificateValue - maxLoanAmount
     }
   }
@@ -339,9 +312,9 @@ const LendingPage = () => {
                     <Users className="h-6 w-6 text-blue-400" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-blue-400 mb-2">24+</div>
-                <div className="text-white font-semibold text-sm mb-1">Institutional Lenders</div>
-                <div className="text-gray-400 text-xs">Competitive rates available</div>
+                <div className="text-2xl font-bold text-blue-400 mb-2">1</div>
+                <div className="text-white font-semibold text-sm mb-1">Institutional Lender</div>
+                <div className="text-gray-400 text-xs">Genesis Bank & Trust</div>
               </div>
             </div>
 
@@ -519,9 +492,9 @@ const LendingPage = () => {
                   <span className="text-white font-bold">{loanTerm} Months</span>
                 </div>
                 <div className="flex justify-between items-center py-3 px-4 bg-slate-700/50 rounded-lg">
-                  <span className="text-gray-300">Liquidation Threshold</span>
-                  <span className="text-red-400 font-bold">
-                    ${loanCalculation.liquidationPrice.toLocaleString()}
+                  <span className="text-gray-300">Default Cure Period</span>
+                  <span className="text-amber-400 font-bold">
+                    {loanCalculation.curePeriod}
                   </span>
                 </div>
               </div>
@@ -632,7 +605,7 @@ const LendingPage = () => {
                 <div className="space-y-6">
                   {userLoans.map((loan) => {
                     const currentLTV = (loan.borrowed / loan.collateral) * 100
-                    const healthFactor = (loan.collateral * 0.8) / loan.borrowed
+                    const healthFactor = 1.0 // Fixed at 1.0 as there is no price-based liquidation
 
                     return (
                       <div key={loan.id} className="bg-slate-700/50 rounded-2xl p-6">
