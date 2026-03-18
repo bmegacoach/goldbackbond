@@ -9,7 +9,7 @@
 export const CONTRACTS = {
     USDGB_TOKEN: '0x1b12FDBDa1D6709e189Fe16E1A76469E05CE8A5e' as `0x${string}`,
     MINTING: '0x899a399a783494bec8ff8c2ab5ec1fc29efe3a63' as `0x${string}`, 
-    LP_REWARD_POOL: '0xbfb2a2d959819590b72815d637e50c16be9cad3f' as `0x${string}`,
+    LP_REWARD_POOL: '0x05e907C623502700b144d6dEEF49DBD76Acd2Ffb' as `0x${string}`,
     GOLD_BONUS_VAULT: '0x9A0142DB31a3Bf8423fBe240Fe1dEa18545be6Bb' as `0x${string}`,
     CERTIFICATE_STAKING: '0xfe57d42b4e32c62f69b22b459d53b9dd9021facf' as `0x${string}`,
     GUARDIAN: '0x4cbce2b39d4974269c7b8b1341dbc7db0352945a' as `0x${string}`,
