@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+    --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #F3E5AB 100%);
+    --gold-gradient-hover: linear-gradient(135deg, #B4942D 0%, #D4AF37 100%);
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 45 74% 52%;
+    --background: 0 0% 98%;
+    --foreground: 240 10% 6%;
+    --primary-foreground: 0 0% 100%;
+    --secondary-foreground: 0 0% 100%;
+    --muted-foreground: 240 4% 46%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 6%;
+  }
+
+  * {
+    @apply border-neutral-200;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-page text-neutral-900 font-sans antialiased;
+    line-height: 1.6;
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply inline-flex items-center justify-center px-6 py-3 text-white font-semibold rounded-lg transition-all duration-300;
+    background: var(--gold-gradient);
+    box-shadow: 0 4px 14px 0 rgba(212, 175, 55, 0.3);
+  }
+
+  .btn-gold:hover {
+    background: var(--gold-gradient-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px 0 rgba(212, 175, 55, 0.4);
+  }
+
+  .btn-gold:active {
+    transform: scale(0.98);
+  }
+
+  .btn-gold:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .card-module {
+    @apply bg-white rounded-xl shadow-md p-6 transition-all duration-300;
+  }
+
+  .card-module:hover {
+    @apply shadow-lg;
+  }
+
+  .progress-ring {
+    transition: stroke-dashoffset 1s ease-out;
+  }
+
+  .gold-text {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gold-border {
+    border-image: var(--gold-gradient) 1;
+  }
+
+  /* Custom checkbox styling */
+  .checkbox-gold {
+    @apply w-5 h-5 rounded border-2 border-neutral-300 appearance-none cursor-pointer transition-all duration-200;
+  }
+
+  .checkbox-gold:checked {
+    @apply border-gold-500 bg-gold-500;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+  }
+
+  .checkbox-gold:focus {
+    @apply ring-2 ring-gold-500 ring-offset-2;
+  }
+
+  /* Accordion styles */
+  .accordion-trigger[data-state='open'] > .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  .accordion-chevron {
+    transition: transform 200ms ease;
+  }
+
+  /* Table styles */
+  .data-table {
+    @apply w-full border-collapse;
+  }
+
+  .data-table th {
+    @apply bg-neutral-50 text-neutral-600 text-xs uppercase tracking-wide font-semibold px-4 py-3 text-left border-b border-neutral-200;
+  }
+
+  .data-table td {
+    @apply px-4 py-3 border-b border-neutral-100 text-sm;
+  }
+
+  .data-table tr:hover td {
+    @apply bg-neutral-50;
+  }
+
+  .data-table .highlight {
+    @apply bg-gold-50;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-100 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-400;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
