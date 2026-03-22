@@ -2,6 +2,7 @@ import React from 'react';
 import DocsLayout from '../layouts/DocsLayout';
 import { HeadingItem } from '../../types/docs';
 import whitepaperContent from '../../content/docs/whitepaper.md?raw';
+import PortfolioValuation from '../sections/PortfolioValuation';
 
 const headings: HeadingItem[] = [
   { id: "1-executive-summary", text: "1. Executive Summary", level: 2 },
@@ -26,6 +27,7 @@ export default function WhitepaperPage() {
       note="Informational only; not a securities offering document."
       headings={headings}
       markdownContent={whitepaperContent}
+      beforeContent={<PortfolioValuation />}
     />
   );
 }

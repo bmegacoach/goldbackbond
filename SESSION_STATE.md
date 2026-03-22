@@ -1,13 +1,13 @@
-# SESSION_STATE.md - 2026-03-16
+# SESSION_STATE.md - 2026-03-20
 
 ## Current Status
-- **Objective**: Goldbackbond Website Spec Compliance & March Launch Alignment.
+- **Objective**: Fix Sydney's Training Access & Subdomain Configuration.
 - **Progress**: 
-    - Full documentation audit: Removed all internal file references from `whitepaper.md`, `platform-users-manual.md`, and FAQ suite.
-    - UI Rebranding: Implemented Uniswap pink/white branding across all CCA components.
-    - Lending Page Overhaul: Replaced placeholder lenders with Genesis Bank & Trust; removed price-based liquidations in favor of 30-day cure period.
-    - Data Integration: Connected `SmartContractDataService` to live `totalSupply` for CCA metrics and synchronized insurance fund targets to $100M.
-    - Verified full production build compliance (March 16 specification).
+    - **Email Links**: Successfully updated `send_sydney_invite.mjs` and `schedule_sydney_training.mjs` to use the working GitHub Pages URL (`https://bmegacoach.github.io/goldbackbond-training/`).
+    - **Email Delivery**: Re-sent both welcome and schedule invites to Sydney; confirmed successful delivery via Nodemailer logs.
+    - **Server Robustness**: Hardened `server.js` with try-catch blocks for AI JSON parsing to prevent crashes.
+    - **DNS Strategy**: Provided the user with CNAME configuration steps for GoDaddy and GitHub Pages to restore `training.goldbackbond.com`.
+- **Verified Working URL**: `https://bmegacoach.github.io/goldbackbond-training/`
 
 ## Verified Addresses (Base Mainnet)
 - **USDGB Token**: `0x1b12FDBDa1D6709e189Fe16E1A76469E05CE8A5e`
@@ -20,10 +20,10 @@
 - **Genesis Bank Lender**: `0xc2FF845095ADC1EE93c93Bec0c33a538D0208407`
 
 ## Decisions.log Summary
-- **Autonomous Decision**: Standardized nomenclature to "Continuous Clearing Auction" (CCA) across todos, routes, and modals to ensure regulatory and branding consistency.
-- **Architectural Shift**: Replaced mock CCA parameters with live `totalSupply` proxies to provide real-time price discovery feedback while awaiting full v4 strategy hook integration.
+- **Autonomous Decision**: Switched invitation links to GitHub Pages domain to resolve `ERR_NAME_NOT_RESOLVED` for the end user immediately while DNS work is pending.
+- **Architectural Shift**: Implemented aggressive error handling in `server.js` to handle non-deterministic LLM JSON outputs.
 
 ## Next Steps
-- [ ] Monitor Continuous Clearing Auction (CCA) live performance.
+- [ ] Monitor `training.goldbackbond.com` DNS propagation.
+- [ ] Help user with re-deployment to GitHub Pages to enable latest login logic.
 - [ ] Finalize post-launch liquidity migration scripts for treasury operations.
-- [ ] Review agency training modules for compliance with updated documentation.

@@ -1,3 +1,7 @@
 node_modules
 .worktrees
 .env
+dist
+dist-ssr
+*.local
+.DS_Store

@@ -11,6 +11,7 @@ type DocsLayoutProps = {
   note?: string;
   headings?: HeadingItem[];
   markdownContent: string;
+  beforeContent?: ReactNode;
 };
 
 // Helper to generate IDs matching the heading list
@@ -40,6 +41,7 @@ export default function DocsLayout({
   note,
   headings = [],
   markdownContent,
+  beforeContent,
 }: DocsLayoutProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -124,6 +126,8 @@ export default function DocsLayout({
               {note && <span className="italic pl-4 border-l border-gray-700">{note}</span>}
             </div>
           </header>
+
+          {beforeContent}
 
           <article className="prose prose-invert prose-emerald max-w-none 
             prose-headings:text-gray-100 prose-headings:font-bold 

@@ -15,3 +15,11 @@
 ## 2026-02-23T04:20:00Z
 **Decision**: Standardized Eth-Inscriptions via `GBBAllocationInscription.sol` instead of creating unstructured transaction calldata.
 **Rationale**: GBB requires tracking terms, agents, and commission info securely for pre-sale buyers. An indexed smart contract emitting `AllocationInscribed` with proper JSON payload ensures transparency, structure, and secure Owner approval control, overcoming the limits of pure calldata manipulation.
+
+## 2026-03-20T09:45:00Z
+**Decision**: Updated invitation links to use GitHub Pages subdomain instead of non-existent GoDaddy CNAME.
+**Rationale**: `training.goldbackbond.com` was returning DNS resolution errors. Switched to `https://bmegacoach.github.io/goldbackbond-training/` as a temporary fix and provided instructions for the user to configure the custom domain properly.
+
+## 2026-03-20T09:50:00Z
+**Decision**: Hardened `server.js` AI endpoints with robust JSON parsing.
+**Rationale**: LLM responses can occasionally contain malformed JSON or extra text. Added try-catch blocks to prevent server crashes and provide fallback AI responses to the frontend.
