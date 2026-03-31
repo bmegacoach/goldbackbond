@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useRef } from 'react';
 import { ChecklistItem, ViewType } from '../types';
 
 interface User {
@@ -18,6 +18,7 @@ interface TrainingContextType {
   totalCount: number;
   progressPercentage: number;
   isCertified: boolean;
+  isLoading: boolean;
 }
 
 const STORAGE_KEY_PREFIX = 'gbb-training-progress-';
@@ -38,6 +39,7 @@ const initialChecklistItems: ChecklistItem[] = [
 const TrainingContext = createContext<TrainingContextType | undefined>(undefined);
 
 export function TrainingProvider({ children }: { children: ReactNode }) {
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(() => {
     const saved = localStorage.getItem(USER_KEY);
     return saved ? JSON.parse(saved) : null;
@@ -45,15 +47,21 @@ export function TrainingProvider({ children }: { children: ReactNode }) {
 
   const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>(initialChecklistItems);
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
+  
+  // Use a ref to track if we are currently loading state to prevent immediate save triggers
+  const isInitialLoad = useRef(true);
 
   // Load progress when user changes
   useEffect(() => {
+    setIsLoading(true);
     if (user) {
       const saved = localStorage.getItem(STORAGE_KEY_PREFIX + user.email.toLowerCase());
       if (saved) {
         try {
-          setChecklistItems(JSON.parse(saved));
-        } catch {
+          const parsed = JSON.parse(saved);
+          setChecklistItems(parsed);
+        } catch (e) {
+          console.error("Failed to parse progress:", e);
           setChecklistItems(initialChecklistItems);
         }
       } else {
@@ -62,18 +70,34 @@ export function TrainingProvider({ children }: { children: ReactNode }) {
     } else {
       setChecklistItems(initialChecklistItems);
     }
-  }, [user]);
+    
+    // Set a small timeout to ensure state has settled before allowing saves
+    const timer = setTimeout(() => {
+      isInitialLoad.current = false;
+      setIsLoading(false);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [user?.email]);
 
   // Save progress when it changes
   useEffect(() => {
-    if (user) {
+    // Only save if we are NOT in the initial load phase and have a user
+    if (!isInitialLoad.current && user) {
       localStorage.setItem(STORAGE_KEY_PREFIX + user.email.toLowerCase(), JSON.stringify(checklistItems));
     }
-  }, [checklistItems, user]);
+  }, [checklistItems, user?.email]);
 
   const login = (email: string) => {
-    const isUnrestricted = email.toLowerCase() === 'sydney@goldbackbond.com';
+    const lowerEmail = email.toLowerCase();
+    const isUnrestricted = 
+      lowerEmail === 'sydney@goldbackbond.com' || 
+      lowerEmail === 'bmegacoach1@gmail.com' || 
+      lowerEmail === 'bmegacoach2@gmail.com' || 
+      lowerEmail === 'bmegacoach3@gmail.com'; // Added coach 3 for future
+      
     const newUser = { email, isUnrestricted };
+    isInitialLoad.current = true; // Block save until the load effect settles the new user's specific data
     setUser(newUser);
     localStorage.setItem(USER_KEY, JSON.stringify(newUser));
   };
@@ -111,6 +135,7 @@ export function TrainingProvider({ children }: { children: ReactNode }) {
         totalCount,
         progressPercentage,
         isCertified,
+        isLoading,
       }}
     >
       {children}

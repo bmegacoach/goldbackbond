@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
+import cron from 'node-cron';
 
 dotenv.config();
 
@@ -13,62 +14,58 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-const sydneyEmail = 'scsuk03@gmail.com';
-const barbieEmail = 'barbie@goldbackbond.com';
-
-const sessionDate = new Date();
-sessionDate.setHours(sessionDate.getHours() + 2); // 2 hours from now
-
-const sessionInfo = {
-  id: 'session-' + Date.now(),
-  topic: 'Elite HNW Negotiation & Objections (Extensive Session)',
-  date: sessionDate.toISOString(),
-  duration: '90 minutes',
-  description: 'Intensive roleplay session covering Alex Hormozi Value Equation and Grant Cardone Closing techniques. Focus: $1M+ Private Offer allocations.',
-  status: 'scheduled'
-};
+const sydneyEmail = 'bmegacoach2@gmail.com';
+const troyEmail = 'bmegacoach1@gmail.com';
 
 async function scheduleSession() {
+  const sessionDate = new Date();
+  sessionDate.setHours(9, 0, 0, 0); // Scheduled for 9 AM today
+
+  const sessionInfo = {
+    id: 'session-' + Date.now(),
+    topic: 'Daily Planner & AI Sales Training Confirmation',
+    date: sessionDate.toISOString(),
+    duration: '45 minutes',
+    description: 'Daily training and sales alignment session.',
+    status: 'scheduled'
+  };
+
   try {
     const mailOptions = {
       from: 'Goldbackbond Training <bmegacoach2@gmail.com>',
-      to: `${sydneyEmail}, ${barbieEmail}`,
-      subject: '🚨 URGENT: Sydney\'s Elite Training Session Scheduled',
+      to: `${sydneyEmail}, ${troyEmail}`,
+      subject: '📅 Confirmation: Daily Planner & Training Session (9:00 AM)',
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-          <h2 style="color: #ca8a04;">Elite AI Sales Coach Training</h2>
-          <p>Hello Sydney,</p>
-          <p>Your first extensive AI Sales Coach session has been scheduled.</p>
+          <h2 style="color: #ca8a04;">Daily Planner & Training Confirmation</h2>
+          <p>Hello Sydney and Troy,</p>
+          <p>This is your automated confirmation for today's daily planner and training session.</p>
           <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0;">
             <p><strong>Topic:</strong> ${sessionInfo.topic}</p>
             <p><strong>Time:</strong> ${new Date(sessionInfo.date).toLocaleString()}</p>
             <p><strong>Duration:</strong> ${sessionInfo.duration}</p>
           </div>
-          <p>This session will include:</p>
-          <ul>
-            <li>Live negotiation with a skeptical $1M+ investor</li>
-            <li>Contextual quizzes during the dialogue</li>
-            <li>Alex Hormozi Value Equation application</li>
-            <li>Grant Cardone "Complaints vs Objections" workshop</li>
-          </ul>
-          <p>Please log in to the <a href="https://bmegacoach.github.io/goldbackbond-training/" style="color: #ca8a04; font-weight: bold;">Agent Academy</a> to participate.</p>
-          <p style="font-size: 12px; color: #64748b; margin-top: 30px;">
-            You can update your schedule at any time, but we recommend staying consistent for maximum results.
-          </p>
+          <p>Before the session begins, please ensure you have reviewed yesterday's metrics and updated your CRM.</p>
+          <p>Log in to the <a href="https://bmegacoach.github.io/goldbackbond-training/" style="color: #ca8a04; font-weight: bold;">Training Portal</a> to prepare.</p>
         </div>
       `
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent: ' + info.response);
-
-    // Note: In a real scenario, we'd update the CRM database.
-    // Since we're in a local env, I'll update the agentCrmService.ts mock data or a local marker.
-    console.log('Session scheduled internally for Sydney.');
+    console.log(`[${new Date().toISOString()}] Email sent: ` + info.response);
 
   } catch (error) {
-    console.error('Error scheduling session:', error);
+    console.error(`[${new Date().toISOString()}] Error scheduling session:`, error);
   }
 }
 
-scheduleSession();
+// Schedule to run every day at 9:00 AM
+console.log('Daily planner cron job started. Will execute every day at 09:00.');
+cron.schedule('0 9 * * *', () => {
+  console.log('Executing daily planner email job...');
+  scheduleSession();
+});
+
+// Optional: Also run once immediately on startup to confirm it works
+// scheduleSession();
+

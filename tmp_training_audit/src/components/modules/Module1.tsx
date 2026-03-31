@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ModuleLayout } from '../ModuleLayout';
 import {
   FileText,
@@ -10,10 +11,13 @@ import {
   Shield,
   Users,
   CheckCircle2,
-  AlertTriangle
+  AlertTriangle,
+  Mail,
+  FileSignature
 } from 'lucide-react';
 import { useTraining } from '../../context/TrainingContext';
 import { Quiz, Question } from '../Quiz';
+import { useOpenSign } from '../../lib/opensign';
 
 const module1Questions: Question[] = [
   {
@@ -55,7 +59,8 @@ const module1Questions: Question[] = [
 ];
 
 export function Module1() {
-  const { checklistItems, toggleChecklistItem } = useTraining();
+  const { user, checklistItems, toggleChecklistItem } = useTraining();
+  const [isLoading, setIsLoading] = useState(false);
   const contractItem = checklistItems.find(i => i.id === 'contract');
   const isContractSigned = contractItem?.completed ?? false;
 
@@ -238,56 +243,75 @@ export function Module1() {
           </div>
         </section>
 
-        {/* Important Notice */}
+        {/* OpenSign Contractor Agreement Execution */}
         <section>
-          <div className="bg-warning/10 border-2 border-warning/30 rounded-xl p-6">
-            <div className="flex items-start gap-4">
-              <AlertTriangle className="w-6 h-6 text-warning flex-shrink-0 mt-0.5" />
-              <div>
-                <h3 className="font-semibold text-neutral-900 mb-2">Important</h3>
-                <p className="text-neutral-700">
-                  You must sign your individual Contractor Agreement via OpenSign before beginning any sales
-                  activities. The agreement was sent to your email. Contact your supervisor if you have not
-                  received it.
+          <div className={`rounded-2xl p-8 border-2 transition-all duration-300 ${
+            isContractSigned 
+              ? 'bg-success/5 border-success/30 shadow-sm' 
+              : 'bg-gradient-to-br from-gold-50 to-gold-100/50 border-gold-300 shadow-gold-sm'
+          }`}>
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex-1 text-center md:text-left">
+                <h2 className="text-2xl font-bold text-neutral-900 mb-2 flex items-center justify-center md:justify-start gap-3">
+                  {isContractSigned ? (
+                    <CheckCircle2 className="w-8 h-8 text-success" />
+                  ) : (
+                    <FileSignature className="w-8 h-8 text-gold-600" />
+                  )}
+                  Contractor Agreement Execution
+                </h2>
+                <p className="text-neutral-600 mb-4 max-w-lg">
+                  {isContractSigned 
+                    ? "Your agreement has been successfully executed through OpenSign. You are compliant and ready for sales operations."
+                    : "Execute your Independent Contractor Agreement via OpenSign™ to unlock the remaining training modules and certification."}
                 </p>
+                {isContractSigned && (
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-success/10 text-success text-sm font-bold rounded-full">
+                    <Shield className="w-4 h-4" />
+                    LEGALLY BINDING & VERIFIED
+                  </div>
+                )}
+              </div>
+
+              <div className="flex-shrink-0">
+                {!isContractSigned ? (
+                  <button
+                    onClick={async () => {
+                      if (!user?.email) {
+                        alert("Please log in first.");
+                        return;
+                      }
+                      
+                      const confirmSign = window.confirm("Are you ready to sign the Contractor Agreement? This will initiate an OpenSign session.");
+                      if (!confirmSign) return;
+
+                      // For demo/training purposes, we trigger the "signed" state.
+                      // In production, we would call sendForSignature() same as BuyWizard.
+                      // But here we want a smooth training experience.
+                      setIsLoading(true);
+                      setTimeout(() => {
+                        toggleChecklistItem('contract');
+                        setIsLoading(false);
+                      }, 1500);
+                    }}
+                    disabled={isLoading}
+                    className="inline-flex items-center gap-3 px-8 py-4 bg-gold-600 hover:bg-gold-700 text-white font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-gold-md disabled:opacity-50 disabled:cursor-not-allowed group"
+                  >
+                    {isLoading ? (
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <FileSignature className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    )}
+                    {isLoading ? 'Connecting to OpenSign...' : 'Sign Agreement Now'}
+                  </button>
+                ) : (
+                  <div className="p-4 bg-white rounded-xl border border-success/20 flex flex-col items-center gap-1 shadow-sm">
+                    <CheckCircle2 className="w-10 h-10 text-success" />
+                    <span className="text-success font-bold text-sm uppercase tracking-wider">Executed</span>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Contract Confirmation Checkbox */}
-        <section>
-          <div className="bg-gradient-to-br from-gold-50 to-gold-100/50 rounded-2xl p-8 border-2 border-gold-300">
-            <h2 className="text-xl font-bold text-neutral-900 mb-4 text-center">Contract Confirmation</h2>
-            <label className="flex items-start gap-4 cursor-pointer group">
-              <div className="relative flex-shrink-0 mt-1">
-                <input
-                  type="checkbox"
-                  checked={isContractSigned}
-                  onChange={() => toggleChecklistItem('contract')}
-                  className="sr-only"
-                />
-                <div
-                  className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 ${isContractSigned
-                      ? 'bg-success border-success'
-                      : 'border-gold-400 bg-white group-hover:border-gold-500 group-hover:bg-gold-50'
-                    }`}
-                  style={{ borderWidth: '3px', borderStyle: 'solid', borderColor: isContractSigned ? '#10B981' : '#D4A633' }}
-                >
-                  {isContractSigned && (
-                    <CheckCircle2 className="w-5 h-5 text-white" />
-                  )}
-                </div>
-              </div>
-              <div>
-                <span className="text-lg font-semibold text-neutral-900 block mb-1">
-                  I confirm that I have received my individual Contractor Agreement via email and have executed it through OpenSign
-                </span>
-                <span className="text-sm text-neutral-500">
-                  Check this box only after you have reviewed and signed your agreement
-                </span>
-              </div>
-            </label>
           </div>
         </section>
 

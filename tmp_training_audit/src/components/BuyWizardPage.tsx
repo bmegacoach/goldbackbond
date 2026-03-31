@@ -231,8 +231,21 @@ const Phase2Closing = ({ orderData, setOrderData, onBack, leadId, initialName, i
                                         setIsExecuting(true);
                                         const newSigId = `OS-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
                                         
-                                        if (leadId) {
-                                            await agencyBackendService.updateLeadToPending(leadId, newSigId);
+                                        try {
+                                            // Actively generate the Lead on Firebase instead of updating a mock
+                                            const response = await agencyBackendService.createLead({
+                                                name: kycData.name,
+                                                email: kycData.email,
+                                                amount: orderData.amount,
+                                                paymentMethod: orderData.paymentMethod,
+                                                openSignDocumentId: newSigId,
+                                                status: 'Contract Pending Execution'
+                                            });
+                                            if (response.success) {
+                                                console.log(`Live Lead Created in CRM: ${response.leadId}`);
+                                            }
+                                        } catch (e) {
+                                            console.error('Failed to sync to CRM:', e);
                                         }
 
                                         setSignatureId(newSigId);

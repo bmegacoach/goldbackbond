@@ -1,14 +1,36 @@
-import { AgentMetrics } from './agentCrmService';
+import { db } from '../lib/firebase/config';
+import { collection, addDoc, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 
 class AgencyBackendService {
   async updateLeadToPending(leadId: string, signatureId: string) {
-    console.log(`[Mock] Updating lead ${leadId} to pending with signature ${signatureId}`);
-    return { success: true };
+    try {
+      const leadRef = doc(db, 'leads', leadId);
+      await updateDoc(leadRef, {
+        status: 'Contract Pending Execution',
+        openSignDocumentId: signatureId,
+        updatedAt: serverTimestamp()
+      });
+      return { success: true };
+    } catch (error) {
+      console.error('Error updating lead signature:', error);
+      return { success: false, error };
+    }
   }
 
   async createLead(leadData: any) {
-    console.log('[Mock] Creating lead:', leadData);
-    return { success: true, leadId: 'MOCK-LEAD-' + Math.random().toString(36).substr(2, 6) };
+    try {
+      const leadsRef = collection(db, 'leads');
+      const docRef = await addDoc(leadsRef, {
+        ...leadData,
+        status: 'New',
+        source: 'Training Academy Wizard',
+        createdAt: serverTimestamp()
+      });
+      return { success: true, leadId: docRef.id };
+    } catch (error) {
+      console.error('Error creating live lead:', error);
+      return { success: false, error };
+    }
   }
 }
 

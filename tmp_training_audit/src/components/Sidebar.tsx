@@ -126,6 +126,15 @@ export function Sidebar() {
       </div>
 
       <div className="p-4 border-t border-neutral-200 mt-auto">
+        <a
+          href="mailto:support@goldbackbond.com"
+          className="flex items-center gap-3 w-full p-3 text-neutral-500 hover:text-gold-600 hover:bg-neutral-50 rounded-xl transition-all duration-200 font-medium group mb-2"
+        >
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gray-50 group-hover:bg-gold-50 transition-colors">
+            <HelpCircle className="w-5 h-5 group-hover:text-gold-600" />
+          </div>
+          <span className="text-sm">Contact Support</span>
+        </a>
         <button
           onClick={() => logout()}
           className="flex items-center gap-3 w-full p-3 text-neutral-500 hover:text-red-600 hover:bg-neutral-50 rounded-xl transition-all duration-200 font-medium group"

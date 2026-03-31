@@ -1,17 +1,18 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
 import { generateText } from 'ai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+// Override Vercel Serverless Timeout limit (Allows up to 60 seconds on Pro / overrides default 10s on Hobby)
+export const config = {
+  maxDuration: 60,
+};
 
-// ─── Gmail SMTP Transporter ────────────────────────────────────────────────
+const key = (process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || "").trim();
+const google = key ? createGoogleGenerativeAI({ apiKey: key }) : null;
+
 const gmailTransporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -20,124 +21,224 @@ const gmailTransporter = nodemailer.createTransport({
     },
 });
 
-/**
- * POST /api/send-email
- * Body: { to: string | string[], subject: string, html: string, text?: string }
- */
-app.post('/api/send-email', async (req, res) => {
-    try {
-        const { to, subject, html, text } = req.body;
-        if (!to || !subject || !html) {
-            return res.status(400).json({ error: 'Required fields: to, subject, html' });
-        }
-
-        const info = await gmailTransporter.sendMail({
-            from: `"Goldbackbond AI Coach" <${process.env.GMAIL_USER}>`,
-            to: Array.isArray(to) ? to.join(', ') : to,
-            subject,
-            text: text || '',
-            html,
-        });
-
-        res.status(200).json({ success: true, messageId: info.messageId });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+export default async function handler(req, res) {
+    // 1. CORS Headers
+    res.setHeader('Access-Control-Allow-Credentials', true)
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version')
+    
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
     }
-});
 
-// Initialize Google client
-const google = createGoogleGenerativeAI({
-    apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
-});
+    const path = req.url || '';
 
-app.post('/api/ai-coach', async (req, res) => {
-    try {
-        const { messages } = req.body;
+    // 2. Email Endpoint
+    if (path.includes('send-email') && req.method === 'POST') {
+        try {
+            const { to, subject, html, text } = req.body;
+            if (!to || !subject || !html) {
+                return res.status(400).json({ error: 'Required fields: to, subject, html' });
+            }
+            const info = await gmailTransporter.sendMail({
+                from: `"Goldbackbond AI Coach" <${process.env.GMAIL_USER}>`,
+                to: Array.isArray(to) ? to.join(', ') : to,
+                subject,
+                text: text || '',
+                html,
+            });
+            return res.status(200).json({ success: true, messageId: info.messageId });
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
+        }
+    }
 
-        const { text } = await generateText({
-            model: google('gemini-1.5-pro'),
-            system: `You are operating in a DUAL ROLE:
+    // AI Check
+    if (!google) {
+        return res.status(200).json({ reply: "SYSTEM ERROR: The AI Engine is offline. Please configure GOOGLE_GENERATIVE_AI_API_KEY in the Vercel Dashboard.", evaluation: null, scheduledNextSession: null });
+    }
+
+    // 3. AI Coach Endpoint
+    if (path.includes('ai-coach') && req.method === 'POST') {
+        try {
+            const { messages, audio } = req.body;
+
+            const systemPrompt = `You are operating in a DUAL ROLE:
 1. During the chat: You are Mr. Skeptical Buyer, a ruthless, sophisticated High-Net-Worth (HNW) investor.
-2. During the evaluation (feedback): You are an **Elite High-Ticket Sales Coach** (channeling Grant Cardone and Alex Hormozi). 
+2. During the evaluation (feedback): You are an Elite High-Ticket Sales Coach. 
 
 ### ROLE 1: MR. SKEPTICAL BUYER (The Target)
-- **Persona**: Cynical about crypto, demands institutional-grade security. 
-- **Testing**: You will actively test the agent's **Frame Control**. If they apologize too much or lose the alpha position, you dominate them.
-- **Knowledge Base** (AUTHORITATIVE — March 2026 Whitepaper v1.0):
-  - **Three-Entity Structure**: (1) USDGB Trust Fund — holds Federal Reserve gold certificates, 100% of Goldbackbond Inc. equity, and IP portfolio; (2) Goldbackbond LTD (Delaware) — issues Class A Debentures to accredited investors via licensed broker-dealers ONLY (these are securities); (3) Goldbackbond Inc. (Texas) — issues/manages USDGB token, staking contract, interfaces.
-  - **NAV Peg**: $1.00 worth of gold at spot price. Max supply: 250.56B USDGB. Contract: 0x1b12FDBDa1D6709e189Fe16E1A76469E05CE8A5e.
-  - **Attestation**: Wells Fargo Bank, Federal Judges, Rektor Law, Senn Law, ex-Federal Reserve Board Member, State of Pennsylvania. Colburn Valuation Report (July 9, 2025): ~$11.98B per bond gold-linked value.
-  - **Smart Contract Audit**: InterFi Network (February 2, 2026). Zero unresolved audit findings at deployment.
-  - **Staking Terms**: Minimum 365 days. Can extend to 3, 5, or 10 years (required by some lenders). Extensions reset the unlock clock. Terms can only extend, never shorten.
-  - **Default Handling**: NO price-triggered auto-liquidations. Missed payment → 30-day grace period → daily risk notifications → GUARDIAN multisig reassignment only if uncured. Tokens are reassigned, not sold.
-  - **Lien Release**: When a loan is fully repaid, the lender RELEASES the lien on the certificate. Certificate stays locked until unlock date, but can be re-pledged to new lender or unstaked at term end.
-  - **Lending**: 70% LTV from institutional lenders. Some lenders treat USDGB as 3x risk-adjusted collateral internally. Loan rates: 8–12%, 12–36 month terms. Goldbackbond Inc. does NOT make loans itself.
-  - **Launch Pricing / Roadmap**: 
-    - Private Presale: $0.80/USDGB, $10K min, KYC required, tokens within 2hrs. Now–Apr 2026.
-    - Strategic Private Allocation: $0.80, $25M hard cap, 12-month lockup (no trading/market-making).
-    - Uniswap CCA (Base): $0.85 → $0.90 → $0.95 → $1.00 tranches. Self-service, market-driven. Now–Apr 2026.
-    - DEX Expansion: May–Oct 2026. Hyperliquid, Aster, Aerodrome, Jupiter. $50M liquidity target.
-    - MEXC CEX listing: Nov 1, 2026. KuCoin/BTCC: Jan 2027.
-    - Year-1 liquidity objective: $100M total ($25M private + $25M presale/CCA + $50M DEX).
-  - **No Physical Redemption**: Users exit via DEX trading or loan settlement only.
+- Persona: Cynical about crypto, demands institutional-grade security. 
+- Knowledge Base: 
+  - Three-Entity Structure: USDGB Trust Fund (IP/gold certs), Goldbackbond LTD (Debentures), Goldbackbond Inc (Token).
+  - NAV Peg: $1.00 gold spot.
+  - Lending: 70% LTV from institutional lenders. Goldbackbond Inc does not make loans.
+  - Staking: Minimum 365 days. 30-day grace period on default.
 
 ### ROLE 2: ELITE SALES COACH (The Evaluation)
-When providing the "feedback" string, you must critique them based on the highest tiers of sales methodology:
-- **Cardone Frameworks**: 
-  - *Conviction*: Did the agent believe what they were selling?
-  - *Complaints vs Objections*: Did they fold at a simple complaint ("I don't have time") or handle an actual objection ("How is liquidation guaranteed?")?
-  - *Assumptive Close/Urgency*: Did they assume the close based on the 20% discount pre-list pricing?
-- **Hormozi Frameworks**:
-  - *Frame Control*: Did they maintain the frame of the expert? Did they let you dictate the flow?
-  - *Risk Reversal*: Did they utilize the 70% LTV institutional lending or the 30-day grace period as risk mitigation?
-  - *The Value Equation*: Did they clearly map the low effort/high likelihood of outcome using the attestation parties (Federal Judges/Wells Fargo)?
+- Critique them based on Cardone and Hormozi frameworks (Conviction, Frame Control, Risk Reversal).
 
-### COMPLIANCE TRAPS (Automatic Fail — Advisory-Mandated):
-1. Calling USDGB a "security," "investment contract," or "dividend-paying asset."
-2. Promising "guaranteed 9%," "risk-free staking returns," or implying yield is guaranteed.
-3. Claiming USDGB is "backed by Debentures," "the yield comes from our Bloomberg-listed bonds," or any bond-program tie.
-4. Claiming "pUSDGB is a separate token you can buy."
-5. Saying "you can stake USDGB and bypass KYC for privacy."
-6. Claiming direct physical gold redemption from Goldbackbond.
-7. Saying "your tokens can't be taken away unless you choose to sell" (ignoring reassignment risk).
-8. Implying price-based margin calls or automatic liquidations occur.
-
-### EVALUATION LOGIC:
-- **PASS**: Agent maintains frame control for 3-5 turns, handles the 70% LTV, 30-day grace period, or Fed Bank custody objection flawlessly, and assumes the close with conviction.
-- **FAIL**: Agent hits a compliance trap, loses the frame (apologizes unnecessarily), or fails to use the Hormozi/Cardone principles to reverse your risk.
+### COMPLIANCE TRAPS (Automatic Fail):
+1. Calling USDGB a security or dividend-paying asset.
+2. Promising guaranteed returns.
+3. Claiming direct physical gold redemption from Goldbackbond.
 
 ### RESPONSE FORMAT:
 You MUST respond in strict JSON format:
 {
   "reply": "Your ruthless response as Mr. Skeptical Buyer",
-  "evaluation": {
-    "passed": true|false|null,
-    "feedback": "YOUR ELITE COACHING CRITIQUE... (feedback content)"
-  }
-}`,
-            messages,
-        });
+  "evaluation": { "passed": true|false|null, "feedback": "YOUR ELITE COACHING CRITIQUE..." }
+}`;
 
-        try {
-            const parsed = JSON.parse(text);
-            res.status(200).json(parsed);
-        } catch (parseError) {
-            res.status(200).json({
-                reply: "Sorry, I lost my train of thought. Let's restart.",
-                evaluation: null
+            const geminiMessages = messages.map(m => ({
+                role: m.role === 'ai' ? 'model' : 'user',
+                parts: [{ text: m.content }]
+            }));
+
+            if (audio) {
+                const lastUserMsg = [...geminiMessages].reverse().find(m => m.role === 'user');
+                if (lastUserMsg) {
+                    lastUserMsg.parts.push({
+                        inlineData: {
+                            mimeType: 'audio/webm',
+                            data: audio
+                        }
+                    });
+                }
+            }
+
+            // 1. Brain Call: Generate Structured JSON
+            // Priority: Gemini 3.1 Flash-Lite, Gemini 3 Flash, Gemini 2.0 Flash, Gemini 1.5 Flash
+            const models = ["gemini-3.1-flash-lite-preview", "gemini-3-flash-preview", "gemini-2.0-flash-exp", "gemini-2.0-flash", "gemini-1.5-flash"];
+            let brainResult = null;
+            let successfulModelId = null;
+            let lastError = "";
+
+            console.log(`AI COACH: Starting brain call with ${messages.length} messages.`);
+
+            for (const modelId of models) {
+                try {
+                    const brainResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${key}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            systemInstruction: { parts: [{ text: systemPrompt }] },
+                            contents: geminiMessages,
+                            generationConfig: { temperature: 0.7, responseMimeType: "application/json" }
+                        })
+                    });
+
+                    if (brainResponse.ok) {
+                        brainResult = await brainResponse.json();
+                        successfulModelId = modelId;
+                        console.log(`AI COACH: Brain Success with ${modelId}`);
+                        break;
+                    } else {
+                        const err = await brainResponse.json().catch(() => ({}));
+                        const errMsg = err?.error?.message || brainResponse.status;
+                        console.warn(`AI COACH: ${modelId} failed:`, errMsg);
+                        lastError = `Model ${modelId} failed: ${errMsg}`;
+                    }
+                } catch (e) {
+                    lastError = e.message;
+                }
+            }
+
+            if (!brainResult) {
+                throw new Error(`All Brain models failed. Last error: ${lastError}`);
+            }
+
+            const brainText = brainResult?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!brainText) {
+                throw new Error("Gemini returned empty brain response");
+            }
+
+            // Extract JSON with extreme robustness
+            let parsed = { reply: "", evaluation: null };
+            try {
+                // 1. Pre-sanitize: remove markdown and common prefixes
+                let sanitized = brainText.replace(/```json/gi, '').replace(/```/gi, '').trim();
+                sanitized = sanitized.replace(/^here is your json:?/gi, '').trim();
+
+                // 2. Locate JSON block
+                const startIdx = sanitized.indexOf('{');
+                const endIdx = sanitized.lastIndexOf('}');
+                
+                if (startIdx !== -1 && endIdx !== -1) {
+                    const jsonStr = sanitized.substring(startIdx, endIdx + 1);
+                    parsed = JSON.parse(jsonStr);
+                } else {
+                    throw new Error("No JSON object found");
+                }
+                
+                if (!parsed.reply) throw new Error("Missing reply field");
+            } catch (e) {
+                console.error("AI COACH: Robust Parse Failed. Extracting raw text.");
+                // Recovery: Extract text outside of potential JSON brackets
+                const rawText = brainText.replace(/\{[\s\S]*\}/g, '').trim() || brainText;
+                parsed = { 
+                    reply: rawText.substring(0, 1000) || "I had a brief technical flicker. Could you please clarify your point about USDGB?",
+                    evaluation: null,
+                    _debug_parse_error: e.message
+                };
+            }
+
+            // 2. Voice Call: Generate HD Native Audio
+            let audioBase64 = null;
+            try {
+                // Use the successful modelId if available, fallback to 2.0 for stability if 3-flash-preview fails audio
+                const activeVoiceModel = successfulModelId || "gemini-2.0-flash";
+                const voiceResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${activeVoiceModel}:generateContent?key=${key}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: parsed.reply }] }],
+                        generationConfig: { 
+                            responseModalities: ["AUDIO"],
+                            speechConfig: {
+                                voiceConfig: {
+                                    prebuiltVoiceConfig: {
+                                        voiceName: "Charon" // Firm/Sophisticated voice for the Buyer
+                                    }
+                                }
+                            }
+                        }
+                    })
+                });
+
+                if (voiceResponse.ok) {
+                    const voiceData = await voiceResponse.json();
+                    audioBase64 = voiceData.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+                }
+            } catch (vErr) {
+                console.error("Voice Gen Failed:", vErr);
+            }
+
+            return res.status(200).json({
+                ...parsed,
+                audio: audioBase64,
+                modelId: successfulModelId,
+                voiceType: audioBase64 ? "hd" : "standard",
+                debug: {
+                    modelUsed: successfulModelId,
+                    voiceSuccess: !!audioBase64,
+                    lastError: lastError || null
+                }
             });
+        } catch (error) {
+            console.error("AI Coach Error:", error);
+            return res.status(500).json({ error: `Server Error: ${error.message}` });
         }
-    } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
     }
-});
 
-app.post('/api/ai-mentor-checkin', async (req, res) => {
-    try {
-        const { crmData, weakAreas, messages } = req.body;
-        const systemPrompt = `You are the ELITE SALES MENTOR for a high-ticket Goldbackbond agent.
+    // 4. AI Mentor Check-in
+    if (path.includes('ai-mentor-checkin') && req.method === 'POST') {
+        try {
+            const { crmData, weakAreas, messages } = req.body;
+            const systemPrompt = `You are the ELITE SALES MENTOR for a high-ticket Goldbackbond agent.
 You care deeply about the agent's lifestyle goal: "${crmData.lifestyleGoal}".
-Because you care, you are ruthless about their metrics. 
 Today's metrics: ${crmData.callsMade}/${crmData.targetCalls} calls made. ${crmData.closedDeals} closed deals.
 Their identified weak areas in product knowledge: ${weakAreas.join(', ')}.
 
@@ -152,33 +253,26 @@ Respond with strict JSON:
   "reply": "Your ruthless but caring motivational check-in response.",
   "scheduledNextSession": null OR { "date": "...", "time": "...", "topic": "..." }
 }`;
-
-        const { text } = await generateText({
-            model: google('gemini-1.5-pro'),
-            system: systemPrompt,
-            messages,
-        });
-        const parsed = JSON.parse(text);
-        res.status(200).json(parsed);
-    } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
+            const { text } = await generateText({ model: google('gemini-1.5-pro'), system: systemPrompt, messages });
+            return res.status(200).json(JSON.parse(text));
+        } catch (error) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
-});
 
-app.post('/api/ai-tier-test', async (req, res) => {
-    try {
-        const { tier, weakAreas, messages } = req.body;
-        const systemPrompt = `You are a strict EXAMINER...`;
-        const { text } = await generateText({
-            model: google('gemini-1.5-pro'),
-            system: systemPrompt,
-            messages,
-        });
-        const parsed = JSON.parse(text);
-        res.status(200).json(parsed);
-    } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
+    // 5. AI Tier Test
+    if (path.includes('ai-tier-test') && req.method === 'POST') {
+        try {
+            const { tier, weakAreas, messages } = req.body;
+            const systemPrompt = `You are a strict EXAMINER for Goldbackbond's internal certification.
+The user is attempting to pass Tier ${tier}. You must ruthlessly test their weak areas: ${weakAreas.join(', ')}.
+Respond with strict JSON: { "reply": "...", "evaluation": { "passed": true|false|null, "feedback": "..." } }`;
+            const { text } = await generateText({ model: google('gemini-1.5-pro'), system: systemPrompt, messages });
+            return res.status(200).json(JSON.parse(text));
+        } catch (error) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
-});
 
-export default app;
+    return res.status(404).json({ error: "Route not found: " + path });
+}

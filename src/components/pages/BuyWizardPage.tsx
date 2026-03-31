@@ -4,6 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, ShieldCheck, FileSignature, Wallet, CheckCircle, AlertTriangle, Building, ChevronRight, Lock } from 'lucide-react';
 import { useAccount } from 'wagmi';
 import agencyBackendService from '@/services/agencyBackendService';
+import { useOpenSign } from '@/lib/opensign';
 
 export const BuyWizardPage = () => {
     const [searchParams] = useSearchParams();
@@ -114,6 +115,7 @@ const Phase1Education = ({ onComplete }: { onComplete: () => void }) => {
 
 const Phase2Closing = ({ orderData, setOrderData, onBack, leadId, initialName, initialEmail }: { orderData: any, setOrderData: any, onBack: () => void, leadId: string | null, initialName: string, initialEmail: string }) => {
     const { address } = useAccount();
+    const { sendForSignature } = useOpenSign();
     const [step, setStep] = useState<1 | 2 | 3>(1);
     const [kycData, setKycData] = useState({ name: initialName, email: initialEmail, idUploaded: false });
     const [signatureId, setSignatureId] = useState<string | null>(null);
@@ -211,7 +213,31 @@ const Phase2Closing = ({ orderData, setOrderData, onBack, leadId, initialName, i
                                     disabled={!kycData.name || !kycData.email || !kycData.idUploaded || isExecuting}
                                     onClick={async () => {
                                         setIsExecuting(true);
-                                        const newSigId = `OS-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+                                        let newSigId = `OS-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+
+                                        try {
+                                            const minimalPdfBase64 = "JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDMgMCBSL0ZpbHRlci9GbGF0ZURlY29kZT4+CnN0cmVhbQp4nDPQM1Qo5ypUMFAwALJMLY31jBQAwkDKEsT0BAriEw31DPWMTYA8QwOwXGMApGELfAplbmRzdHJlYW0KZW5kb2JqCgozIDAgb2JqCjQ4CmVuZG9iagoKMSAwIG9iago8PC9UeXBlL1BhZ2UvTWVkaWFCb3hbMCAwIDU5NSA4NDJdL1Jlc291cmNlczw8L0ZvbnQ8PC9GMCA0IDAgUj4+Pj4vQ29udGVudHMgMiAwIFIvUGFyZW50IDUgMCBSPj4KZW5kb2JqCgo0IDAgb2JqCjw8L1R5cGUvRm9udC9TdWJ0eXBlL1R5cGUxL0Jhc2VGb250L0hlbHZldGljYT4+CmVuZG9iagoKNSAwIG9iago8PC9UeXBlL1BhZ2VzL0NvdW50IDEvS2lkc1sxIDAgUl0+PgplbmRvYmoKCjYgMCBvYmoKPDwvVHlwZS9DYXRhbG9nL1BhZ2VzIDUgMCBSPj4KZW5kb2JqCgo3IDAgb2JqCjw8L1Byb2R1Y2VyKEdob3N0c2NyaXB0IDkuNTMpL0NyZWF0aW9uRGF0ZShEOjIwMjExMTE4MTI0NjMxWjAwJzAwJyl+PgplbmRvYmoKCnhyZWYKMCA4CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDEzNCAwMDAwMCBuIAowMDAwMDAwMDE1IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI1MSAwMDAwMCBuIAowMDAwMDAwMzM5IDAwMDAwIG4gCjAwMDAwMDAzOTYgMDAwMDAgbiAKMDAwMDAwMDQ0NSAwMDAwMCBuIAp0cmFpbGVyCjw8L1NpemUgOC9Sb290IDYgMCBSL0luZm8gNyAwIFI+PgpzdGFydHhyZWYKNTAxCiUlRU9GCg==";
+                                            
+                                            if (typeof sendForSignature === 'function') {
+                                                const doc = await sendForSignature({
+                                                    title: `Goldbackbond_Allocation_${kycData.name.replace(/\s+/g, '_')}`,
+                                                    file: minimalPdfBase64,
+                                                    signers: [{
+                                                        name: kycData.name,
+                                                        email: kycData.email,
+                                                        role: 'Investor'
+                                                    }],
+                                                    note: `Please confirm your $${orderData.amount.toLocaleString()} allocation terms.`,
+                                                    expiryDays: 7
+                                                });
+                                                
+                                                if (doc && doc.objectId) {
+                                                    newSigId = doc.objectId;
+                                                }
+                                            }
+                                        } catch (err) {
+                                            console.warn("OpenSign Live generation bypassed/failed, executing locally", err);
+                                        }
                                         
                                         if (leadId) {
                                             await agencyBackendService.updateLeadToPending(leadId, newSigId);

@@ -19,10 +19,11 @@ export function Login() {
     // Password: wholesaleT2$ (inherited from user's agency email)
     
     setTimeout(() => {
-      if (email.toLowerCase() === 'sydney@goldbackbond.com' && password === 'wholesaleT2$') {
-        login(email);
+      const allowedEmails = ['sydney@goldbackbond.com', 'bmegacoach1@gmail.com', 'bmegacoach2@gmail.com'];
+      if (allowedEmails.includes(email.toLowerCase()) && password === 'wholesaleT2$') {
+        login(email.toLowerCase());
       } else if (email.toLowerCase() === 'demo@goldbackbond.com') {
-        login(email);
+        login(email.toLowerCase());
       } else {
         setError('Invalid credentials. Please contact your training coordinator.');
         setIsLoading(false);
